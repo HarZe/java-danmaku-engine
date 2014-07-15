@@ -1,0 +1,170 @@
+<!-- JDE format XML example -->
+<jde-content>
+
+    <hitbox name="hitbox_square" >
+
+        <vertex
+            x="-10"
+            y="-10" />
+
+        <vertex
+            x="10"
+            y="-10" />
+
+        <vertex
+            x="10"
+            y="10" />
+
+        <vertex
+            x="-10"
+            y="10" />
+    </hitbox>
+
+    <hitbox name="hitbox_ghost" >
+
+        <vertex
+            x="-20"
+            y="-20" />
+
+        <vertex
+            x="20"
+            y="-20" />
+
+        <vertex
+            x="20"
+            y="20" />
+
+        <vertex
+            x="-20"
+            y="20" />
+    </hitbox>
+
+    <sprite
+        name="sprite_bullet"
+        image="res/sprite_bullet.png" />
+
+    <sprite
+        name="sprite_ghost"
+        image="res/sprite_ghost.png" />
+
+    <movement
+        name="move_bullet"
+        speed="100" />
+
+    <movement
+        name="move_ghost_left"
+        angle="180"
+        speed="10" />
+    
+    <movement
+        name="move_ghost_right"
+        angle="0"
+        speed="10" />
+    
+    <movement
+        name="move_ghost_up"
+        angle="270"
+        speed="10" />
+
+    <bullet name="bullet_bullet" >
+
+        <hitbox-ref ref="hitbox_bullet" />
+
+        <sprite-ref ref="sprite_bullet" />
+
+        <movement-ref ref="move_bullet" />
+    </bullet>
+
+    <horde
+        name="horde_bullet_clockwise"
+        angleend="360"
+        anglestart="0"
+        bullets="24"
+        repeat="yes"
+        interval="2000"
+        timeend="1100"
+        timestart="100" >
+
+        <bullet-ref ref="bullet_bullet" />
+    </horde>
+    
+    <horde
+        name="horde_bullet_counterclockwise"
+        angleend="-180"
+        anglestart="180"
+        bullets="24"
+        interval="2000"
+        repeat="yes"
+        timeend="1100"
+        timestart="100" >
+
+        <bullet-ref ref="bullet_bullet" />
+    </horde>
+
+    <enemy
+        name="enemy_ghost_left"
+        health="100" >
+
+        <hitbox-ref ref="hitbox_ghost" />
+
+        <sprite-ref ref="sprite_ghost" />
+
+        <movement-ref ref="move_ghost_left" />
+
+        <horde-ref ref="horde_bullet_counterclockwise" />
+    </enemy>
+    
+    <enemy
+        name="enemy_ghost_right"
+        health="100" >
+
+        <hitbox-ref ref="hitbox_ghost" />
+
+        <sprite-ref ref="sprite_ghost" />
+
+        <movement-ref ref="move_ghost_right" />
+
+        <horde-ref ref="horde_bullet_clockwise" />
+    </enemy>
+    
+    <enemy
+        name="enemy_ghost_up"
+        health="100" >
+
+        <hitbox-ref ref="hitbox_ghost" />
+
+        <sprite-ref ref="sprite_ghost" />
+
+        <movement-ref ref="move_ghost_up" />
+
+        <horde-ref ref="horde_bullet_clockwise" />
+    </enemy>
+
+    <game name="game_name" >
+
+        <spawn
+            time="2000"
+            x="200"
+            y="200" >
+
+            <enemy-ref ref="enemy_ghost_up" />
+        </spawn>
+
+        <spawn
+            time="5000"
+            x="250"
+            y="100" >
+
+            <enemy-ref ref="enemy_ghost_right" />
+        </spawn>
+
+        <spawn
+            time="5000"
+            x="150"
+            y="100" >
+
+            <enemy-ref ref="enemy_ghost_left" />
+        </spawn>
+    </game>
+
+</jde-content>
