@@ -12,6 +12,10 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
+		
+		/* UNCOMMENT TO GENERATE JAR: */
+		//System.setProperty("org.lwjgl.librarypath",System.getProperty("user.dir") + "/native"); 
+		
 		try {
 			Parser parser = new Parser();
 			Window w = new Window(parser.parseXML("res/test.xml"), 640, 480);
