@@ -34,7 +34,7 @@ public class Window {
 			game.forward(time);
 			
 			Display.update();
-			//Display.sync(60);
+			Display.sync(144);
 		}
 
 		Keyboard.destroy();

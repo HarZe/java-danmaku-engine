@@ -32,14 +32,8 @@ public class Spawner<S extends Spawnable> {
 		ArrayList<S> frameSpawns = new ArrayList<S>();
 
 		while (spawns.size() > 0
-				&& spawns.peek().spawnTime() < elapsedTime + ms) {
-			if (spawns.peek().spawnTime() >= elapsedTime)
+				&& spawns.peek().spawnTime() < elapsedTime + ms)
 				frameSpawns.add(spawns.poll());
-			else
-				System.err.println("Spawner error: out of frame spawnable. "
-						+ spawns.poll().spawnTime() + " out of [" + elapsedTime
-						+ ", " + (elapsedTime + ms) + "]");
-		}
 
 		elapsedTime += ms;
 		return frameSpawns;

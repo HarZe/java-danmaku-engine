@@ -1,4 +1,7 @@
 
+Version 0.02.1 (July 16, 2014):
+Bug fix: first bullet of some hordes not spawning
+
 Version 0.02 (July 16, 2014):
 Spritesheet system based on XML
 XML import system (an XML can read other XML info) to avoid large XML files
