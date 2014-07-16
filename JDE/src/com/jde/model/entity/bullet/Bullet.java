@@ -23,11 +23,8 @@ public class Bullet extends Entity implements Spawnable {
 			return;
 
 		spawned = true;
+		movement.setPosition(movement.getPosition().clone());
 		forward(timeStamp - spawnTime);
-		movement.setPosition(movement.getPosition().clone()); // Gets
-																// independent
-																// from
-																// mothership
 	}
 
 	@Override

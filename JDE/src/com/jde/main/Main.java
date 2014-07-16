@@ -18,7 +18,7 @@ public class Main {
 		
 		try {
 			Parser parser = new Parser();
-			Window w = new Window(parser.parseXML("res/test.xml"), 640, 480);
+			new Window(parser.parseXML(args[0]), 640, 480);
 
 		} catch (LWJGLException e) {
 			// TODO Auto-generated catch block

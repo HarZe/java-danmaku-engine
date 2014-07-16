@@ -9,7 +9,7 @@ import com.jde.view.sprites.Sprite;
 
 public class Game {
 	
-	protected String VERSION = "pre-alpha 0.01";
+	protected String VERSION = "pre-alpha 0.01.1";
 	
 	protected HUD hud;
 	
@@ -53,6 +53,8 @@ public class Game {
 	}
 	
 	public void forward(double ms) {
+		System.out.println(((int) (1000 / ms)) + " fps");
+		
 		stages.get(currentStage).forward(ms);
 		
 		if (stages.get(currentStage).isFinished() && currentStage + 1 < stages.size())
