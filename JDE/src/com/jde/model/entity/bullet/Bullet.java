@@ -2,8 +2,8 @@ package com.jde.model.entity.bullet;
 
 import com.jde.model.entity.Entity;
 import com.jde.model.entity.spawning.Spawnable;
-import com.jde.model.physics.Hitbox;
 import com.jde.model.physics.Movement;
+import com.jde.model.physics.collision.HitZone;
 import com.jde.view.sprites.Sprite;
 
 public class Bullet extends Entity implements Spawnable {
@@ -11,7 +11,7 @@ public class Bullet extends Entity implements Spawnable {
 	protected double spawnTime;
 	protected boolean spawned;
 
-	public Bullet(Sprite sprite, Hitbox hitbox, Movement movement) {
+	public Bullet(Sprite sprite, HitZone hitbox, Movement movement) {
 		super(sprite, hitbox, movement);
 		this.spawnTime = 0;
 		this.spawned = false;

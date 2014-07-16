@@ -1,0 +1,16 @@
+<jde-content>
+    
+    <spritesheet
+        name="enemy_ghost"
+        file="res/sprites/sprite_ghost.png" />
+
+    <sprite
+        name="sprite_ghost"
+        h="40"
+        scaling="1"
+        sheet="enemy_ghost"
+        w="44"
+        x="0"
+        y="0" />
+
+</jde-content>

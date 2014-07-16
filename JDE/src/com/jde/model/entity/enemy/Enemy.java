@@ -6,8 +6,8 @@ import com.jde.model.entity.Entity;
 import com.jde.model.entity.bullet.Bullet;
 import com.jde.model.entity.bullet.Horde;
 import com.jde.model.entity.spawning.Spawnable;
-import com.jde.model.physics.Hitbox;
 import com.jde.model.physics.Movement;
+import com.jde.model.physics.collision.HitZone;
 import com.jde.view.sprites.Sprite;
 
 public class Enemy extends Entity implements Spawnable {
@@ -18,12 +18,13 @@ public class Enemy extends Entity implements Spawnable {
 	
 	protected Horde horde;
 
-	public Enemy(Sprite sprite, Hitbox hitbox, Movement movement, Horde horde, double health) {
+	public Enemy(Sprite sprite, HitZone hitbox, Movement movement, Horde horde, double health) {
 		super(sprite, hitbox, movement);
 		this.health = health;
 		this.spawnTime = 0;
 		this.spawned = false;
 		this.horde = null;
+		lookAtMovingDirection = false;
 		
 		if (horde != null) {
 			this.horde = horde.clone();

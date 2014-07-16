@@ -6,10 +6,11 @@ import org.lwjgl.opengl.GL11;
 
 import com.jde.model.stage.Stage;
 import com.jde.view.sprites.Sprite;
+import com.jde.view.sprites.SpriteSheet;
 
 public class Game {
 	
-	protected String VERSION = "pre-alpha 0.01.1";
+	protected String VERSION = "pre-alpha 0.02";
 	
 	protected HUD hud;
 	
@@ -17,7 +18,8 @@ public class Game {
 	protected int currentStage;
 
 	public Game(ArrayList<Stage> stages) {
-		hud = new HUD(new Sprite("res/hud.png"));
+		SpriteSheet hudsheet = new SpriteSheet("res/sprites/hud.png");
+		hud = new HUD(new Sprite(hudsheet, 0, 0, 640, 480, 1));
 		this.stages = stages;
 		currentStage = 0;
 	}
@@ -53,7 +55,7 @@ public class Game {
 	}
 	
 	public void forward(double ms) {
-		System.out.println(((int) (1000 / ms)) + " fps");
+		//System.out.println(((int) (1000 / ms)) + " fps");
 		
 		stages.get(currentStage).forward(ms);
 		

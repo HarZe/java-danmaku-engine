@@ -1,0 +1,32 @@
+<jde-content>
+
+    <spritesheet
+        name="touhou_bullets"
+        file="res/sprites/touhou_spritesheet_bullets.png" />
+
+    <spritesheet
+        name="touhou_big_bullets"
+        file="res/sprites/touhou_spritesheet_big_bullets.png" />
+
+    <spritesheet
+        name="touhou_laser_bullets"
+        file="res/sprites/touhou_spritesheet_laser_bullets.png" />
+
+    <spritesheet
+        name="touhou_special_bullets"
+        file="res/sprites/touhou_spritesheet_special_bullets.png" />
+
+    <spritesheet
+        name="touhou_music_bullets"
+        file="res/sprites/touhou_spritesheet_music_bullets.png" />
+
+    <sprite
+        name="bullet_eliptic_gray_halfsize"
+        h="32"
+        scaling="0.75"
+        sheet="touhou_bullets"
+        w="32"
+        x="0"
+        y="128" />
+
+</jde-content>

@@ -1,0 +1,21 @@
+<jde-content>
+    <movement
+        name="move_bullet"
+        speed="100" />
+
+    <movement
+        name="move_ghost_left"
+        angle="90"
+        speed="10" />
+    
+    <movement
+        name="move_ghost_right"
+        angle="-90"
+        speed="10" />
+    
+    <movement
+        name="move_ghost_up"
+        angle="180"
+        speed="10" />
+
+</jde-content>

@@ -2,17 +2,19 @@ package com.jde.model.entity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.jde.model.physics.Hitbox;
 import com.jde.model.physics.Movement;
+import com.jde.model.physics.collision.HitZone;
 import com.jde.view.sprites.Sprite;
 
 public class Entity {
 
 	protected Sprite sprite;
-	protected Hitbox hitbox;
+	protected HitZone hitbox;
 	protected Movement movement;
 	
-	public Entity(Sprite sprite, Hitbox hitbox, Movement movement) {
+	protected boolean lookAtMovingDirection = true;
+	
+	public Entity(Sprite sprite, HitZone hitbox, Movement movement) {
 		this.sprite = sprite;
 		this.movement = movement;
 		this.hitbox = hitbox;
@@ -30,7 +32,8 @@ public class Entity {
 		GL11.glPushMatrix();
 		
 		GL11.glTranslated(movement.getPosition().getX(), movement.getPosition().getY(), 0);
-		GL11.glRotated(movement.getAngle(), 0, 0, 1);
+		if (lookAtMovingDirection)
+			GL11.glRotated(movement.getAngle(), 0, 0, 1);
 		sprite.draw();
 		
 		GL11.glPopMatrix();
@@ -39,7 +42,7 @@ public class Entity {
 	public void forward(double ms) {
 		movement.forward(ms);
 	}
-	
+
 	public Entity clone() {
 		return new Entity(sprite, hitbox, movement.clone());
 	}

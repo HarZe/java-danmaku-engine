@@ -1,0 +1,12 @@
+<jde-content>
+
+    <bullet name="bullet_bullet" >
+
+        <hitbox-ref ref="hitbox_bullet" />
+
+        <sprite-ref ref="bullet_eliptic_gray_halfsize" />
+
+        <movement-ref ref="move_bullet" />
+    </bullet>
+
+</jde-content>

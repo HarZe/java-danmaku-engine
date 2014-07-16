@@ -1,0 +1,14 @@
+
+Version 0.02 (July 16, 2014):
+Spritesheet system based on XML
+XML import system (an XML can read other XML info) to avoid large XML files
+Entities rotation to look where they are going is configurable (enemies do not look where they are going, but bullets do)
+Delete out of zone bullets & enemies (adding hitbox) to improve performance
+Added XML samples and spritesheets
+
+Version 0.01.1 (July 15, 2014):
+Bug fix: enemies moving when bullets spawn
+Added XML file selection using the first argument when executing
+
+Version 0.01 (July 15, 2014):
+Added basic mechanics for XML parsing, enemy and bullets (hordes) spawning and moving.

@@ -15,13 +15,15 @@ import org.w3c.dom.NodeList;
 import com.jde.model.entity.bullet.Bullet;
 import com.jde.model.entity.bullet.Horde;
 import com.jde.model.entity.enemy.Enemy;
-import com.jde.model.physics.Hitbox;
 import com.jde.model.physics.Movement;
 import com.jde.model.physics.Vertex;
+import com.jde.model.physics.collision.HitBox;
+import com.jde.model.physics.collision.HitZone;
 import com.jde.model.stage.ArmyStage;
 import com.jde.model.stage.Stage;
 import com.jde.view.Game;
 import com.jde.view.sprites.Sprite;
+import com.jde.view.sprites.SpriteSheet;
 
 public class Parser {
 
@@ -29,6 +31,7 @@ public class Parser {
 	protected HashMap<String, Enemy> enemies;
 	protected HashMap<String, Horde> hordes;
 	protected HashMap<String, Sprite> sprites;
+	protected HashMap<String, SpriteSheet> sheets;
 	protected HashMap<String, Movement> movements;
 	protected HashMap<String, Vertex> vertices;
 
@@ -39,6 +42,7 @@ public class Parser {
 		enemies = new HashMap<String, Enemy>();
 		hordes = new HashMap<String, Horde>();
 		sprites = new HashMap<String, Sprite>();
+		sheets = new HashMap<String, SpriteSheet>();
 		movements = new HashMap<String, Movement>();
 		vertices = new HashMap<String, Vertex>();
 
@@ -115,6 +119,10 @@ public class Parser {
 			processHorde(node);
 			break;
 
+		case "import":
+			processImport(node);
+			break;
+
 		case "movement":
 		case "movement-ref":
 			processMovement(node);
@@ -127,6 +135,10 @@ public class Parser {
 		case "sprite":
 		case "sprite-ref":
 			processSprite(node);
+			break;
+
+		case "spritesheet":
+			processSpriteSheet(node);
 			break;
 
 		case "stage":
@@ -151,7 +163,7 @@ public class Parser {
 
 	protected Bullet processBullet(Node node) throws Exception {
 		Bullet b = null;
-		Hitbox h = null;
+		HitZone h = null;
 		Sprite s = null;
 		Movement m = null;
 
@@ -176,7 +188,7 @@ public class Parser {
 					Node currentNode = node.getChildNodes().item(i);
 					if (currentNode.getNodeName().equals("hitbox")
 							|| currentNode.getNodeName().equals("hitbox-ref"))
-						h = new Hitbox(); // TODO
+						h = new HitBox(); // TODO
 					else if (currentNode.getNodeName().equals("movement")
 							|| currentNode.getNodeName().equals("movement-ref"))
 						m = processMovement(currentNode);
@@ -203,7 +215,7 @@ public class Parser {
 
 	protected Enemy processEnemy(Node node) throws Exception {
 		Enemy e = null;
-		Hitbox hb = null;
+		HitZone hb = null;
 		Sprite s = null;
 		Movement m = null;
 		Horde hd = null;
@@ -223,12 +235,13 @@ public class Parser {
 				}
 			}
 
-			if (node.hasChildNodes() && node.getChildNodes().getLength() == 4*2 + 1)
-				for (int i = 1; i < 4*2 + 1; i += 2) {
+			if (node.hasChildNodes()
+					&& node.getChildNodes().getLength() == 4 * 2 + 1)
+				for (int i = 1; i < 4 * 2 + 1; i += 2) {
 					Node currentNode = node.getChildNodes().item(i);
 					if (currentNode.getNodeName().equals("hitbox")
 							|| currentNode.getNodeName().equals("hitbox-ref"))
-						hb = new Hitbox(); // TODO
+						hb = new HitBox(); // TODO
 					else if (currentNode.getNodeName().equals("movement")
 							|| currentNode.getNodeName().equals("movement-ref"))
 						m = processMovement(currentNode);
@@ -327,7 +340,8 @@ public class Parser {
 				h.setBullets(bullets);
 			}
 			if (nodeMap.getNamedItem("repeat") != null) {
-				if (nodeMap.getNamedItem("repeat").getNodeValue().equalsIgnoreCase("yes"))
+				if (nodeMap.getNamedItem("repeat").getNodeValue()
+						.equalsIgnoreCase("yes"))
 					h.setRepeat(true);
 			}
 			if (nodeMap.getNamedItem("interval") != null) {
@@ -346,6 +360,35 @@ public class Parser {
 			throw new Exception("<movement> with no attributes declared");
 
 		return h;
+	}
+
+	protected void processImport(Node node) throws Exception {
+		if (node.hasAttributes()) {
+			NamedNodeMap nodeMap = node.getAttributes();
+
+			if (nodeMap.getNamedItem("file") != null) {
+				String filename = nodeMap.getNamedItem("file").getNodeValue();
+
+				File file = new File(filename);
+
+				DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance()
+						.newDocumentBuilder();
+				Document doc = dBuilder.parse(file);
+
+				if (!doc.getDocumentElement().getNodeName()
+						.equalsIgnoreCase("jde-content"))
+					throw new Exception("XML file " + filename
+							+ " is not a jde-content file");
+
+				if (doc.hasChildNodes()) {
+					parseNodeList(doc.getChildNodes());
+				}
+
+			} else
+				throw new Exception("<import> with no file declared");
+
+		} else
+			throw new Exception("<import> with no attributes declared");
 	}
 
 	protected Movement processMovement(Node node) throws Exception {
@@ -377,8 +420,8 @@ public class Parser {
 				m.setAngle(angle);
 			}
 			if (nodeMap.getNamedItem("acceleration") != null) {
-				double acceleration = Double.parseDouble(nodeMap.getNamedItem("acceleration")
-						.getNodeValue());
+				double acceleration = Double.parseDouble(nodeMap.getNamedItem(
+						"acceleration").getNodeValue());
 				m.setAcceleration(acceleration);
 			}
 
@@ -408,9 +451,10 @@ public class Parser {
 			NamedNodeMap nodeMap = node.getAttributes();
 
 			if (node.hasChildNodes()
-					&& node.getChildNodes().getLength() == 1*2 + 1
-					&& (node.getChildNodes().item(1).getNodeName().equals("enemy") || node
-							.getChildNodes().item(1).getNodeName().equals("enemy-ref")))
+					&& node.getChildNodes().getLength() == 1 * 2 + 1
+					&& (node.getChildNodes().item(1).getNodeName()
+							.equals("enemy") || node.getChildNodes().item(1)
+							.getNodeName().equals("enemy-ref")))
 				e = processEnemy(node.getChildNodes().item(1)).clone();
 			else
 				throw new Exception("<spawn> has not an unique <enemy>");
@@ -444,6 +488,9 @@ public class Parser {
 
 	protected Sprite processSprite(Node node) throws Exception {
 		Sprite s = null;
+		SpriteSheet sheet = null;
+		double x, y, w, h;
+		double scaling = 1;
 
 		if (node.hasAttributes()) {
 			NamedNodeMap nodeMap = node.getAttributes();
@@ -460,16 +507,48 @@ public class Parser {
 				}
 			}
 
-			String image = "";
-
-			if (nodeMap.getNamedItem("image") != null)
-				image = nodeMap.getNamedItem("image").getNodeValue();
+			if (nodeMap.getNamedItem("sheet") != null) {
+				String sheetname = nodeMap.getNamedItem("sheet").getNodeValue();
+				if (!sheets.containsKey(sheetname))
+					throw new Exception("<spritesheet> with name:" + sheetname
+							+ " is not declared");
+				else
+					sheet = sheets.get(sheetname);
+			}
 			else
-				throw new Exception("<sprite> with no image declared");
+				throw new Exception("<sprite> with no sheet declared");
+
+			if (nodeMap.getNamedItem("x") != null)
+				x = Double
+						.parseDouble(nodeMap.getNamedItem("x").getNodeValue());
+			else
+				throw new Exception("<sprite> with no x declared");
+
+			if (nodeMap.getNamedItem("y") != null)
+				y = Double
+						.parseDouble(nodeMap.getNamedItem("y").getNodeValue());
+			else
+				throw new Exception("<sprite> with no y declared");
+
+			if (nodeMap.getNamedItem("w") != null)
+				w = Double
+						.parseDouble(nodeMap.getNamedItem("w").getNodeValue());
+			else
+				throw new Exception("<sprite> with no w declared");
+
+			if (nodeMap.getNamedItem("h") != null)
+				h = Double
+						.parseDouble(nodeMap.getNamedItem("h").getNodeValue());
+			else
+				throw new Exception("<sprite> with no h declared");
+
+			if (nodeMap.getNamedItem("scaling") != null)
+				scaling = Double.parseDouble(nodeMap.getNamedItem("scaling")
+						.getNodeValue());
 
 			if (nodeMap.getNamedItem("name") != null) {
 				String name = nodeMap.getNamedItem("name").getNodeValue();
-				s = new Sprite(image);
+				s = new Sprite(sheet, x, y, w, h, scaling);
 				sprites.put(name, s);
 				return s;
 			} else
@@ -477,6 +556,31 @@ public class Parser {
 
 		} else
 			throw new Exception("<sprite> with no attributes declared");
+	}
+
+	protected SpriteSheet processSpriteSheet(Node node) throws Exception {
+		SpriteSheet s = null;
+
+		if (node.hasAttributes()) {
+			NamedNodeMap nodeMap = node.getAttributes();
+
+			String filename = "";
+
+			if (nodeMap.getNamedItem("file") != null)
+				filename = nodeMap.getNamedItem("file").getNodeValue();
+			else
+				throw new Exception("<spritesheet> with no file declared");
+
+			if (nodeMap.getNamedItem("name") != null) {
+				String name = nodeMap.getNamedItem("name").getNodeValue();
+				s = new SpriteSheet(filename);
+				sheets.put(name, s);
+				return s;
+			} else
+				throw new Exception("<spritesheet> with no name declared");
+
+		} else
+			throw new Exception("<spritesheet> with no attributes declared");
 	}
 
 	protected Vertex processVertex(Node node) throws Exception {

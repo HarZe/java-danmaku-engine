@@ -1,0 +1,41 @@
+<jde-content>
+
+    <hitbox name="hitbox_square" >
+
+        <vertex
+            x="-10"
+            y="-10" />
+
+        <vertex
+            x="10"
+            y="-10" />
+
+        <vertex
+            x="10"
+            y="10" />
+
+        <vertex
+            x="-10"
+            y="10" />
+    </hitbox>
+
+    <hitbox name="hitbox_ghost" >
+
+        <vertex
+            x="-20"
+            y="-20" />
+
+        <vertex
+            x="20"
+            y="-20" />
+
+        <vertex
+            x="20"
+            y="20" />
+
+        <vertex
+            x="-20"
+            y="20" />
+    </hitbox>
+
+</jde-content>

@@ -54,7 +54,7 @@ public class Movement {
 
 	public void forward(double ms) {
 		speed += acceleration * ms * 0.001;
-		Vertex step = Vertex.angle(Math.toRadians(angle));
+		Vertex step = Vertex.angle(Math.toRadians(angle + 90));
 		step.scale(speed * ms * 0.001);
 		position.add(step);
 	}
