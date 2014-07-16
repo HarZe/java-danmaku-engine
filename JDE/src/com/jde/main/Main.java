@@ -14,7 +14,7 @@ public class Main {
 	public static void main(String[] args) {
 		
 		/* UNCOMMENT TO GENERATE JAR: */
-		//System.setProperty("org.lwjgl.librarypath",System.getProperty("user.dir") + "/native"); 
+		System.setProperty("org.lwjgl.librarypath",System.getProperty("user.dir") + "/native"); 
 		
 		try {
 			Parser parser = new Parser();
