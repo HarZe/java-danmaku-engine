@@ -3,6 +3,7 @@ package com.jde.model.utils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,6 +16,7 @@ import org.w3c.dom.NodeList;
 import com.jde.model.entity.bullet.Bullet;
 import com.jde.model.entity.bullet.Horde;
 import com.jde.model.entity.enemy.Enemy;
+import com.jde.model.physics.Direction;
 import com.jde.model.physics.Movement;
 import com.jde.model.physics.Vertex;
 import com.jde.model.physics.collision.HitBox;
@@ -28,6 +30,7 @@ import com.jde.view.sprites.SpriteSheet;
 public class Parser {
 
 	protected HashMap<String, Bullet> bullets;
+	protected HashMap<String, Direction> directions;
 	protected HashMap<String, Enemy> enemies;
 	protected HashMap<String, Horde> hordes;
 	protected HashMap<String, Sprite> sprites;
@@ -39,6 +42,7 @@ public class Parser {
 
 	public Parser() {
 		bullets = new HashMap<String, Bullet>();
+		directions = new HashMap<String, Direction>();
 		enemies = new HashMap<String, Enemy>();
 		hordes = new HashMap<String, Horde>();
 		sprites = new HashMap<String, Sprite>();
@@ -98,6 +102,11 @@ public class Parser {
 		case "bullet":
 		case "bullet-ref":
 			processBullet(node);
+			break;
+
+		case "direction":
+		case "direction-ref":
+			processDirection(node);
 			break;
 
 		case "enemy":
@@ -211,6 +220,56 @@ public class Parser {
 			throw new Exception("<bullet> with no attributes declared");
 
 		return b;
+	}
+
+	protected Direction processDirection(Node node) throws Exception {
+		Direction d = new Direction();
+
+		if (node.hasAttributes()) {
+			NamedNodeMap nodeMap = node.getAttributes();
+
+			if (node.getNodeName().equals("direction-ref")) {
+				if (nodeMap.getNamedItem("ref") != null) {
+					String ref = nodeMap.getNamedItem("ref").getNodeValue();
+
+					if (!directions.containsKey(ref))
+						throw new Exception("<direction> with name:" + ref
+								+ " is not declared");
+
+					return directions.get(ref);
+				}
+			}
+
+			if (nodeMap.getNamedItem("speed") != null) {
+				double speed = Double.parseDouble(nodeMap.getNamedItem("speed")
+						.getNodeValue());
+				d.setSpeed(speed);
+			}
+			if (nodeMap.getNamedItem("angle") != null) {
+				double angle = Double.parseDouble(nodeMap.getNamedItem("angle")
+						.getNodeValue());
+				d.setAngle(angle);
+			}
+			if (nodeMap.getNamedItem("acceleration") != null) {
+				double acceleration = Double.parseDouble(nodeMap.getNamedItem(
+						"acceleration").getNodeValue());
+				d.setAcceleration(acceleration);
+			}
+			if (nodeMap.getNamedItem("duration") != null) {
+				double duration = Double.parseDouble(nodeMap.getNamedItem(
+						"duration").getNodeValue());
+				d.setDuration(duration);
+			}
+
+			if (nodeMap.getNamedItem("name") != null) {
+				String name = nodeMap.getNamedItem("name").getNodeValue();
+				directions.put(name, d);
+			}
+
+		} else
+			throw new Exception("<direction> with no attributes declared");
+
+		return d;
 	}
 
 	protected Enemy processEnemy(Node node) throws Exception {
@@ -392,7 +451,9 @@ public class Parser {
 	}
 
 	protected Movement processMovement(Node node) throws Exception {
-		Movement m = new Movement();
+		Movement m = null;
+		Vertex pos = new Vertex();
+		LinkedList<Direction> dirs = new LinkedList<Direction>();
 
 		if (node.hasAttributes()) {
 			NamedNodeMap nodeMap = node.getAttributes();
@@ -409,33 +470,27 @@ public class Parser {
 				}
 			}
 
-			if (nodeMap.getNamedItem("speed") != null) {
-				double speed = Double.parseDouble(nodeMap.getNamedItem("speed")
-						.getNodeValue());
-				m.setSpeed(speed);
-			}
-			if (nodeMap.getNamedItem("angle") != null) {
-				double angle = Double.parseDouble(nodeMap.getNamedItem("angle")
-						.getNodeValue());
-				m.setAngle(angle);
-			}
-			if (nodeMap.getNamedItem("acceleration") != null) {
-				double acceleration = Double.parseDouble(nodeMap.getNamedItem(
-						"acceleration").getNodeValue());
-				m.setAcceleration(acceleration);
-			}
+			if (node.hasChildNodes())
+				for (int i = 1; i < node.getChildNodes().getLength(); i += 2) {
+					Node currentNode = node.getChildNodes().item(i);
+					if (currentNode.getNodeName().equals("vertex")
+							|| currentNode.getNodeName().equals("vertex-ref"))
+						pos = processVertex(currentNode);
+					else if (currentNode.getNodeName().equals("direction")
+							|| currentNode.getNodeName()
+									.equals("direction-ref"))
+						dirs.add(processDirection(currentNode));
+				}
 
-			if (node.hasChildNodes()
-					&& node.getChildNodes().getLength() == 1
-					&& (node.getFirstChild().getNodeName().equals("vertex") || node
-							.getFirstChild().getNodeName().equals("vertex-ref")))
-				m.setPosition(processVertex(node.getFirstChild()));
+			if (dirs.size() == 0)
+				throw new Exception("<movement> has no directions");
 
+			m = new Movement(pos, dirs);
+			
 			if (nodeMap.getNamedItem("name") != null) {
 				String name = nodeMap.getNamedItem("name").getNodeValue();
 				movements.put(name, m);
-			} else
-				throw new Exception("<movement> with no name declared");
+			}
 
 		} else
 			throw new Exception("<movement> with no attributes declared");
@@ -446,18 +501,24 @@ public class Parser {
 	// TODO: provisional spawner for enemies
 	protected void processSpawn(Node node) throws Exception {
 		Enemy e = null;
+		Vertex pos = null;
 
 		if (node.hasAttributes()) {
 			NamedNodeMap nodeMap = node.getAttributes();
 
 			if (node.hasChildNodes()
-					&& node.getChildNodes().getLength() == 1 * 2 + 1
-					&& (node.getChildNodes().item(1).getNodeName()
-							.equals("enemy") || node.getChildNodes().item(1)
-							.getNodeName().equals("enemy-ref")))
-				e = processEnemy(node.getChildNodes().item(1)).clone();
+					&& node.getChildNodes().getLength() == 2 * 2 + 1)
+				for (int i = 1; i < 2 * 2 + 1; i += 2) {
+					Node currentNode = node.getChildNodes().item(i);
+					if (currentNode.getNodeName().equals("vertex")
+							|| currentNode.getNodeName().equals("vertex-ref"))
+						pos = processVertex(currentNode);
+					else if (currentNode.getNodeName().equals("enemy")
+							|| currentNode.getNodeName().equals("enemy-ref"))
+						e = processEnemy(currentNode);
+				}
 			else
-				throw new Exception("<spawn> has not an unique <enemy>");
+				throw new Exception("<spawn> requieres: <vertex> and <enemy>");
 
 			if (nodeMap.getNamedItem("time") != null) {
 				double time = Double.parseDouble(nodeMap.getNamedItem("time")
@@ -466,20 +527,9 @@ public class Parser {
 			} else
 				throw new Exception("<spawn> with no time declared");
 
-			if (nodeMap.getNamedItem("x") != null) {
-				double x = Double.parseDouble(nodeMap.getNamedItem("x")
-						.getNodeValue());
-				e.getMovement().getPosition().setX(x);
-			} else
-				throw new Exception("<spawn> with no x-coordinate declared");
-
-			if (nodeMap.getNamedItem("y") != null) {
-				double y = Double.parseDouble(nodeMap.getNamedItem("y")
-						.getNodeValue());
-				e.getMovement().getPosition().setY(y);
-			} else
-				throw new Exception("<spawn> with no y-coordinate declared");
-
+			pos = unvirtualizeCoordinates(pos);
+			e.getMovement().getPosition().setX(pos.getX());
+			e.getMovement().getPosition().setY(pos.getY());
 			spawns.add(e);
 
 		} else
@@ -514,8 +564,7 @@ public class Parser {
 							+ " is not declared");
 				else
 					sheet = sheets.get(sheetname);
-			}
-			else
+			} else
 				throw new Exception("<sprite> with no sheet declared");
 
 			if (nodeMap.getNamedItem("x") != null)
@@ -615,12 +664,15 @@ public class Parser {
 			if (nodeMap.getNamedItem("name") != null) {
 				String name = nodeMap.getNamedItem("name").getNodeValue();
 				vertices.put(name, v);
-			} else
-				throw new Exception("<vertex> with no name declared");
+			}
 
 		} else
 			throw new Exception("<vertex> with no attributes declared");
 
 		return v;
+	}
+
+	protected Vertex unvirtualizeCoordinates(Vertex v) {
+		return v.add(new Vertex(223, 240));
 	}
 }

@@ -3,6 +3,7 @@ package com.jde.model.entity.bullet;
 import java.util.ArrayList;
 
 import com.jde.model.entity.spawning.Spawner;
+import com.jde.model.physics.Direction;
 import com.jde.model.physics.Movement;
 import com.jde.model.physics.Vertex;
 
@@ -149,9 +150,10 @@ public class Horde {
 			Movement currentMovement = current.getMovement();
 			
 			currentMovement.setPosition(spawnPoint);	// TODO: add offset for position (probably should be done at spawn time)
-			
 			current.setSpawnTime(time);
-			currentMovement.setAngle(angle);
+			
+			for (Direction d : currentMovement.getDirections())
+				d.setAngle(d.getAngle() + angle);
 			
 			time += timeStep;
 			angle += angleStep;

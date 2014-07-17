@@ -1,21 +1,52 @@
 <jde-content>
-    <movement
-        name="move_bullet"
-        speed="100" />
 
-    <movement
-        name="move_ghost_left"
-        angle="90"
-        speed="10" />
+    <movement name="move_bullet_reverse" >
+
+        <direction
+            duration="500"
+            speed="200" />
+
+        <direction
+            angle="180"
+            speed="50"
+            acceleration="50" />
+    </movement>
     
-    <movement
-        name="move_ghost_right"
-        angle="-90"
-        speed="10" />
-    
-    <movement
-        name="move_ghost_up"
-        angle="180"
-        speed="10" />
+    <movement name="move_bullet_turnleft" >
+
+        <direction
+            duration="500"
+            speed="300"
+            acceleration="-600" />
+
+        <direction
+            angle="135"
+            speed="250"
+            acceleration="25" />
+    </movement>
+
+    <movement name="move_ghost_left" >
+
+        <direction
+            angle="90"
+            speed="10" >
+        </direction>
+    </movement>
+
+    <movement name="move_ghost_right" >
+
+        <direction
+            angle="-90"
+            speed="10" >
+        </direction>
+    </movement>
+
+    <movement name="move_ghost_up" >
+
+        <direction
+            angle="180"
+            speed="10" >
+        </direction>
+    </movement>
 
 </jde-content>

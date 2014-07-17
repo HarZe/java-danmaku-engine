@@ -33,7 +33,7 @@ public class Entity {
 		
 		GL11.glTranslated(movement.getPosition().getX(), movement.getPosition().getY(), 0);
 		if (lookAtMovingDirection)
-			GL11.glRotated(movement.getAngle(), 0, 0, 1);
+			GL11.glRotated(movement.getDirection().getAngle(), 0, 0, 1);
 		sprite.draw();
 		
 		GL11.glPopMatrix();

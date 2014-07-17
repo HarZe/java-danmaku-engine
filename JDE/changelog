@@ -1,4 +1,9 @@
 
+Version 0.03 (July 17, 2014):
+Changed coordinates to be centered on the game zone
+Added <direction> tag, now <movement> is composed of a set of <direction>
+<spawn> tag now uses a <vertex> instead of x and y attributes
+
 Version 0.02.1 (July 16, 2014):
 Bug fix: first bullet of some hordes not spawning
 

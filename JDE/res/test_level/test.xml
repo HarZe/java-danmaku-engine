@@ -4,6 +4,7 @@
     <import file="res/test_level/hitboxes.xml" />
 
     <import file="res/sprites/sprites.xml" />
+
     <import file="res/test_level/sprites.xml" />
 
     <import file="res/test_level/movements.xml" />
@@ -11,18 +12,31 @@
     <import file="res/test_level/bullets.xml" />
 
     <horde
+        name="horde_bullet_circle"
+        angleend="360"
+        anglestart="0"
+        bullets="48"
+        interval="1500"
+        repeat="yes"
+        timeend="0"
+        timestart="0" >
+
+        <bullet-ref ref="bullet_circle" />
+    </horde>
+    
+    <horde
         name="horde_bullet_clockwise"
         angleend="360"
         anglestart="0"
         bullets="24"
-        repeat="yes"
         interval="2000"
+        repeat="yes"
         timeend="1100"
         timestart="100" >
 
-        <bullet-ref ref="bullet_bullet" />
+        <bullet-ref ref="bullet_spiral" />
     </horde>
-    
+
     <horde
         name="horde_bullet_counterclockwise"
         angleend="-180"
@@ -33,7 +47,7 @@
         timeend="1100"
         timestart="100" >
 
-        <bullet-ref ref="bullet_bullet" />
+        <bullet-ref ref="bullet_spiral" />
     </horde>
 
     <enemy
@@ -48,7 +62,7 @@
 
         <horde-ref ref="horde_bullet_counterclockwise" />
     </enemy>
-    
+
     <enemy
         name="enemy_ghost_right"
         health="100" >
@@ -61,7 +75,7 @@
 
         <horde-ref ref="horde_bullet_clockwise" />
     </enemy>
-    
+
     <enemy
         name="enemy_ghost_up"
         health="100" >
@@ -72,31 +86,34 @@
 
         <movement-ref ref="move_ghost_up" />
 
-        <horde-ref ref="horde_bullet_clockwise" />
+        <horde-ref ref="horde_bullet_circle" />
     </enemy>
 
     <game name="game_name" >
 
-        <spawn
-            time="2000"
-            x="200"
-            y="200" >
+        <spawn time="2000" >
+
+            <vertex
+                x="0"
+                y="-100" />
 
             <enemy-ref ref="enemy_ghost_up" />
         </spawn>
 
-        <spawn
-            time="5000"
-            x="250"
-            y="100" >
+        <spawn time="5000" >
+
+            <vertex
+                x="50"
+                y="100" />
 
             <enemy-ref ref="enemy_ghost_right" />
         </spawn>
 
-        <spawn
-            time="5000"
-            x="150"
-            y="100" >
+        <spawn time="5000" >
+
+            <vertex
+                x="-50"
+                y="100" />
 
             <enemy-ref ref="enemy_ghost_left" />
         </spawn>

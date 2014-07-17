@@ -1,23 +1,23 @@
 package com.jde.model.physics;
 
+import java.util.LinkedList;
+
 public class Movement {
 
 	protected Vertex position;
-	protected double angle;
-	protected double speed;
-	protected double acceleration;
+	protected Direction direction;
+	
+	protected LinkedList<Direction> directions;
+	protected double elapsed = 0;
 
-	public Movement() {
-		position = new Vertex();
-		angle = speed = acceleration = 0;
-	}
-
-	public Movement(Vertex position, double angle, double speed,
-			double acceleration) {
+	public Movement(Vertex position, LinkedList<Direction> directions) {
 		this.position = position;
-		this.angle = angle;
-		this.speed = speed;
-		this.acceleration = acceleration;
+		this.directions = new LinkedList<Direction>();
+		
+		for (Direction d : directions)
+			this.directions.add(d.clone());
+		
+		direction = this.directions.peek();
 	}
 
 	public Vertex getPosition() {
@@ -28,43 +28,40 @@ public class Movement {
 		this.position = position;
 	}
 
-	public double getAngle() {
-		return angle;
+	public Direction getDirection() {
+		return direction;
 	}
 
-	public void setAngle(double angle) {
-		this.angle = angle;
-	}
-
-	public double getSpeed() {
-		return speed;
-	}
-
-	public void setSpeed(double speed) {
-		this.speed = speed;
-	}
-
-	public double getAcceleration() {
-		return acceleration;
-	}
-
-	public void setAcceleration(double acceleration) {
-		this.acceleration = acceleration;
+	public LinkedList<Direction> getDirections() {
+		return directions;
 	}
 
 	public void forward(double ms) {
-		speed += acceleration * ms * 0.001;
-		Vertex step = Vertex.angle(Math.toRadians(angle + 90));
-		step.scale(speed * ms * 0.001);
+		elapsed += ms;
+		
+		if (directions.size() > 1 && direction.getDuration() > 0 && direction.getDuration() < elapsed) {
+			elapsed -= direction.getDuration();
+			forwardAux(ms - elapsed);
+			directions.poll();
+			direction = directions.peek();
+			ms = elapsed;
+		}
+		
+		forwardAux(ms);
+	}
+	
+	private void forwardAux(double ms) {
+		direction.setSpeed(direction.getSpeed() + direction.getAcceleration() * ms * 0.001);
+		Vertex step = Vertex.angle(Math.toRadians(direction.getAngle() + 90));
+		step.scale(direction.getSpeed() * ms * 0.001);
 		position.add(step);
 	}
 
 	public Movement clone() {
-		return new Movement(position.clone(), angle, speed, acceleration);
+		return new Movement(position.clone(), directions);
 	}
 
 	public String toString() {
-		return "Movement. Pos:" + position + ", angle:" + angle + ", speed:"
-				+ speed + ", acceleration: " + acceleration;
+		return "Movement. Pos:" + position + "\n" + direction;
 	}
 }

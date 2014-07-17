@@ -1,12 +1,23 @@
 <jde-content>
 
-    <bullet name="bullet_bullet" >
+    <bullet name="bullet_spiral" >
 
         <hitbox-ref ref="hitbox_bullet" />
 
         <sprite-ref ref="bullet_eliptic_gray_halfsize" />
 
-        <movement-ref ref="move_bullet" />
+        <movement-ref ref="move_bullet_reverse" />
     </bullet>
+    
+    <bullet name="bullet_circle" >
+
+        <hitbox-ref ref="hitbox_bullet" />
+
+        <sprite-ref ref="bullet_eliptic_gray_halfsize" />
+
+        <movement-ref ref="move_bullet_turnleft" />
+    </bullet>
+    
+    
 
 </jde-content>
