@@ -11,8 +11,8 @@
 
     <import file="res/test_level/bullets.xml" />
 
-    <horde
-        name="horde_bullet_circle"
+    <wave
+        name="wave_bullet_circle"
         angleend="360"
         anglestart="0"
         bullets="48"
@@ -22,10 +22,10 @@
         timestart="0" >
 
         <bullet-ref ref="bullet_circle" />
-    </horde>
+    </wave>
     
-    <horde
-        name="horde_bullet_clockwise"
+    <wave
+        name="wave_bullet_clockwise"
         angleend="360"
         anglestart="0"
         bullets="24"
@@ -35,10 +35,10 @@
         timestart="100" >
 
         <bullet-ref ref="bullet_spiral" />
-    </horde>
+    </wave>
 
-    <horde
-        name="horde_bullet_counterclockwise"
+    <wave
+        name="wave_bullet_counterclockwise"
         angleend="-180"
         anglestart="180"
         bullets="24"
@@ -48,6 +48,19 @@
         timestart="100" >
 
         <bullet-ref ref="bullet_spiral" />
+    </wave>
+    
+    <horde
+        name="horde_double_spiral" >
+        
+        <wave-ref ref="wave_bullet_clockwise" />
+        <wave-ref ref="wave_bullet_counterclockwise" />
+    </horde>
+    
+    <horde
+        name="horde_circle_simple" >
+        
+        <wave-ref ref="wave_bullet_circle" />
     </horde>
 
     <enemy
@@ -60,7 +73,7 @@
 
         <movement-ref ref="move_ghost_left" />
 
-        <horde-ref ref="horde_bullet_counterclockwise" />
+        <horde-ref ref="horde_double_spiral" />
     </enemy>
 
     <enemy
@@ -73,7 +86,7 @@
 
         <movement-ref ref="move_ghost_right" />
 
-        <horde-ref ref="horde_bullet_clockwise" />
+        <horde-ref ref="horde_double_spiral" />
     </enemy>
 
     <enemy
@@ -86,7 +99,7 @@
 
         <movement-ref ref="move_ghost_up" />
 
-        <horde-ref ref="horde_bullet_circle" />
+        <horde-ref ref="horde_circle_simple" />
     </enemy>
 
     <game name="game_name" >

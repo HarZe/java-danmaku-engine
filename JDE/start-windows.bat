@@ -1,1 +1,1 @@
-START /B java -jar jde-0.03.jar res/test_level/test.xml
+START /B java -jar jde-0.03.1.jar res/test_level/test.xml

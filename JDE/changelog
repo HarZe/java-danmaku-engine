@@ -1,4 +1,8 @@
 
+Version 0.03.1 (July 18, 2014):
+Changed the previous <horde> to <wave>, now a single <horde> contains multiple <wave>
+Modified XML sample to show the new feature
+
 Version 0.03 (July 17, 2014):
 Changed coordinates to be centered on the game zone
 Added <direction> tag, now <movement> is composed of a set of <direction>

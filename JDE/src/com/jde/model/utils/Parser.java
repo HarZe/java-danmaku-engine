@@ -15,6 +15,7 @@ import org.w3c.dom.NodeList;
 
 import com.jde.model.entity.bullet.Bullet;
 import com.jde.model.entity.bullet.Horde;
+import com.jde.model.entity.bullet.Wave;
 import com.jde.model.entity.enemy.Enemy;
 import com.jde.model.physics.Direction;
 import com.jde.model.physics.Movement;
@@ -37,6 +38,7 @@ public class Parser {
 	protected HashMap<String, SpriteSheet> sheets;
 	protected HashMap<String, Movement> movements;
 	protected HashMap<String, Vertex> vertices;
+	protected HashMap<String, Wave> waves;
 
 	protected ArrayList<Enemy> spawns;
 
@@ -49,6 +51,7 @@ public class Parser {
 		sheets = new HashMap<String, SpriteSheet>();
 		movements = new HashMap<String, Movement>();
 		vertices = new HashMap<String, Vertex>();
+		waves = new HashMap<String, Wave>();
 
 		spawns = new ArrayList<Enemy>();
 	}
@@ -157,6 +160,11 @@ public class Parser {
 		case "vertex":
 		case "vertex-ref":
 			processVertex(node);
+			break;
+			
+		case "wave":
+		case "wave-ref":
+			processWave(node);
 			break;
 
 		case "jde-content":
@@ -345,9 +353,10 @@ public class Parser {
 					throw new Exception("<game> must contains only <spawn>");
 			}
 	}
-
+	
 	protected Horde processHorde(Node node) throws Exception {
 		Horde h = null;
+		ArrayList<Wave> waves = new ArrayList<Wave>();
 
 		if (node.hasAttributes()) {
 			NamedNodeMap nodeMap = node.getAttributes();
@@ -364,60 +373,28 @@ public class Parser {
 				}
 			}
 
-			if (node.hasChildNodes()
-					&& node.getChildNodes().getLength() == 1 * 2 + 1
-					&& (node.getChildNodes().item(1).getNodeName()
-							.equals("bullet") || node.getChildNodes().item(1)
-							.getNodeName().equals("bullet-ref")))
-				h = new Horde(processBullet(node.getChildNodes().item(1)));
+			if (node.hasChildNodes())
+				for (int i = 1; i < node.getChildNodes().getLength(); i += 2) {
+					Node currentNode = node.getChildNodes().item(i);
+					if (currentNode.getNodeName().equals("wave")
+							|| currentNode.getNodeName().equals("wave-ref"))
+						waves.add(processWave(currentNode));
+				}
 			else
-				throw new Exception("<horde> has not an unique <bullet>");
+				throw new Exception(
+						"<horde> requieres <wave>");
 
-			if (nodeMap.getNamedItem("anglestart") != null) {
-				double angleStart = Double.parseDouble(nodeMap.getNamedItem(
-						"anglestart").getNodeValue());
-				h.setAngleStart(angleStart);
-			}
-			if (nodeMap.getNamedItem("angleend") != null) {
-				double angleEnd = Double.parseDouble(nodeMap.getNamedItem(
-						"angleend").getNodeValue());
-				h.setAngleEnd(angleEnd);
-			}
-			if (nodeMap.getNamedItem("timestart") != null) {
-				double timeStart = Double.parseDouble(nodeMap.getNamedItem(
-						"timestart").getNodeValue());
-				h.setTimeStart(timeStart);
-			}
-			if (nodeMap.getNamedItem("timeend") != null) {
-				double timeEnd = Double.parseDouble(nodeMap.getNamedItem(
-						"timeend").getNodeValue());
-				h.setTimeEnd(timeEnd);
-			}
-			if (nodeMap.getNamedItem("bullets") != null) {
-				double bullets = Double.parseDouble(nodeMap.getNamedItem(
-						"bullets").getNodeValue());
-				h.setBullets(bullets);
-			}
-			if (nodeMap.getNamedItem("repeat") != null) {
-				if (nodeMap.getNamedItem("repeat").getNodeValue()
-						.equalsIgnoreCase("yes"))
-					h.setRepeat(true);
-			}
-			if (nodeMap.getNamedItem("interval") != null) {
-				double interval = Double.parseDouble(nodeMap.getNamedItem(
-						"interval").getNodeValue());
-				h.setInterval(interval);
-			}
-
+			h = new Horde(waves);
+			
 			if (nodeMap.getNamedItem("name") != null) {
 				String name = nodeMap.getNamedItem("name").getNodeValue();
 				hordes.put(name, h);
-			} else
-				throw new Exception("<movement> with no name declared");
+				return h;
+			}
 
 		} else
-			throw new Exception("<movement> with no attributes declared");
-
+			throw new Exception("<horde> with no attributes declared");
+		
 		return h;
 	}
 
@@ -670,6 +647,81 @@ public class Parser {
 			throw new Exception("<vertex> with no attributes declared");
 
 		return v;
+	}
+	
+	protected Wave processWave(Node node) throws Exception {
+		Wave w = null;
+
+		if (node.hasAttributes()) {
+			NamedNodeMap nodeMap = node.getAttributes();
+
+			if (node.getNodeName().equals("wave-ref")) {
+				if (nodeMap.getNamedItem("ref") != null) {
+					String ref = nodeMap.getNamedItem("ref").getNodeValue();
+
+					if (!waves.containsKey(ref))
+						throw new Exception("<wave> with name:" + ref
+								+ " is not declared");
+
+					return waves.get(ref);
+				}
+			}
+
+			if (node.hasChildNodes()
+					&& node.getChildNodes().getLength() == 1 * 2 + 1
+					&& (node.getChildNodes().item(1).getNodeName()
+							.equals("bullet") || node.getChildNodes().item(1)
+							.getNodeName().equals("bullet-ref")))
+				w = new Wave(processBullet(node.getChildNodes().item(1)));
+			else
+				throw new Exception("<wave> has not an unique <bullet>");
+
+			if (nodeMap.getNamedItem("anglestart") != null) {
+				double angleStart = Double.parseDouble(nodeMap.getNamedItem(
+						"anglestart").getNodeValue());
+				w.setAngleStart(angleStart);
+			}
+			if (nodeMap.getNamedItem("angleend") != null) {
+				double angleEnd = Double.parseDouble(nodeMap.getNamedItem(
+						"angleend").getNodeValue());
+				w.setAngleEnd(angleEnd);
+			}
+			if (nodeMap.getNamedItem("timestart") != null) {
+				double timeStart = Double.parseDouble(nodeMap.getNamedItem(
+						"timestart").getNodeValue());
+				w.setTimeStart(timeStart);
+			}
+			if (nodeMap.getNamedItem("timeend") != null) {
+				double timeEnd = Double.parseDouble(nodeMap.getNamedItem(
+						"timeend").getNodeValue());
+				w.setTimeEnd(timeEnd);
+			}
+			if (nodeMap.getNamedItem("bullets") != null) {
+				double bullets = Double.parseDouble(nodeMap.getNamedItem(
+						"bullets").getNodeValue());
+				w.setBullets(bullets);
+			}
+			if (nodeMap.getNamedItem("repeat") != null) {
+				if (nodeMap.getNamedItem("repeat").getNodeValue()
+						.equalsIgnoreCase("yes"))
+				w.setRepeat(true);
+			}
+			if (nodeMap.getNamedItem("interval") != null) {
+				double interval = Double.parseDouble(nodeMap.getNamedItem(
+						"interval").getNodeValue());
+				w.setInterval(interval);
+			}
+
+			if (nodeMap.getNamedItem("name") != null) {
+				String name = nodeMap.getNamedItem("name").getNodeValue();
+				waves.put(name, w);
+				return w;
+			}
+
+		} else
+			throw new Exception("<wave> with no attributes declared");
+
+		return w;
 	}
 
 	protected Vertex unvirtualizeCoordinates(Vertex v) {

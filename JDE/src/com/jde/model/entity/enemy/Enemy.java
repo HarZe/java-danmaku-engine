@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.jde.model.entity.Entity;
 import com.jde.model.entity.bullet.Bullet;
 import com.jde.model.entity.bullet.Horde;
+import com.jde.model.entity.bullet.Wave;
 import com.jde.model.entity.spawning.Spawnable;
 import com.jde.model.physics.Movement;
 import com.jde.model.physics.collision.HitZone;
