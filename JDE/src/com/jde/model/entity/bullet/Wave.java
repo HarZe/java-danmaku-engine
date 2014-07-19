@@ -4,33 +4,32 @@ import java.util.ArrayList;
 
 import com.jde.model.entity.spawning.Spawner;
 import com.jde.model.physics.Direction;
+import com.jde.model.physics.DirectionModifier;
 import com.jde.model.physics.Movement;
 import com.jde.model.physics.Vertex;
 
 public class Wave {
-	
+
 	// Misc
 	protected Spawner<Bullet> spawner;
 	protected Vertex spawnOrigin;
 	protected double elapsed = 0;
 	protected boolean started = false;
 	protected double timeStarted;
-	
+
 	// Config
 	protected Bullet bullet;
 	protected Vertex spawnPoint = new Vertex();
-	
-	protected double angleStart = 0;
-	protected double angleEnd = 0;
-	
+
+	protected ArrayList<DirectionModifier> modifiers;
+
 	protected double timeStart = 0;
 	protected double timeEnd = 0;
-	
-	protected double bullets = 1;
-	
+
+	protected int bullets = 1;
+
 	protected boolean repeat = false;
 	protected double interval = 0;
-	
 
 	public Wave(Bullet bullet) {
 		this.spawner = new Spawner<Bullet>(0);
@@ -44,22 +43,6 @@ public class Wave {
 
 	public void setSpawnPoint(Vertex spawnPoint) {
 		this.spawnPoint = spawnPoint;
-	}
-
-	public double getAngleStart() {
-		return angleStart;
-	}
-
-	public void setAngleStart(double angleStart) {
-		this.angleStart = angleStart;
-	}
-
-	public double getAngleEnd() {
-		return angleEnd;
-	}
-
-	public void setAngleEnd(double angleEnd) {
-		this.angleEnd = angleEnd;
 	}
 
 	public double getTimeStart() {
@@ -78,11 +61,11 @@ public class Wave {
 		this.timeEnd = timeEnd;
 	}
 
-	public double getBullets() {
+	public int getBullets() {
 		return bullets;
 	}
 
-	public void setBullets(double bullets) {
+	public void setBullets(int bullets) {
 		this.bullets = bullets;
 	}
 
@@ -101,11 +84,20 @@ public class Wave {
 	public void setInterval(double interval) {
 		this.interval = interval;
 	}
-	
-	public ArrayList<Bullet> start(double timeStart, double timeStamp, Vertex position) {
+
+	public ArrayList<DirectionModifier> getModifiers() {
+		return modifiers;
+	}
+
+	public void setModifiers(ArrayList<DirectionModifier> modifiers) {
+		this.modifiers = modifiers;
+	}
+
+	public ArrayList<Bullet> start(double timeStart, double timeStamp,
+			Vertex position) {
 		if (started)
 			return null;
-		
+
 		started = true;
 		timeStarted = timeStart;
 		spawnOrigin = position;
@@ -113,18 +105,18 @@ public class Wave {
 		spawner.addSpawnables(getBulletWave(timeStart));
 		return applySpawnPosition(spawner.forward(timeStamp - timeStart));
 	}
-	
+
 	public ArrayList<Bullet> forward(double ms) {
 		if (!started)
 			return null;
-		
+
 		elapsed += ms;
 		if (repeat && elapsed > interval) {
 			timeStarted += interval;
 			spawner.addSpawnables(getBulletWave(timeStarted));
 			elapsed -= interval;
 		}
-		
+
 		return applySpawnPosition(spawner.forward(ms));
 	}
 
@@ -132,50 +124,55 @@ public class Wave {
 		
 		ArrayList<Bullet> bulletList = new ArrayList<Bullet>();
 		
-		double angleStep = (angleEnd - angleStart) / bullets;
-		double timeStep = (timeEnd - timeStart) / bullets;
-		
-		double angle = angleStart;
 		double time = timeStamp;
 		
 		for (int i = 0; i < bullets; i++) {
 			Bullet current = bullet.clone();
 			Movement currentMovement = current.getMovement();
 			
+			double timeStep = (timeEnd - timeStart) / bullets;
+			
 			currentMovement.setPosition(spawnPoint.clone());
 			current.setSpawnTime(time);
-			
-			for (Direction d : currentMovement.getDirections())
-				d.setAngle(d.getAngle() + angle);
-			
 			time += timeStep;
-			angle += angleStep;
+			
+			ArrayList<Direction> bulletDirs = current.getMovement().getDirections();
+			for (int j = 0; j < Math.min(modifiers.size(), bulletDirs.size()); j++)
+				modifiers.get(j).modify(i, bullets, bulletDirs.get(j));
+				
 			bulletList.add(current);
 		}
 		
 		return bulletList;
 	}
-	
+
 	public ArrayList<Bullet> applySpawnPosition(ArrayList<Bullet> bullets) {
 		for (Bullet b : bullets)
-			b.getMovement().setPosition(b.getMovement().getPosition().add(spawnOrigin));
+			b.getMovement().setPosition(
+					b.getMovement().getPosition().add(spawnOrigin));
 		return bullets;
 	}
-	
+
 	/**
 	 * Warning: this is not a pure cloning, it provides a Horde template
 	 */
 	@Override
 	public Wave clone() {
 		Wave w = new Wave(bullet.clone());
-		w.setAngleEnd(angleEnd);
-		w.setAngleStart(angleStart);
+		
+		ArrayList<DirectionModifier> clonMods = new ArrayList<DirectionModifier>();
+		for (DirectionModifier d : modifiers)
+			clonMods.add(d.clone());
+		w.setModifiers(clonMods);
+
+		w.setTimeEnd(timeEnd);
+		w.setTimeStart(timeStart);
+
 		w.setBullets(bullets);
 		w.setInterval(interval);
 		w.setRepeat(repeat);
 		w.setSpawnPoint(spawnPoint.clone());
-		w.setTimeEnd(timeEnd);
-		w.setTimeStart(timeStart);
+
 		return w;
 	}
 

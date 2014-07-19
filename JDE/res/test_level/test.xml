@@ -1,87 +1,75 @@
 <!-- JDE format XML example -->
 <jde-content>
 
-	<import file="res/test_level/hitboxes.xml" />
+    <import file="res/test_level/hitboxes.xml" />
 
-	<import file="res/sprites/sprites.xml" />
+    <import file="res/sprites/sprites.xml" />
 
-	<import file="res/test_level/sprites.xml" />
+    <import file="res/test_level/sprites.xml" />
 
-	<import file="res/test_level/movements.xml" />
+    <import file="res/test_level/movements.xml" />
 
-	<import file="res/test_level/bullets.xml" />
+    <import file="res/test_level/bullets.xml" />
 
-	<wave name="wave_butterfly_1" angleend="360" anglestart="0" bullets="3">
-		<bullet-ref ref="butterfly_1" />
-		<vertex x="0" y="50" />
-	</wave>
-	
-	<wave name="wave_butterfly_2" angleend="360" anglestart="0" bullets="3">
-		<bullet-ref ref="butterfly_2" />
-		<vertex x="0" y="50" />
-	</wave>
-	
-	<wave name="wave_butterfly_3" angleend="360" anglestart="0" bullets="3">
-		<bullet-ref ref="butterfly_3" />
-		<vertex x="0" y="50" />
-	</wave>
-	
-	<wave name="wave_butterfly_4" angleend="360" anglestart="0" bullets="3">
-		<bullet-ref ref="butterfly_4" />
-		<vertex x="0" y="50" />
-	</wave>
-	
-	<wave name="wave_butterfly_5" angleend="360" anglestart="0" bullets="3">
-		<bullet-ref ref="butterfly_5" />
-		<vertex x="0" y="50" />
-	</wave>
-	
-	<wave name="wave_butterfly_6" angleend="360" anglestart="0" bullets="3">
-		<bullet-ref ref="butterfly_6" />
-		<vertex x="0" y="50" />
-	</wave>
-	
-	<wave name="wave_butterfly_7" angleend="360" anglestart="0" bullets="3">
-		<bullet-ref ref="butterfly_7" />
-		<vertex x="0" y="50" />
-	</wave>
-	
-	<wave name="wave_butterfly_8" angleend="360" anglestart="0" bullets="3">
-		<bullet-ref ref="butterfly_8" />
-		<vertex x="0" y="50" />
-	</wave>
+    <wave
+        name="wave_butterfly"
+        bullets="10" >
 
-	<horde name="horde_butterfly">
-		<wave-ref ref="wave_butterfly_1" />
-		<wave-ref ref="wave_butterfly_2" />
-		<wave-ref ref="wave_butterfly_3" />
-		<wave-ref ref="wave_butterfly_4" />
-		<wave-ref ref="wave_butterfly_5" />
-		<wave-ref ref="wave_butterfly_6" />
-		<wave-ref ref="wave_butterfly_7" />
-		<wave-ref ref="wave_butterfly_8" />
-	</horde>
+        <bullet-ref ref="butterfly" />
 
-	<enemy name="enemy_ghost_up" health="100">
+        <vertex
+            x="0"
+            y="50" />
+        
+        <direction-modifier />
+        
+        <direction-modifier />
+        
+        <direction-modifier accelerationstart="0" accelerationend="35"/>
+    </wave>
 
-		<hitbox-ref ref="hitbox_ghost" />
+    <horde name="horde_butterfly" >
 
-		<sprite-ref ref="sprite_ghost" />
+        <wave-ref ref="wave_butterfly" />
 
-		<movement-ref ref="move_ghost_up" />
+        <wave-ref ref="wave_butterfly" />
 
-		<horde-ref ref="horde_butterfly" />
-	</enemy>
+        <wave-ref ref="wave_butterfly" />
 
-	<game name="game_name">
+        <wave-ref ref="wave_butterfly" />
 
-		<spawn time="2000">
+        <wave-ref ref="wave_butterfly" />
 
-			<vertex x="0" y="-100" />
+        <wave-ref ref="wave_butterfly" />
 
-			<enemy-ref ref="enemy_ghost_up" />
-		</spawn>
+        <wave-ref ref="wave_butterfly" />
 
-	</game>
+        <wave-ref ref="wave_butterfly" />
+    </horde>
+
+    <enemy
+        name="enemy_ghost_up"
+        health="100" >
+
+        <hitbox-ref ref="hitbox_ghost" />
+
+        <sprite-ref ref="sprite_ghost" />
+
+        <movement-ref ref="move_ghost_up" />
+
+        <horde-ref ref="horde_butterfly" />
+    </enemy>
+
+    <game name="game_name" >
+
+        <spawn time="2000" >
+
+            <vertex
+                x="0"
+                y="-100" />
+
+            <enemy-ref ref="enemy_ghost_up" />
+        </spawn>
+    </game>
 
 </jde-content>

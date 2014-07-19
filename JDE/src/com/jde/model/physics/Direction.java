@@ -3,8 +3,7 @@ package com.jde.model.physics;
 public class Direction {
 	
 	protected double angle = 0;
-	protected double angleStart = 0;
-	protected double angleEnd = 0;
+	protected double rotation = 0;
 	protected double speed = 0;
 	protected double acceleration = 0;
 	protected double duration = -1;
@@ -16,10 +15,8 @@ public class Direction {
 		
 	}
 
-	public Direction(double angleStart, double angleEnd) {
-		this.angle = angleStart;
-		this.angleStart = angleStart;
-		this.angleEnd = angleEnd;
+	public Direction(double angle) {
+		this.angle = angle;
 	}
 	
 	public Direction(Vertex homingPosition) {
@@ -29,6 +26,14 @@ public class Direction {
 
 	public boolean isHoming() {
 		return homing;
+	}
+
+	public double getRotation() {
+		return rotation;
+	}
+
+	public void setRotation(double rotation) {
+		this.rotation = rotation;
 	}
 
 	public Vertex getHomingPosition() {
@@ -45,22 +50,6 @@ public class Direction {
 
 	public void setAngle(double angle) {
 		this.angle = angle;
-	}
-
-	public double getAngleStart() {
-		return angleStart;
-	}
-
-	public void setAngleStart(double angleStart) {
-		this.angleStart = angleStart;
-	}
-
-	public double getAngleEnd() {
-		return angleEnd;
-	}
-
-	public void setAngleEnd(double angleEnd) {
-		this.angleEnd = angleEnd;
 	}
 
 	public double getSpeed() {
@@ -90,9 +79,10 @@ public class Direction {
 	public Direction clone() {
 		Direction nd;
 		if (!homing)
-			nd = new Direction(angleStart, angleEnd);
+			nd = new Direction(angle);
 		else
 			nd = new Direction(homingPosition.clone());
+		nd.setRotation(rotation);
 		nd.setSpeed(speed);
 		nd.setAcceleration(acceleration);
 		nd.setDuration(duration);

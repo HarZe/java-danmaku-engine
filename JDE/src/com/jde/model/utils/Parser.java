@@ -3,7 +3,6 @@ package com.jde.model.utils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -18,6 +17,7 @@ import com.jde.model.entity.bullet.Horde;
 import com.jde.model.entity.bullet.Wave;
 import com.jde.model.entity.enemy.Enemy;
 import com.jde.model.physics.Direction;
+import com.jde.model.physics.DirectionModifier;
 import com.jde.model.physics.Movement;
 import com.jde.model.physics.Vertex;
 import com.jde.model.physics.collision.HitBox;
@@ -32,6 +32,7 @@ public class Parser {
 
 	protected HashMap<String, Bullet> bullets;
 	protected HashMap<String, Direction> directions;
+	protected HashMap<String, DirectionModifier> modifiers;
 	protected HashMap<String, Enemy> enemies;
 	protected HashMap<String, Horde> hordes;
 	protected HashMap<String, Sprite> sprites;
@@ -45,6 +46,7 @@ public class Parser {
 	public Parser() {
 		bullets = new HashMap<String, Bullet>();
 		directions = new HashMap<String, Direction>();
+		modifiers = new HashMap<String, DirectionModifier>();
 		enemies = new HashMap<String, Enemy>();
 		hordes = new HashMap<String, Horde>();
 		sprites = new HashMap<String, Sprite>();
@@ -110,6 +112,11 @@ public class Parser {
 		case "direction":
 		case "direction-ref":
 			processDirection(node);
+			break;
+			
+		case "direction-modifier":
+		case "direction-modifier-ref":
+			processDirectionModifier(node);
 			break;
 
 		case "enemy":
@@ -259,18 +266,19 @@ public class Parser {
 				}
 				d = new Direction(hv);
 			} else {
-				double angleStart = 0, angleEnd = 0;
-				if (nodeMap.getNamedItem("anglestart") != null) {
-					angleStart = Double.parseDouble(nodeMap.getNamedItem(
-							"anglestart").getNodeValue());
+				double angle = 0;
+				if (nodeMap.getNamedItem("angle") != null) {
+					angle = Double.parseDouble(nodeMap.getNamedItem(
+							"angle").getNodeValue());
 				}
-				if (nodeMap.getNamedItem("angleend") != null) {
-					angleEnd = Double.parseDouble(nodeMap.getNamedItem(
-							"angleend").getNodeValue());
-				}
-				d = new Direction(angleStart, angleEnd);
+				d = new Direction(angle);
 			}
 
+			if (nodeMap.getNamedItem("rotation") != null) {
+				double rotation = Double.parseDouble(nodeMap.getNamedItem("rotation")
+						.getNodeValue());
+				d.setRotation(rotation);
+			}
 			if (nodeMap.getNamedItem("speed") != null) {
 				double speed = Double.parseDouble(nodeMap.getNamedItem("speed")
 						.getNodeValue());
@@ -294,6 +302,75 @@ public class Parser {
 
 		} else
 			throw new Exception("<direction> with no attributes declared");
+
+		return d;
+	}
+	
+	protected DirectionModifier processDirectionModifier(Node node) throws Exception {
+		DirectionModifier d = new DirectionModifier();
+
+		if (node.hasAttributes()) {
+			NamedNodeMap nodeMap = node.getAttributes();
+
+			if (node.getNodeName().equals("direction-modifier-ref")) {
+				if (nodeMap.getNamedItem("ref") != null) {
+					String ref = nodeMap.getNamedItem("ref").getNodeValue();
+
+					if (!modifiers.containsKey(ref))
+						throw new Exception("<direction-modifier> with name:" + ref
+								+ " is not declared");
+
+					return modifiers.get(ref);
+				}
+			}
+
+			if (nodeMap.getNamedItem("anglestart") != null) {
+				double angleStart = Double.parseDouble(nodeMap.getNamedItem(
+						"anglestart").getNodeValue());
+				d.setAngleStart(angleStart);
+			}
+			if (nodeMap.getNamedItem("angleend") != null) {
+				double angleEnd = Double.parseDouble(nodeMap.getNamedItem(
+						"angleend").getNodeValue());
+				d.setAngleEnd(angleEnd);
+			}
+			if (nodeMap.getNamedItem("rotationstart") != null) {
+				double rotationStart = Double.parseDouble(nodeMap.getNamedItem(
+						"rotationstart").getNodeValue());
+				d.setRotationStart(rotationStart);
+			}
+			if (nodeMap.getNamedItem("rotationend") != null) {
+				double rotationEnd = Double.parseDouble(nodeMap.getNamedItem(
+						"rotationend").getNodeValue());
+				d.setRotationEnd(rotationEnd);
+			}
+			if (nodeMap.getNamedItem("speedstart") != null) {
+				double speedStart = Double.parseDouble(nodeMap.getNamedItem(
+						"speedstart").getNodeValue());
+				d.setSpeedStart(speedStart);
+			}
+			if (nodeMap.getNamedItem("speedend") != null) {
+				double speedEnd = Double.parseDouble(nodeMap.getNamedItem(
+						"speedend").getNodeValue());
+				d.setSpeedEnd(speedEnd);
+			}
+			if (nodeMap.getNamedItem("accelerationstart") != null) {
+				double accelerationStart = Double.parseDouble(nodeMap.getNamedItem(
+						"accelerationstart").getNodeValue());
+				d.setAccelerationStart(accelerationStart);
+			}
+			if (nodeMap.getNamedItem("accelerationend") != null) {
+				double accelerationEnd = Double.parseDouble(nodeMap.getNamedItem(
+						"accelerationend").getNodeValue());
+				d.setAccelerationEnd(accelerationEnd);
+			}
+
+			if (nodeMap.getNamedItem("name") != null) {
+				String name = nodeMap.getNamedItem("name").getNodeValue();
+				modifiers.put(name, d);
+			}
+
+		}
 
 		return d;
 	}
@@ -447,7 +524,7 @@ public class Parser {
 	protected Movement processMovement(Node node) throws Exception {
 		Movement m = null;
 		Vertex pos = new Vertex();
-		LinkedList<Direction> dirs = new LinkedList<Direction>();
+		ArrayList<Direction> dirs = new ArrayList<Direction>();
 
 		if (node.hasAttributes()) {
 			NamedNodeMap nodeMap = node.getAttributes();
@@ -670,6 +747,7 @@ public class Parser {
 		Wave w = null;
 		Bullet b = null;
 		Vertex v = null;
+		ArrayList<DirectionModifier> mods = new ArrayList<DirectionModifier>();
 
 		if (node.hasAttributes()) {
 			NamedNodeMap nodeMap = node.getAttributes();
@@ -695,25 +773,19 @@ public class Parser {
 					else if (currentNode.getNodeName().equals("bullet")
 							|| currentNode.getNodeName().equals("bullet-ref"))
 						b = processBullet(currentNode);
+					else if (currentNode.getNodeName().equals("direction-modifier")
+							|| currentNode.getNodeName().equals("direction-modifier-ref"))
+						mods.add(processDirectionModifier(currentNode));
 				}
 
 			if (b == null)
 				throw new Exception("<wave> has not an unique <bullet>");
 
 			w = new Wave(b);
+			w.setModifiers(mods);
 			if (v != null)
 				w.setSpawnPoint(v);
 
-			if (nodeMap.getNamedItem("anglestart") != null) {
-				double angleStart = Double.parseDouble(nodeMap.getNamedItem(
-						"anglestart").getNodeValue());
-				w.setAngleStart(angleStart);
-			}
-			if (nodeMap.getNamedItem("angleend") != null) {
-				double angleEnd = Double.parseDouble(nodeMap.getNamedItem(
-						"angleend").getNodeValue());
-				w.setAngleEnd(angleEnd);
-			}
 			if (nodeMap.getNamedItem("timestart") != null) {
 				double timeStart = Double.parseDouble(nodeMap.getNamedItem(
 						"timestart").getNodeValue());
@@ -725,7 +797,7 @@ public class Parser {
 				w.setTimeEnd(timeEnd);
 			}
 			if (nodeMap.getNamedItem("bullets") != null) {
-				double bullets = Double.parseDouble(nodeMap.getNamedItem(
+				int bullets = Integer.parseInt(nodeMap.getNamedItem(
 						"bullets").getNodeValue());
 				w.setBullets(bullets);
 			}

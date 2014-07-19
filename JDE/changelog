@@ -1,4 +1,7 @@
 
+Version 0.03.4 (July 20, 2014):
+Added tag <direction-modifier> to be used with <wave> to alter the desired <direction> from the <bullet>
+
 Version 0.03.3 (July 19, 2014):
 Fixed angle to match 0º degrees with "right"
 Angle is inherited in a <movement> from a <direction> to the next one

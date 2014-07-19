@@ -1,23 +1,24 @@
 package com.jde.model.physics;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class Movement {
 
 	protected Vertex position;
 	protected Direction direction;
 	
-	protected LinkedList<Direction> directions;
+	protected ArrayList<Direction> directions;
+	protected int currentDir = 0;
 	protected double elapsed = 0;
 
-	public Movement(Vertex position, LinkedList<Direction> directions) {
+	public Movement(Vertex position, ArrayList<Direction> directions) {
 		this.position = position;
-		this.directions = new LinkedList<Direction>();
+		this.directions = new ArrayList<Direction>();
 		
 		for (Direction d : directions)
 			this.directions.add(d.clone());
 		
-		direction = this.directions.peek();
+		direction = this.directions.get(currentDir);
 	}
 
 	public Vertex getPosition() {
@@ -32,20 +33,26 @@ public class Movement {
 		return direction;
 	}
 
-	public LinkedList<Direction> getDirections() {
+	public ArrayList<Direction> getDirections() {
 		return directions;
 	}
 
 	public void forward(double ms) {
 		elapsed += ms;
 		
-		if (directions.size() > 1 && direction.getDuration() > 0 && direction.getDuration() < elapsed) {
+		if (currentDir + 1 < directions.size() && direction.getDuration() > 0 && direction.getDuration() < elapsed) {
 			elapsed -= direction.getDuration();
 			forwardAux(ms - elapsed);
-			directions.poll();
+			currentDir++;
 			
-			directions.peek().setAngle(direction.getAngle());
-			direction = directions.peek();
+			Direction newDir = directions.get(currentDir);
+			
+			newDir.setAngle(newDir.getAngle() + direction.getAngle());
+			newDir.setRotation(newDir.getRotation() + direction.getRotation());
+			newDir.setSpeed(newDir.getSpeed() + direction.getSpeed());
+			newDir.setAcceleration(newDir.getAcceleration() + direction.getAcceleration());
+			
+			direction = newDir;
 			
 			ms = elapsed;
 		}
@@ -59,7 +66,7 @@ public class Movement {
 		if (direction.isHoming())
 			direction.setAngle(Vertex.vertexToAngle(direction.getHomingPosition().clone().sub(position)));
 		else if (direction.getDuration() > 0)
-			direction.setAngle(direction.getAngle() + ((direction.getAngleEnd() - direction.getAngleStart())*ms / direction.getDuration()));
+			direction.setAngle(direction.getAngle() + (direction.getRotation()*ms / direction.getDuration()));
 		
 		Vertex step = Vertex.angleToVertex(Math.toRadians(direction.getAngle()));
 		step.scale(direction.getSpeed() * ms * 0.001);

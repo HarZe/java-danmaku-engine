@@ -1,60 +1,28 @@
 <jde-content>
 
-	<direction name="expand" duration="500" speed="200"
-		acceleration="-400" />
+    <movement name="butterfly" >
 
-	<direction name="move" duration="1000" speed="50" anglestart="0" angleend="120" />
+        <direction
+            acceleration="-400"
+            duration="500"
+            speed="200" />
 
-	<movement name="butterfly_1">
-		<direction-ref ref="expand" />
-		<direction-ref ref="move" />
-		<direction speed="20" acceleration="0" />
-	</movement>
+        <direction
+            acceleration="400"
+            duration="1000"
+            rotation="120"
+            speed="50" />
 
-	<movement name="butterfly_2">
-		<direction-ref ref="expand" />
-		<direction-ref ref="move" />
-		<direction speed="20" acceleration="5" />
-	</movement>
+        <direction
+            speed="-30" />
+    </movement>
 
-	<movement name="butterfly_3">
-		<direction-ref ref="expand" />
-		<direction-ref ref="move" />
-		<direction speed="20" acceleration="10" />
-	</movement>
+    <movement name="move_ghost_up" >
 
-	<movement name="butterfly_4">
-		<direction-ref ref="expand" />
-		<direction-ref ref="move" />
-		<direction speed="20" acceleration="15" />
-	</movement>
-
-	<movement name="butterfly_5">
-		<direction-ref ref="expand" />
-		<direction-ref ref="move" />
-		<direction speed="20" acceleration="20" />
-	</movement>
-
-	<movement name="butterfly_6">
-		<direction-ref ref="expand" />
-		<direction-ref ref="move" />
-		<direction speed="20" acceleration="25" />
-	</movement>
-
-	<movement name="butterfly_7">
-		<direction-ref ref="expand" />
-		<direction-ref ref="move" />
-		<direction speed="20" acceleration="30" />
-	</movement>
-
-	<movement name="butterfly_8">
-		<direction-ref ref="expand" />
-		<direction-ref ref="move" />
-		<direction speed="20" acceleration="35" />
-	</movement>
-
-	<movement name="move_ghost_up">
-		<direction anglestart="-90" angleend="-90" speed="5" />
-	</movement>
+        <direction
+            angleend="-90"
+            anglestart="-90"
+            speed="5" />
+    </movement>
 
 </jde-content>
