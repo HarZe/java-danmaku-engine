@@ -43,7 +43,10 @@ public class Movement {
 			elapsed -= direction.getDuration();
 			forwardAux(ms - elapsed);
 			directions.poll();
+			
+			directions.peek().setAngle(direction.getAngle());
 			direction = directions.peek();
+			
 			ms = elapsed;
 		}
 		
@@ -58,7 +61,7 @@ public class Movement {
 		else if (direction.getDuration() > 0)
 			direction.setAngle(direction.getAngle() + ((direction.getAngleEnd() - direction.getAngleStart())*ms / direction.getDuration()));
 		
-		Vertex step = Vertex.angleToVertex(Math.toRadians(direction.getAngle() - 90));
+		Vertex step = Vertex.angleToVertex(Math.toRadians(direction.getAngle()));
 		step.scale(direction.getSpeed() * ms * 0.001);
 		position.add(step);
 	}

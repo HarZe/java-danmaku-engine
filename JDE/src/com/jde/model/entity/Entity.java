@@ -13,6 +13,7 @@ public class Entity {
 	protected Movement movement;
 	
 	protected boolean lookAtMovingDirection = true;
+	protected boolean drawingRotateCorretion = true;
 	
 	public Entity(Sprite sprite, HitZone hitbox, Movement movement) {
 		this.sprite = sprite;
@@ -32,6 +33,8 @@ public class Entity {
 		GL11.glPushMatrix();
 		
 		GL11.glTranslated(movement.getPosition().getX(), movement.getPosition().getY(), 0);
+		if (drawingRotateCorretion)
+			GL11.glRotated(90, 0, 0, 1);
 		if (lookAtMovingDirection)
 			GL11.glRotated(movement.getDirection().getAngle(), 0, 0, 1);
 		sprite.draw();

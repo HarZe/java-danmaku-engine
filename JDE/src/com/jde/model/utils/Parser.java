@@ -161,7 +161,7 @@ public class Parser {
 		case "vertex-ref":
 			processVertex(node);
 			break;
-			
+
 		case "wave":
 		case "wave-ref":
 			processWave(node);
@@ -248,7 +248,7 @@ public class Parser {
 					return directions.get(ref);
 				}
 			}
-			
+
 			if (node.hasChildNodes()
 					&& node.getChildNodes().getLength() == 1 * 2 + 1) {
 				for (int i = 1; i < 1 * 2 + 1; i += 2) {
@@ -258,8 +258,7 @@ public class Parser {
 						hv = unvirtualizeCoordinates(processVertex(currentNode));
 				}
 				d = new Direction(hv);
-			}
-			else {
+			} else {
 				double angleStart = 0, angleEnd = 0;
 				if (nodeMap.getNamedItem("anglestart") != null) {
 					angleStart = Double.parseDouble(nodeMap.getNamedItem(
@@ -273,8 +272,8 @@ public class Parser {
 			}
 
 			if (nodeMap.getNamedItem("speed") != null) {
-				double speed = Double.parseDouble(nodeMap.getNamedItem(
-						"speed").getNodeValue());
+				double speed = Double.parseDouble(nodeMap.getNamedItem("speed")
+						.getNodeValue());
 				d.setSpeed(speed);
 			}
 			if (nodeMap.getNamedItem("acceleration") != null) {
@@ -372,7 +371,7 @@ public class Parser {
 					throw new Exception("<game> must contains only <spawn>");
 			}
 	}
-	
+
 	protected Horde processHorde(Node node) throws Exception {
 		Horde h = null;
 		ArrayList<Wave> waves = new ArrayList<Wave>();
@@ -400,11 +399,10 @@ public class Parser {
 						waves.add(processWave(currentNode));
 				}
 			else
-				throw new Exception(
-						"<horde> requieres <wave>");
+				throw new Exception("<horde> requieres <wave>");
 
 			h = new Horde(waves);
-			
+
 			if (nodeMap.getNamedItem("name") != null) {
 				String name = nodeMap.getNamedItem("name").getNodeValue();
 				hordes.put(name, h);
@@ -413,7 +411,7 @@ public class Parser {
 
 		} else
 			throw new Exception("<horde> with no attributes declared");
-		
+
 		return h;
 	}
 
@@ -482,7 +480,7 @@ public class Parser {
 				throw new Exception("<movement> has no directions");
 
 			m = new Movement(pos, dirs);
-			
+
 			if (nodeMap.getNamedItem("name") != null) {
 				String name = nodeMap.getNamedItem("name").getNodeValue();
 				movements.put(name, m);
@@ -667,9 +665,11 @@ public class Parser {
 
 		return v;
 	}
-	
+
 	protected Wave processWave(Node node) throws Exception {
 		Wave w = null;
+		Bullet b = null;
+		Vertex v = null;
 
 		if (node.hasAttributes()) {
 			NamedNodeMap nodeMap = node.getAttributes();
@@ -686,14 +686,23 @@ public class Parser {
 				}
 			}
 
-			if (node.hasChildNodes()
-					&& node.getChildNodes().getLength() == 1 * 2 + 1
-					&& (node.getChildNodes().item(1).getNodeName()
-							.equals("bullet") || node.getChildNodes().item(1)
-							.getNodeName().equals("bullet-ref")))
-				w = new Wave(processBullet(node.getChildNodes().item(1)));
-			else
+			if (node.hasChildNodes())
+				for (int i = 1; i < node.getChildNodes().getLength(); i += 2) {
+					Node currentNode = node.getChildNodes().item(i);
+					if (currentNode.getNodeName().equals("vertex")
+							|| currentNode.getNodeName().equals("vertex-ref"))
+						v = processVertex(currentNode);
+					else if (currentNode.getNodeName().equals("bullet")
+							|| currentNode.getNodeName().equals("bullet-ref"))
+						b = processBullet(currentNode);
+				}
+
+			if (b == null)
 				throw new Exception("<wave> has not an unique <bullet>");
+
+			w = new Wave(b);
+			if (v != null)
+				w.setSpawnPoint(v);
 
 			if (nodeMap.getNamedItem("anglestart") != null) {
 				double angleStart = Double.parseDouble(nodeMap.getNamedItem(
@@ -723,7 +732,7 @@ public class Parser {
 			if (nodeMap.getNamedItem("repeat") != null) {
 				if (nodeMap.getNamedItem("repeat").getNodeValue()
 						.equalsIgnoreCase("yes"))
-				w.setRepeat(true);
+					w.setRepeat(true);
 			}
 			if (nodeMap.getNamedItem("interval") != null) {
 				double interval = Double.parseDouble(nodeMap.getNamedItem(

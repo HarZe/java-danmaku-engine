@@ -1,178 +1,87 @@
 <!-- JDE format XML example -->
 <jde-content>
 
-    <import file="res/test_level/hitboxes.xml" />
+	<import file="res/test_level/hitboxes.xml" />
 
-    <import file="res/sprites/sprites.xml" />
+	<import file="res/sprites/sprites.xml" />
 
-    <import file="res/test_level/sprites.xml" />
+	<import file="res/test_level/sprites.xml" />
 
-    <import file="res/test_level/movements.xml" />
+	<import file="res/test_level/movements.xml" />
 
-    <import file="res/test_level/bullets.xml" />
+	<import file="res/test_level/bullets.xml" />
 
-    <wave
-        name="wave_bullet_circle"
-        angleend="360"
-        anglestart="0"
-        bullets="48"
-        interval="1500"
-        repeat="yes"
-        timeend="0"
-        timestart="0" >
+	<wave name="wave_butterfly_1" angleend="360" anglestart="0" bullets="3">
+		<bullet-ref ref="butterfly_1" />
+		<vertex x="0" y="50" />
+	</wave>
+	
+	<wave name="wave_butterfly_2" angleend="360" anglestart="0" bullets="3">
+		<bullet-ref ref="butterfly_2" />
+		<vertex x="0" y="50" />
+	</wave>
+	
+	<wave name="wave_butterfly_3" angleend="360" anglestart="0" bullets="3">
+		<bullet-ref ref="butterfly_3" />
+		<vertex x="0" y="50" />
+	</wave>
+	
+	<wave name="wave_butterfly_4" angleend="360" anglestart="0" bullets="3">
+		<bullet-ref ref="butterfly_4" />
+		<vertex x="0" y="50" />
+	</wave>
+	
+	<wave name="wave_butterfly_5" angleend="360" anglestart="0" bullets="3">
+		<bullet-ref ref="butterfly_5" />
+		<vertex x="0" y="50" />
+	</wave>
+	
+	<wave name="wave_butterfly_6" angleend="360" anglestart="0" bullets="3">
+		<bullet-ref ref="butterfly_6" />
+		<vertex x="0" y="50" />
+	</wave>
+	
+	<wave name="wave_butterfly_7" angleend="360" anglestart="0" bullets="3">
+		<bullet-ref ref="butterfly_7" />
+		<vertex x="0" y="50" />
+	</wave>
+	
+	<wave name="wave_butterfly_8" angleend="360" anglestart="0" bullets="3">
+		<bullet-ref ref="butterfly_8" />
+		<vertex x="0" y="50" />
+	</wave>
 
-        <bullet-ref ref="bullet_circle" />
-    </wave>
-    
-    <wave
-        name="wave_bullet_clockwise"
-        angleend="360"
-        anglestart="0"
-        bullets="24"
-        interval="2000"
-        repeat="yes"
-        timeend="1100"
-        timestart="100" >
+	<horde name="horde_butterfly">
+		<wave-ref ref="wave_butterfly_1" />
+		<wave-ref ref="wave_butterfly_2" />
+		<wave-ref ref="wave_butterfly_3" />
+		<wave-ref ref="wave_butterfly_4" />
+		<wave-ref ref="wave_butterfly_5" />
+		<wave-ref ref="wave_butterfly_6" />
+		<wave-ref ref="wave_butterfly_7" />
+		<wave-ref ref="wave_butterfly_8" />
+	</horde>
 
-        <bullet-ref ref="bullet_spiral" />
-    </wave>
+	<enemy name="enemy_ghost_up" health="100">
 
-    <wave
-        name="wave_bullet_counterclockwise"
-        angleend="-180"
-        anglestart="180"
-        bullets="24"
-        interval="2000"
-        repeat="yes"
-        timeend="1100"
-        timestart="100" >
+		<hitbox-ref ref="hitbox_ghost" />
 
-        <bullet-ref ref="bullet_spiral" />
-    </wave>
-    
-    <wave
-        name="wave_bullet_rain"
-        angleend="180"
-        anglestart="180"
-        bullets="48"
-        interval="200"
-        repeat="yes"
-        timeend="100"
-        timestart="100" >
+		<sprite-ref ref="sprite_ghost" />
 
-        <bullet-ref ref="bullet_rain" />
-    </wave>
-    
-    
-    <horde
-        name="horde_double_spiral" >
-        
-        <wave-ref ref="wave_bullet_clockwise" />
-        <wave-ref ref="wave_bullet_counterclockwise" />
-    </horde>
-    
-    <horde
-        name="horde_circle_simple" >
-        
-        <wave-ref ref="wave_bullet_circle" />
-    </horde>
-    
-    <horde
-        name="horde_rain" >
-        
-        <wave-ref ref="wave_bullet_rain" />
-    </horde>
+		<movement-ref ref="move_ghost_up" />
 
-    <enemy
-        name="enemy_ghost_left"
-        health="100" >
+		<horde-ref ref="horde_butterfly" />
+	</enemy>
 
-        <hitbox-ref ref="hitbox_ghost" />
+	<game name="game_name">
 
-        <sprite-ref ref="sprite_ghost" />
+		<spawn time="2000">
 
-        <movement-ref ref="move_ghost_left" />
+			<vertex x="0" y="-100" />
 
-        <horde-ref ref="horde_double_spiral" />
-    </enemy>
+			<enemy-ref ref="enemy_ghost_up" />
+		</spawn>
 
-    <enemy
-        name="enemy_ghost_right"
-        health="100" >
-
-        <hitbox-ref ref="hitbox_ghost" />
-
-        <sprite-ref ref="sprite_ghost" />
-
-        <movement-ref ref="move_ghost_right" />
-
-        <horde-ref ref="horde_double_spiral" />
-    </enemy>
-
-    <enemy
-        name="enemy_ghost_up"
-        health="100" >
-
-        <hitbox-ref ref="hitbox_ghost" />
-
-        <sprite-ref ref="sprite_ghost" />
-
-        <movement-ref ref="move_ghost_up" />
-
-        <horde-ref ref="horde_circle_simple" />
-    </enemy>
-    
-    <enemy
-        name="enemy_ghost_rain"
-        health="100" >
-
-        <hitbox-ref ref="hitbox_ghost" />
-
-        <sprite-ref ref="sprite_ghost" />
-
-        <movement-ref ref="move_ghost_left" />
-
-        <horde-ref ref="horde_rain" />
-    </enemy>
-
-    <game name="game_name" >
-
-        <spawn time="2000" >
-
-            <vertex
-                x="0"
-                y="-100" />
-
-            <enemy-ref ref="enemy_ghost_up" />
-        </spawn>
-
-        <spawn time="5000" >
-
-            <vertex
-                x="50"
-                y="100" />
-
-            <enemy-ref ref="enemy_ghost_right" />
-        </spawn>
-
-        <spawn time="5000" >
-
-            <vertex
-                x="-50"
-                y="100" />
-
-            <enemy-ref ref="enemy_ghost_left" />
-        </spawn>
-        
-        <spawn time="10000" >
-
-            <vertex
-                x="50"
-                y="-100" />
-
-            <enemy-ref ref="enemy_ghost_rain" />
-        </spawn>
-        
-    </game>
+	</game>
 
 </jde-content>

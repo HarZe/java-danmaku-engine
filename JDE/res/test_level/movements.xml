@@ -1,77 +1,60 @@
 <jde-content>
 
-    <movement name="move_bullet_rain" >
+	<direction name="expand" duration="500" speed="200"
+		acceleration="-400" />
 
-        <direction
-            duration="500"
-            anglestart="180"
-            angleend="180"
-            speed="200"
-            acceleration="-400" />
+	<direction name="move" duration="1000" speed="50" anglestart="0" angleend="120" />
 
-        <direction
-            speed="300"
-            acceleration="20" >
-            
-            <vertex x="0" y="100" />
-            
-        </direction>
-    </movement>
-    
-    <movement name="move_bullet_reverse" >
+	<movement name="butterfly_1">
+		<direction-ref ref="expand" />
+		<direction-ref ref="move" />
+		<direction speed="20" acceleration="0" />
+	</movement>
 
-        <direction
-            duration="500"
-            anglestart="0"
-            angleend="180"
-            speed="200" />
+	<movement name="butterfly_2">
+		<direction-ref ref="expand" />
+		<direction-ref ref="move" />
+		<direction speed="20" acceleration="5" />
+	</movement>
 
-        <direction
-            anglestart="180"
-            angleend="180"
-            speed="50"
-            acceleration="50" />
-    </movement>
-    
-    <movement name="move_bullet_turnleft" >
+	<movement name="butterfly_3">
+		<direction-ref ref="expand" />
+		<direction-ref ref="move" />
+		<direction speed="20" acceleration="10" />
+	</movement>
 
-        <direction
-            duration="500"
-            speed="300"
-            anglestart="135"
-            angleend="215"
-            acceleration="-600" />
+	<movement name="butterfly_4">
+		<direction-ref ref="expand" />
+		<direction-ref ref="move" />
+		<direction speed="20" acceleration="15" />
+	</movement>
 
-        <direction
-            speed="250"
-            acceleration="25" />
-    </movement>
+	<movement name="butterfly_5">
+		<direction-ref ref="expand" />
+		<direction-ref ref="move" />
+		<direction speed="20" acceleration="20" />
+	</movement>
 
-    <movement name="move_ghost_left" >
+	<movement name="butterfly_6">
+		<direction-ref ref="expand" />
+		<direction-ref ref="move" />
+		<direction speed="20" acceleration="25" />
+	</movement>
 
-        <direction
-            anglestart="-90"
-            angleend="-90"
-            speed="30" >
-        </direction>
-    </movement>
+	<movement name="butterfly_7">
+		<direction-ref ref="expand" />
+		<direction-ref ref="move" />
+		<direction speed="20" acceleration="30" />
+	</movement>
 
-    <movement name="move_ghost_right" >
+	<movement name="butterfly_8">
+		<direction-ref ref="expand" />
+		<direction-ref ref="move" />
+		<direction speed="20" acceleration="35" />
+	</movement>
 
-        <direction
-            anglestart="90"
-            angleend="90"
-            speed="30" >
-        </direction>
-    </movement>
-
-    <movement name="move_ghost_up" >
-
-        <direction
-            anglestart="0"
-            angleend="0"
-            speed="30" >
-        </direction>
-    </movement>
+	<movement name="move_ghost_up">
+		<direction anglestart="-90" angleend="-90" speed="5" />
+	</movement>
 
 </jde-content>

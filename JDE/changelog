@@ -1,4 +1,9 @@
 
+Version 0.03.3 (July 19, 2014):
+Fixed angle to match 0º degrees with "right"
+Angle is inherited in a <movement> from a <direction> to the next one
+Added new XML sample
+
 Version 0.03.2 (July 19, 2014):
 Added angleStart and angleEnd to <direction> in order to add rotation to <movement>
 Added homing to <direction> which must have a home <vertex>, if homing is enabled, angleStart and angleEnd are ignored; experimental, not working properly yet

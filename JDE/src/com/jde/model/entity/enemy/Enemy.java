@@ -25,11 +25,10 @@ public class Enemy extends Entity implements Spawnable {
 		this.spawned = false;
 		this.horde = null;
 		lookAtMovingDirection = false;
+		drawingRotateCorretion = false;
 		
-		if (horde != null) {
+		if (horde != null)
 			this.horde = horde.clone();
-			this.horde.setSpawnPoint(movement.getPosition());	// Matches the horde origin position with the enemy position
-		}
 	}
 	
 	public void damage(double dmgPoints) {
@@ -46,7 +45,7 @@ public class Enemy extends Entity implements Spawnable {
 		
 		forward(timeStamp - spawnTime);
 		if (horde != null)
-			return horde.start(spawnTime, timeStamp);
+			return horde.start(spawnTime, timeStamp, movement.getPosition());
 		else
 			return new ArrayList<Bullet>();
 	}

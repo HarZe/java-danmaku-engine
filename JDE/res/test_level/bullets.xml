@@ -1,32 +1,51 @@
 <jde-content>
     
-    <bullet name="bullet_rain" >
-
+    <bullet name="butterfly_1" >
         <hitbox-ref ref="hitbox_bullet" />
-
-        <sprite-ref ref="bullet_eliptic_gray_halfsize" />
-
-        <movement-ref ref="move_bullet_rain" />
-    </bullet>
-
-    <bullet name="bullet_spiral" >
-
-        <hitbox-ref ref="hitbox_bullet" />
-
-        <sprite-ref ref="bullet_eliptic_gray_halfsize" />
-
-        <movement-ref ref="move_bullet_reverse" />
-    </bullet>
-    
-    <bullet name="bullet_circle" >
-
-        <hitbox-ref ref="hitbox_bullet" />
-
         <sprite-ref ref="bullet_butterfly_red" />
-
-        <movement-ref ref="move_bullet_turnleft" />
+        <movement-ref ref="butterfly_1" />
     </bullet>
     
+    <bullet name="butterfly_2" >
+        <hitbox-ref ref="hitbox_bullet" />
+        <sprite-ref ref="bullet_butterfly_red" />
+        <movement-ref ref="butterfly_2" />
+    </bullet>
     
+    <bullet name="butterfly_3" >
+        <hitbox-ref ref="hitbox_bullet" />
+        <sprite-ref ref="bullet_butterfly_red" />
+        <movement-ref ref="butterfly_3" />
+    </bullet>
+    
+    <bullet name="butterfly_4" >
+        <hitbox-ref ref="hitbox_bullet" />
+        <sprite-ref ref="bullet_butterfly_red" />
+        <movement-ref ref="butterfly_4" />
+    </bullet>
+    
+    <bullet name="butterfly_5" >
+        <hitbox-ref ref="hitbox_bullet" />
+        <sprite-ref ref="bullet_butterfly_red" />
+        <movement-ref ref="butterfly_5" />
+    </bullet>
+    
+    <bullet name="butterfly_6" >
+        <hitbox-ref ref="hitbox_bullet" />
+        <sprite-ref ref="bullet_butterfly_red" />
+        <movement-ref ref="butterfly_6" />
+    </bullet>
+    
+    <bullet name="butterfly_7" >
+        <hitbox-ref ref="hitbox_bullet" />
+        <sprite-ref ref="bullet_butterfly_red" />
+        <movement-ref ref="butterfly_7" />
+    </bullet>
+    
+    <bullet name="butterfly_8" >
+        <hitbox-ref ref="hitbox_bullet" />
+        <sprite-ref ref="bullet_butterfly_red" />
+        <movement-ref ref="butterfly_8" />
+    </bullet>
 
 </jde-content>

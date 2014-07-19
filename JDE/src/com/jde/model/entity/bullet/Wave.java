@@ -11,6 +11,7 @@ public class Wave {
 	
 	// Misc
 	protected Spawner<Bullet> spawner;
+	protected Vertex spawnOrigin;
 	protected double elapsed = 0;
 	protected boolean started = false;
 	protected double timeStarted;
@@ -18,7 +19,6 @@ public class Wave {
 	// Config
 	protected Bullet bullet;
 	protected Vertex spawnPoint = new Vertex();
-	protected Vertex spawnOffset = new Vertex();
 	
 	protected double angleStart = 0;
 	protected double angleEnd = 0;
@@ -44,14 +44,6 @@ public class Wave {
 
 	public void setSpawnPoint(Vertex spawnPoint) {
 		this.spawnPoint = spawnPoint;
-	}
-
-	public Vertex getSpawnOffset() {
-		return spawnOffset;
-	}
-
-	public void setSpawnOffset(Vertex spawnOffset) {
-		this.spawnOffset = spawnOffset;
 	}
 
 	public double getAngleStart() {
@@ -110,15 +102,16 @@ public class Wave {
 		this.interval = interval;
 	}
 	
-	public ArrayList<Bullet> start(double timeStart, double timeStamp) {
+	public ArrayList<Bullet> start(double timeStart, double timeStamp, Vertex position) {
 		if (started)
 			return null;
 		
 		started = true;
 		timeStarted = timeStart;
+		spawnOrigin = position;
 		spawner = new Spawner<Bullet>(timeStart);
-		spawner.addSpawnables(getBulletHorde(timeStart));
-		return spawner.forward(timeStamp - timeStart);
+		spawner.addSpawnables(getBulletWave(timeStart));
+		return applySpawnPosition(spawner.forward(timeStamp - timeStart));
 	}
 	
 	public ArrayList<Bullet> forward(double ms) {
@@ -128,14 +121,14 @@ public class Wave {
 		elapsed += ms;
 		if (repeat && elapsed > interval) {
 			timeStarted += interval;
-			spawner.addSpawnables(getBulletHorde(timeStarted));
+			spawner.addSpawnables(getBulletWave(timeStarted));
 			elapsed -= interval;
 		}
 		
-		return spawner.forward(ms);
+		return applySpawnPosition(spawner.forward(ms));
 	}
 
-	protected ArrayList<Bullet> getBulletHorde(double timeStamp) {
+	protected ArrayList<Bullet> getBulletWave(double timeStamp) {
 		
 		ArrayList<Bullet> bulletList = new ArrayList<Bullet>();
 		
@@ -149,7 +142,7 @@ public class Wave {
 			Bullet current = bullet.clone();
 			Movement currentMovement = current.getMovement();
 			
-			currentMovement.setPosition(spawnPoint);	// TODO: add offset for position (probably should be done at spawn time)
+			currentMovement.setPosition(spawnPoint.clone());
 			current.setSpawnTime(time);
 			
 			for (Direction d : currentMovement.getDirections())
@@ -161,6 +154,12 @@ public class Wave {
 		}
 		
 		return bulletList;
+	}
+	
+	public ArrayList<Bullet> applySpawnPosition(ArrayList<Bullet> bullets) {
+		for (Bullet b : bullets)
+			b.getMovement().setPosition(b.getMovement().getPosition().add(spawnOrigin));
+		return bullets;
 	}
 	
 	/**

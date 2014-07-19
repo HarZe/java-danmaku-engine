@@ -10,7 +10,7 @@ import com.jde.view.sprites.SpriteSheet;
 
 public class Game {
 	
-	protected String VERSION = "pre-alpha 0.03.2";
+	protected String VERSION = "pre-alpha 0.03.3";
 	
 	protected HUD hud;
 	

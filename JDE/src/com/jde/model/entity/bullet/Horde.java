@@ -12,11 +12,11 @@ public class Horde {
 		this.waves = waves;
 	}
 
-	public ArrayList<Bullet> start(double timeStart, double timeStamp) {
+	public ArrayList<Bullet> start(double timeStart, double timeStamp, Vertex position) {
 		ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 		
 		for (Wave w : waves)
-			for (Bullet b : w.start(timeStart, timeStamp))
+			for (Bullet b : w.start(timeStart, timeStamp, position))
 				bullets.add(b);
 		
 		return bullets;
@@ -31,12 +31,7 @@ public class Horde {
 		
 		return bullets;
 	}
-	
-	public void setSpawnPoint(Vertex v) {
-		for (Wave w : waves)
-			w.setSpawnPoint(v);
-	}
-	
+
 	public Horde clone() {
 		ArrayList<Wave> newWaves = new ArrayList<Wave>();
 		
