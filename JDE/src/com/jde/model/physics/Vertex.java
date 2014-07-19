@@ -41,6 +41,12 @@ public class Vertex {
 		return this;
 	}
 	
+	public Vertex sub(Vertex v) {
+		x -= v.getX();
+		y -= v.getY();
+		return this;
+	}
+	
 	public Vertex scale(double s) {
 		x *= s;
 		y *= s;
@@ -65,7 +71,23 @@ public class Vertex {
 		return "(" + x + ", " + y + ")";
 	}
 	
-	public static Vertex angle(double a) {
+	public static Vertex unit(Vertex v) {
+		double lenght = Math.sqrt(v.getX()*v.getX() + v.getY()*v.getY());
+		return new Vertex(v.getX() / lenght, v.getY() / lenght);
+	}
+	
+	public static Vertex angleToVertex(double a) {
 		return new Vertex(Math.cos(a), Math.sin(a));
+	}
+	
+	public static double vertexToAngle(Vertex v) {
+		Vertex unitVertex = unit(v);
+		double acos = Math.acos(unitVertex.getX());
+		double asin = Math.asin(unitVertex.getY());
+		
+		if (asin >= 0)
+			return Math.toDegrees(acos);
+		else
+			return 360 - Math.toDegrees(acos);
 	}
 }

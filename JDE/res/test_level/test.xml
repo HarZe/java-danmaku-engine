@@ -50,6 +50,20 @@
         <bullet-ref ref="bullet_spiral" />
     </wave>
     
+    <wave
+        name="wave_bullet_rain"
+        angleend="180"
+        anglestart="180"
+        bullets="48"
+        interval="200"
+        repeat="yes"
+        timeend="100"
+        timestart="100" >
+
+        <bullet-ref ref="bullet_rain" />
+    </wave>
+    
+    
     <horde
         name="horde_double_spiral" >
         
@@ -61,6 +75,12 @@
         name="horde_circle_simple" >
         
         <wave-ref ref="wave_bullet_circle" />
+    </horde>
+    
+    <horde
+        name="horde_rain" >
+        
+        <wave-ref ref="wave_bullet_rain" />
     </horde>
 
     <enemy
@@ -101,6 +121,19 @@
 
         <horde-ref ref="horde_circle_simple" />
     </enemy>
+    
+    <enemy
+        name="enemy_ghost_rain"
+        health="100" >
+
+        <hitbox-ref ref="hitbox_ghost" />
+
+        <sprite-ref ref="sprite_ghost" />
+
+        <movement-ref ref="move_ghost_left" />
+
+        <horde-ref ref="horde_rain" />
+    </enemy>
 
     <game name="game_name" >
 
@@ -130,6 +163,16 @@
 
             <enemy-ref ref="enemy_ghost_left" />
         </spawn>
+        
+        <spawn time="10000" >
+
+            <vertex
+                x="50"
+                y="-100" />
+
+            <enemy-ref ref="enemy_ghost_rain" />
+        </spawn>
+        
     </game>
 
 </jde-content>

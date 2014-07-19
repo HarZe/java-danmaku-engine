@@ -1,4 +1,8 @@
 
+Version 0.03.2 (July 19, 2014):
+Added angleStart and angleEnd to <direction> in order to add rotation to <movement>
+Added homing to <direction> which must have a home <vertex>, if homing is enabled, angleStart and angleEnd are ignored; experimental, not working properly yet
+
 Version 0.03.1 (July 18, 2014):
 Changed the previous <horde> to <wave>, now a single <horde> contains multiple <wave>
 Modified XML sample to show the new feature

@@ -52,7 +52,13 @@ public class Movement {
 	
 	private void forwardAux(double ms) {
 		direction.setSpeed(direction.getSpeed() + direction.getAcceleration() * ms * 0.001);
-		Vertex step = Vertex.angle(Math.toRadians(direction.getAngle() + 90));
+		
+		if (direction.isHoming())
+			direction.setAngle(Vertex.vertexToAngle(direction.getHomingPosition().clone().sub(position)));
+		else if (direction.getDuration() > 0)
+			direction.setAngle(direction.getAngle() + ((direction.getAngleEnd() - direction.getAngleStart())*ms / direction.getDuration()));
+		
+		Vertex step = Vertex.angleToVertex(Math.toRadians(direction.getAngle() - 90));
 		step.scale(direction.getSpeed() * ms * 0.001);
 		position.add(step);
 	}

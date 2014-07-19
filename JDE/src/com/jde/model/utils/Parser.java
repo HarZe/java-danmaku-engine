@@ -231,7 +231,8 @@ public class Parser {
 	}
 
 	protected Direction processDirection(Node node) throws Exception {
-		Direction d = new Direction();
+		Direction d = null;
+		Vertex hv = null;
 
 		if (node.hasAttributes()) {
 			NamedNodeMap nodeMap = node.getAttributes();
@@ -247,16 +248,34 @@ public class Parser {
 					return directions.get(ref);
 				}
 			}
+			
+			if (node.hasChildNodes()
+					&& node.getChildNodes().getLength() == 1 * 2 + 1) {
+				for (int i = 1; i < 1 * 2 + 1; i += 2) {
+					Node currentNode = node.getChildNodes().item(i);
+					if (currentNode.getNodeName().equals("vertex")
+							|| currentNode.getNodeName().equals("vertex-ref"))
+						hv = unvirtualizeCoordinates(processVertex(currentNode));
+				}
+				d = new Direction(hv);
+			}
+			else {
+				double angleStart = 0, angleEnd = 0;
+				if (nodeMap.getNamedItem("anglestart") != null) {
+					angleStart = Double.parseDouble(nodeMap.getNamedItem(
+							"anglestart").getNodeValue());
+				}
+				if (nodeMap.getNamedItem("angleend") != null) {
+					angleEnd = Double.parseDouble(nodeMap.getNamedItem(
+							"angleend").getNodeValue());
+				}
+				d = new Direction(angleStart, angleEnd);
+			}
 
 			if (nodeMap.getNamedItem("speed") != null) {
-				double speed = Double.parseDouble(nodeMap.getNamedItem("speed")
-						.getNodeValue());
+				double speed = Double.parseDouble(nodeMap.getNamedItem(
+						"speed").getNodeValue());
 				d.setSpeed(speed);
-			}
-			if (nodeMap.getNamedItem("angle") != null) {
-				double angle = Double.parseDouble(nodeMap.getNamedItem("angle")
-						.getNodeValue());
-				d.setAngle(angle);
 			}
 			if (nodeMap.getNamedItem("acceleration") != null) {
 				double acceleration = Double.parseDouble(nodeMap.getNamedItem(
@@ -492,7 +511,7 @@ public class Parser {
 						pos = processVertex(currentNode);
 					else if (currentNode.getNodeName().equals("enemy")
 							|| currentNode.getNodeName().equals("enemy-ref"))
-						e = processEnemy(currentNode);
+						e = processEnemy(currentNode).clone();
 				}
 			else
 				throw new Exception("<spawn> requieres: <vertex> and <enemy>");

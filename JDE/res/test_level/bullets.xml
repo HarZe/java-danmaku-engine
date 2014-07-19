@@ -1,4 +1,13 @@
 <jde-content>
+    
+    <bullet name="bullet_rain" >
+
+        <hitbox-ref ref="hitbox_bullet" />
+
+        <sprite-ref ref="bullet_eliptic_gray_halfsize" />
+
+        <movement-ref ref="move_bullet_rain" />
+    </bullet>
 
     <bullet name="bullet_spiral" >
 
@@ -13,7 +22,7 @@
 
         <hitbox-ref ref="hitbox_bullet" />
 
-        <sprite-ref ref="bullet_eliptic_gray_halfsize" />
+        <sprite-ref ref="bullet_butterfly_red" />
 
         <movement-ref ref="move_bullet_turnleft" />
     </bullet>
