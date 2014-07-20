@@ -1,4 +1,7 @@
 
+Version 0.03.5 (July 20, 2014):
+Added new type of <wave> that contains more <wave>, still not fully working, it only inherits once
+
 Version 0.03.4 (July 20, 2014):
 Added tag <direction-modifier> to be used with <wave> to alter the desired <direction> from the <bullet>
 

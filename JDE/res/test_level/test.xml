@@ -13,38 +13,53 @@
 
     <wave
         name="wave_butterfly"
-        bullets="10" >
+        bullets="8" >
 
         <bullet-ref ref="butterfly" />
+
+        <direction-modifier />
+
+        <direction-modifier />
+
+        <direction-modifier
+            accelerationend="35"
+            accelerationstart="0" />
+    </wave>
+
+    <wave name="wave_butterflies" >
 
         <vertex
             x="0"
             y="50" />
-        
-        <direction-modifier />
-        
-        <direction-modifier />
-        
-        <direction-modifier accelerationstart="0" accelerationend="35"/>
+
+        <direction-modifier
+            angleend="360"
+            anglestart="0" />
+
+        <wave-ref ref="wave_butterfly" />
+
+        <wave-ref ref="wave_butterfly" />
+
+        <wave-ref ref="wave_butterfly" />
+
+        <wave-ref ref="wave_butterfly" />
+
+        <wave-ref ref="wave_butterfly" />
+
+        <wave-ref ref="wave_butterfly" />
+
+        <wave-ref ref="wave_butterfly" />
+
+        <wave-ref ref="wave_butterfly" />
+
+        <wave-ref ref="wave_butterfly" />
+
+        <wave-ref ref="wave_butterfly" />
     </wave>
 
     <horde name="horde_butterfly" >
 
-        <wave-ref ref="wave_butterfly" />
-
-        <wave-ref ref="wave_butterfly" />
-
-        <wave-ref ref="wave_butterfly" />
-
-        <wave-ref ref="wave_butterfly" />
-
-        <wave-ref ref="wave_butterfly" />
-
-        <wave-ref ref="wave_butterfly" />
-
-        <wave-ref ref="wave_butterfly" />
-
-        <wave-ref ref="wave_butterfly" />
+        <wave-ref ref="wave_butterflies" />
     </horde>
 
     <enemy

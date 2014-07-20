@@ -748,6 +748,7 @@ public class Parser {
 		Bullet b = null;
 		Vertex v = null;
 		ArrayList<DirectionModifier> mods = new ArrayList<DirectionModifier>();
+		ArrayList<Wave> subWaves = new ArrayList<Wave>();
 
 		if (node.hasAttributes()) {
 			NamedNodeMap nodeMap = node.getAttributes();
@@ -776,13 +777,22 @@ public class Parser {
 					else if (currentNode.getNodeName().equals("direction-modifier")
 							|| currentNode.getNodeName().equals("direction-modifier-ref"))
 						mods.add(processDirectionModifier(currentNode));
+					else if (currentNode.getNodeName().equals("wave")
+							|| currentNode.getNodeName().equals("wave-ref"))
+						subWaves.add(processWave(currentNode));
 				}
 
-			if (b == null)
-				throw new Exception("<wave> has not an unique <bullet>");
-
-			w = new Wave(b);
-			w.setModifiers(mods);
+			if (b == null) {
+				if (mods.size() != 1)
+					throw new Exception("<wave> has not an unique <bullet> or various <wave> plus a <direction-modifier>");
+				
+				w = new Wave(subWaves, mods.get(0));
+			}
+			else {
+				w = new Wave(b);
+				w.setModifiers(mods);
+			}
+			
 			if (v != null)
 				w.setSpawnPoint(v);
 

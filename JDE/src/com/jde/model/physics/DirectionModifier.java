@@ -100,7 +100,17 @@ public class DirectionModifier {
 		dir.setRotation(dir.getRotation() + rotation);
 		dir.setSpeed(dir.getSpeed() + speed);
 		dir.setAcceleration(dir.getAcceleration() + acceleration);
-
+	}
+	
+	public void combine(DirectionModifier mod) {
+		angleStart += mod.getAccelerationStart();
+		angleEnd += mod.getAccelerationEnd();
+		rotationStart += mod.getRotationStart();
+		rotationEnd += mod.getRotationEnd();
+		speedStart += mod.getSpeedStart();
+		speedEnd += mod.getSpeedEnd();
+		accelerationStart += mod.getAccelerationStart();
+		accelerationEnd += mod.getAccelerationEnd();
 	}
 
 	public DirectionModifier clone() {

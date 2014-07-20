@@ -20,8 +20,7 @@
     <movement name="move_ghost_up" >
 
         <direction
-            angleend="-90"
-            anglestart="-90"
+            angle="-90"
             speed="5" />
     </movement>
 
