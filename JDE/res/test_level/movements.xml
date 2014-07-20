@@ -13,8 +13,24 @@
             rotation="120"
             speed="50" />
 
+        <direction speed="-30" />
+    </movement>
+
+    <movement name="arc" >
+
         <direction
-            speed="-30" />
+            acceleration="-800"
+            duration="500"
+            speed="400" />
+
+        <direction
+            acceleration="800"
+            duration="1000"
+            speed="0" />
+
+        <direction
+            acceleration="10"
+            speed="50" />
     </movement>
 
     <movement name="move_ghost_up" >

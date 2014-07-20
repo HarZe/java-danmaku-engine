@@ -18,6 +18,15 @@
         y="128" />
     
     <sprite
+        name="bullet_arc_ref_halfsize"
+        h="32"
+        scaling="0.5"
+        sheet="touhou_bullets"
+        w="32"
+        x="64"
+        y="32" />
+    
+    <sprite
         name="bullet_butterfly_red"
         h="64"
         scaling="0.75"

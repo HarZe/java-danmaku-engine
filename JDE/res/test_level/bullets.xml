@@ -6,4 +6,10 @@
         <movement-ref ref="butterfly" />
     </bullet>
 
+    <bullet name="arc" >
+        <hitbox-ref ref="hitbox_bullet" />
+        <sprite-ref ref="bullet_arc_ref_halfsize" />
+        <movement-ref ref="arc" />
+    </bullet>
+    
 </jde-content>

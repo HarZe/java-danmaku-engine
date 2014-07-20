@@ -11,6 +11,8 @@
 
     <import file="res/test_level/bullets.xml" />
 
+    <!-- Butterfly horde -->
+    
     <wave
         name="wave_butterfly"
         bullets="8" >
@@ -63,7 +65,7 @@
     </horde>
 
     <enemy
-        name="enemy_ghost_up"
+        name="enemy_butterfly"
         health="100" >
 
         <hitbox-ref ref="hitbox_ghost" />
@@ -74,16 +76,83 @@
 
         <horde-ref ref="horde_butterfly" />
     </enemy>
+    
+    <!-- Circular waved horde -->
+    
+    <wave
+        name="wave_arc"
+        bullets="4" >
 
+        <bullet-ref ref="arc" />
+
+        <direction-modifier anglestart="0" angleend="30" />
+
+        <direction-modifier />
+        
+        <direction-modifier anglestart="45" angleend="-15" />
+    </wave>
+    
+    <wave
+        name="wave_arcs"
+        bullets="12" >
+        
+        <direction-modifier
+            angleend="360"
+            anglestart="0" />
+
+        <wave-ref ref="wave_arc" />
+        <wave-ref ref="wave_arc" />
+        <wave-ref ref="wave_arc" />
+        <wave-ref ref="wave_arc" />
+        <wave-ref ref="wave_arc" />
+        <wave-ref ref="wave_arc" />
+        <wave-ref ref="wave_arc" />
+        <wave-ref ref="wave_arc" />
+        <wave-ref ref="wave_arc" />
+        <wave-ref ref="wave_arc" />
+        <wave-ref ref="wave_arc" />
+        <wave-ref ref="wave_arc" />
+        
+    </wave>
+    
+    <horde name="horde_arc" >
+
+        <wave-ref ref="wave_arcs" />
+    </horde>
+    
+    <enemy
+        name="enemy_arc"
+        health="100" >
+
+        <hitbox-ref ref="hitbox_ghost" />
+
+        <sprite-ref ref="sprite_ghost" />
+
+        <movement-ref ref="move_ghost_up" />
+
+        <horde-ref ref="horde_arc" />
+    </enemy>
+
+    <!-- Game -->
+    
     <game name="game_name" >
 
-        <spawn time="2000" >
+        <spawn time="6000" >
 
             <vertex
                 x="0"
                 y="-100" />
 
-            <enemy-ref ref="enemy_ghost_up" />
+            <enemy-ref ref="enemy_butterfly" />
+        </spawn>
+        
+        <spawn time="2000" >
+
+            <vertex
+                x="0"
+                y="100" />
+
+            <enemy-ref ref="enemy_arc" />
         </spawn>
     </game>
 

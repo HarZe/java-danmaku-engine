@@ -223,7 +223,7 @@ public class Wave {
 	public static void modifyWave(Wave w, DirectionModifier mod, int step, int total) {
 		if (w.isSuperWave()) {
 			for (Wave sw : w.getSubWaves()) {
-				// TODO
+				modifyWave(sw, mod, step, total);
 			}
 		}
 		else {

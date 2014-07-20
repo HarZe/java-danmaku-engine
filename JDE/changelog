@@ -1,4 +1,7 @@
 
+Version 0.03.6 (July 20, 2014):
+Now <wave> can inherit any time
+
 Version 0.03.5 (July 20, 2014):
 Added new type of <wave> that contains more <wave>, still not fully working, it only inherits once
 
