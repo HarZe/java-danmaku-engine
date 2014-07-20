@@ -11,7 +11,7 @@
     <sprite
         name="bullet_eliptic_gray_halfsize"
         h="32"
-        scaling="0.75"
+        scaling="0.5"
         sheet="touhou_bullets"
         w="32"
         x="0"
@@ -27,12 +27,75 @@
         y="32" />
     
     <sprite
+        name="bullet_butterfly_gray"
+        h="64"
+        scaling="0.5"
+        sheet="touhou_big_bullets"
+        w="64"
+        x="0"
+        y="128" />
+    
+    <sprite
         name="bullet_butterfly_red"
         h="64"
-        scaling="0.75"
+        scaling="0.5"
         sheet="touhou_big_bullets"
         w="64"
         x="64"
+        y="128" />
+    
+    <sprite
+        name="bullet_butterfly_pink"
+        h="64"
+        scaling="0.5"
+        sheet="touhou_big_bullets"
+        w="64"
+        x="128"
+        y="128" />
+    
+    <sprite
+        name="bullet_butterfly_darkblue"
+        h="64"
+        scaling="0.5"
+        sheet="touhou_big_bullets"
+        w="64"
+        x="192"
+        y="128" />
+    
+    <sprite
+        name="bullet_butterfly_blue"
+        h="64"
+        scaling="0.5"
+        sheet="touhou_big_bullets"
+        w="64"
+        x="256"
+        y="128" />
+    
+    <sprite
+        name="bullet_butterfly_green"
+        h="64"
+        scaling="0.5"
+        sheet="touhou_big_bullets"
+        w="64"
+        x="320"
+        y="128" />
+    
+    <sprite
+        name="bullet_butterfly_yellow"
+        h="64"
+        scaling="0.5"
+        sheet="touhou_big_bullets"
+        w="64"
+        x="384"
+        y="128" />
+    
+    <sprite
+        name="bullet_butterfly_white"
+        h="64"
+        scaling="0.5"
+        sheet="touhou_big_bullets"
+        w="64"
+        x="448"
         y="128" />
 
 </jde-content>

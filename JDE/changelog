@@ -1,4 +1,8 @@
 
+Version 0.03.7 (July 20, 2014):
+Added spawnpoint combination from <wave> to the insiders <wave>
+New XML sample with all new features
+
 Version 0.03.6 (July 20, 2014):
 Now <wave> can inherit any time
 

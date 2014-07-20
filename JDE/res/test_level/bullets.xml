@@ -1,15 +1,27 @@
 <jde-content>
     
-    <bullet name="butterfly" >
-        <hitbox-ref ref="hitbox_bullet" />
-        <sprite-ref ref="bullet_butterfly_red" />
-        <movement-ref ref="butterfly" />
-    </bullet>
-
     <bullet name="arc" >
         <hitbox-ref ref="hitbox_bullet" />
         <sprite-ref ref="bullet_arc_ref_halfsize" />
         <movement-ref ref="arc" />
+    </bullet>
+    
+    <bullet name="butterfly_darkblue" >
+        <hitbox-ref ref="hitbox_bullet" />
+        <sprite-ref ref="bullet_butterfly_darkblue" />
+        <movement-ref ref="butterfly" />
+    </bullet>
+    
+    <bullet name="butterfly_green" >
+        <hitbox-ref ref="hitbox_bullet" />
+        <sprite-ref ref="bullet_butterfly_green" />
+        <movement-ref ref="butterfly" />
+    </bullet>
+    
+    <bullet name="butterfly_yellow" >
+        <hitbox-ref ref="hitbox_bullet" />
+        <sprite-ref ref="bullet_butterfly_yellow" />
+        <movement-ref ref="butterfly" />
     </bullet>
     
 </jde-content>

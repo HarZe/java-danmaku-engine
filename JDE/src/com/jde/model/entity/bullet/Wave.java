@@ -150,6 +150,7 @@ public class Wave {
 			ArrayList<Bullet> spawnedBullets = new ArrayList<Bullet>();
 
 			for (Wave w : subWaves) {
+				w.setSpawnPoint(w.getSpawnPoint().add(spawnPoint)); 	// Combine spawnpoint
 				for (Bullet b : applySpawnPosition(w.start(timeStart,
 						timeStamp, new Vertex())))
 					spawnedBullets.add(b);

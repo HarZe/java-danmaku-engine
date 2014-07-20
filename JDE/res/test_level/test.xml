@@ -12,12 +12,15 @@
     <import file="res/test_level/bullets.xml" />
 
     <!-- Butterfly horde -->
-    
+
+
+    <!-- Basic waves -->
+
     <wave
-        name="wave_butterfly_clockwise"
+        name="wave_butterfly_darkblue_clockwise"
         bullets="8" >
 
-        <bullet-ref ref="butterfly" />
+        <bullet-ref ref="butterfly_darkblue" />
 
         <direction-modifier />
 
@@ -25,87 +28,263 @@
             accelerationend="100"
             accelerationstart="0" />
     </wave>
-    
-        <wave
-        name="wave_butterfly_counterclockwise"
+
+    <wave
+        name="wave_butterfly_darkblue_counterclockwise"
         bullets="8" >
 
-        <bullet-ref ref="butterfly" />
+        <bullet-ref ref="butterfly_darkblue" />
 
-        <direction-modifier rotationstart="-240" rotationend="-240"/>
+        <direction-modifier
+            rotationend="-240"
+            rotationstart="-240" />
 
         <direction-modifier
             accelerationend="100"
             accelerationstart="0" />
     </wave>
 
-    <wave name="wave_butterflies_clockwise" >
+    <wave
+        name="wave_butterfly_green_clockwise"
+        bullets="8" >
 
-        <vertex
-            x="0"
-            y="50" />
+        <bullet-ref ref="butterfly_green" />
+
+        <direction-modifier />
+
+        <direction-modifier
+            accelerationend="100"
+            accelerationstart="0" />
+    </wave>
+
+    <wave
+        name="wave_butterfly_green_counterclockwise"
+        bullets="8" >
+
+        <bullet-ref ref="butterfly_green" />
+
+        <direction-modifier
+            rotationend="-240"
+            rotationstart="-240" />
+
+        <direction-modifier
+            accelerationend="100"
+            accelerationstart="0" />
+    </wave>
+    
+    <wave
+        name="wave_butterfly_yellow_clockwise"
+        bullets="8" >
+
+        <bullet-ref ref="butterfly_yellow" />
+
+        <direction-modifier />
+
+        <direction-modifier
+            accelerationend="100"
+            accelerationstart="0" />
+    </wave>
+
+    <wave
+        name="wave_butterfly_yellow_counterclockwise"
+        bullets="8" >
+
+        <bullet-ref ref="butterfly_yellow" />
+
+        <direction-modifier
+            rotationend="-240"
+            rotationstart="-240" />
+
+        <direction-modifier
+            accelerationend="100"
+            accelerationstart="0" />
+    </wave>
+    
+    <!-- Complex waves -->
+    
+    <wave name="wave_butterflies_darkblue_clockwise" >
 
         <direction-modifier
             angleend="360"
             anglestart="0" />
 
-        <wave-ref ref="wave_butterfly_clockwise" />
+        <wave-ref ref="wave_butterfly_darkblue_clockwise" />
 
-        <wave-ref ref="wave_butterfly_clockwise" />
+        <wave-ref ref="wave_butterfly_darkblue_clockwise" />
 
-        <wave-ref ref="wave_butterfly_clockwise" />
+        <wave-ref ref="wave_butterfly_darkblue_clockwise" />
 
-        <wave-ref ref="wave_butterfly_clockwise" />
+        <wave-ref ref="wave_butterfly_darkblue_clockwise" />
 
-        <wave-ref ref="wave_butterfly_clockwise" />
+        <wave-ref ref="wave_butterfly_darkblue_clockwise" />
 
-        <wave-ref ref="wave_butterfly_clockwise" />
+        <wave-ref ref="wave_butterfly_darkblue_clockwise" />
 
-        <wave-ref ref="wave_butterfly_clockwise" />
+        <wave-ref ref="wave_butterfly_darkblue_clockwise" />
 
-        <wave-ref ref="wave_butterfly_clockwise" />
+        <wave-ref ref="wave_butterfly_darkblue_clockwise" />
 
-        <wave-ref ref="wave_butterfly_clockwise" />
+        <wave-ref ref="wave_butterfly_darkblue_clockwise" />
 
-        <wave-ref ref="wave_butterfly_clockwise" />
+        <wave-ref ref="wave_butterfly_darkblue_clockwise" />
     </wave>
-    
-    <wave name="wave_butterflies_counterclockwise" >
 
-        <vertex
-            x="0"
-            y="50" />
+    <wave name="wave_butterflies_darkblue_counterclockwise" >
 
         <direction-modifier
             angleend="0"
             anglestart="360" />
 
-        <wave-ref ref="wave_butterfly_counterclockwise" />
+        <wave-ref ref="wave_butterfly_darkblue_counterclockwise" />
 
-        <wave-ref ref="wave_butterfly_counterclockwise" />
+        <wave-ref ref="wave_butterfly_darkblue_counterclockwise" />
 
-        <wave-ref ref="wave_butterfly_counterclockwise" />
+        <wave-ref ref="wave_butterfly_darkblue_counterclockwise" />
 
-        <wave-ref ref="wave_butterfly_counterclockwise" />
+        <wave-ref ref="wave_butterfly_darkblue_counterclockwise" />
 
-        <wave-ref ref="wave_butterfly_counterclockwise" />
+        <wave-ref ref="wave_butterfly_darkblue_counterclockwise" />
 
-        <wave-ref ref="wave_butterfly_counterclockwise" />
+        <wave-ref ref="wave_butterfly_darkblue_counterclockwise" />
 
-        <wave-ref ref="wave_butterfly_counterclockwise" />
+        <wave-ref ref="wave_butterfly_darkblue_counterclockwise" />
 
-        <wave-ref ref="wave_butterfly_counterclockwise" />
+        <wave-ref ref="wave_butterfly_darkblue_counterclockwise" />
 
-        <wave-ref ref="wave_butterfly_counterclockwise" />
+        <wave-ref ref="wave_butterfly_darkblue_counterclockwise" />
 
-        <wave-ref ref="wave_butterfly_counterclockwise" />
+        <wave-ref ref="wave_butterfly_darkblue_counterclockwise" />
+    </wave>
+    
+    <wave name="wave_butterflies_green_clockwise" >
+
+        <vertex x="60" y="10" />
+        
+        <direction-modifier
+            angleend="360"
+            anglestart="0" />
+
+        <wave-ref ref="wave_butterfly_green_clockwise" />
+
+        <wave-ref ref="wave_butterfly_green_clockwise" />
+
+        <wave-ref ref="wave_butterfly_green_clockwise" />
+
+        <wave-ref ref="wave_butterfly_green_clockwise" />
+
+        <wave-ref ref="wave_butterfly_green_clockwise" />
+
+        <wave-ref ref="wave_butterfly_green_clockwise" />
+
+        <wave-ref ref="wave_butterfly_green_clockwise" />
+
+        <wave-ref ref="wave_butterfly_green_clockwise" />
+
+        <wave-ref ref="wave_butterfly_green_clockwise" />
+
+        <wave-ref ref="wave_butterfly_green_clockwise" />
+    </wave>
+    
+    <wave name="wave_butterflies_green_counterclockwise" >
+
+        <vertex x="-60" y="10" />
+        
+        <direction-modifier
+            angleend="0"
+            anglestart="360" />
+
+        <wave-ref ref="wave_butterfly_green_counterclockwise" />
+
+        <wave-ref ref="wave_butterfly_green_counterclockwise" />
+
+        <wave-ref ref="wave_butterfly_green_counterclockwise" />
+
+        <wave-ref ref="wave_butterfly_green_counterclockwise" />
+
+        <wave-ref ref="wave_butterfly_green_counterclockwise" />
+
+        <wave-ref ref="wave_butterfly_green_counterclockwise" />
+
+        <wave-ref ref="wave_butterfly_green_counterclockwise" />
+
+        <wave-ref ref="wave_butterfly_green_counterclockwise" />
+
+        <wave-ref ref="wave_butterfly_green_counterclockwise" />
+
+        <wave-ref ref="wave_butterfly_green_counterclockwise" />
+    </wave>
+    
+    <wave name="wave_butterflies_yellow_clockwise" >
+
+        <vertex x="-120" y="0" />
+        
+        <direction-modifier
+            angleend="360"
+            anglestart="0" />
+
+        <wave-ref ref="wave_butterfly_yellow_clockwise" />
+
+        <wave-ref ref="wave_butterfly_yellow_clockwise" />
+
+        <wave-ref ref="wave_butterfly_yellow_clockwise" />
+
+        <wave-ref ref="wave_butterfly_yellow_clockwise" />
+
+        <wave-ref ref="wave_butterfly_yellow_clockwise" />
+
+        <wave-ref ref="wave_butterfly_yellow_clockwise" />
+
+        <wave-ref ref="wave_butterfly_yellow_clockwise" />
+
+        <wave-ref ref="wave_butterfly_yellow_clockwise" />
+
+        <wave-ref ref="wave_butterfly_yellow_clockwise" />
+
+        <wave-ref ref="wave_butterfly_yellow_clockwise" />
+    </wave>
+    
+    <wave name="wave_butterflies_yellow_counterclockwise" >
+
+        <vertex x="120" y="0" />
+        
+        <direction-modifier
+            angleend="0"
+            anglestart="360" />
+
+        <wave-ref ref="wave_butterfly_yellow_counterclockwise" />
+
+        <wave-ref ref="wave_butterfly_yellow_counterclockwise" />
+
+        <wave-ref ref="wave_butterfly_yellow_counterclockwise" />
+
+        <wave-ref ref="wave_butterfly_yellow_counterclockwise" />
+
+        <wave-ref ref="wave_butterfly_yellow_counterclockwise" />
+
+        <wave-ref ref="wave_butterfly_yellow_counterclockwise" />
+
+        <wave-ref ref="wave_butterfly_yellow_counterclockwise" />
+
+        <wave-ref ref="wave_butterfly_yellow_counterclockwise" />
+
+        <wave-ref ref="wave_butterfly_yellow_counterclockwise" />
+
+        <wave-ref ref="wave_butterfly_yellow_counterclockwise" />
     </wave>
 
     <horde name="horde_butterfly" >
 
-        <wave-ref ref="wave_butterflies_clockwise" />
+        <wave-ref ref="wave_butterflies_darkblue_clockwise" />
+
+        <wave-ref ref="wave_butterflies_darkblue_counterclockwise" />
         
-        <wave-ref ref="wave_butterflies_counterclockwise" />
+        <wave-ref ref="wave_butterflies_green_clockwise" />
+
+        <wave-ref ref="wave_butterflies_green_counterclockwise" />
+        
+        <wave-ref ref="wave_butterflies_yellow_clockwise" />
+
+        <wave-ref ref="wave_butterflies_yellow_counterclockwise" />
     </horde>
 
     <enemy
@@ -120,50 +299,64 @@
 
         <horde-ref ref="horde_butterfly" />
     </enemy>
-    
+
     <!-- Circular waved horde -->
-    
+
     <wave
         name="wave_arc"
         bullets="4" >
 
         <bullet-ref ref="arc" />
 
-        <direction-modifier anglestart="0" angleend="30" />
+        <direction-modifier
+            angleend="30"
+            anglestart="0" />
 
         <direction-modifier />
-        
-        <direction-modifier anglestart="45" angleend="-15" />
+
+        <direction-modifier
+            angleend="-15"
+            anglestart="45" />
     </wave>
-    
+
     <wave
         name="wave_arcs"
         bullets="12" >
-        
+
         <direction-modifier
             angleend="360"
             anglestart="0" />
 
         <wave-ref ref="wave_arc" />
+
         <wave-ref ref="wave_arc" />
+
         <wave-ref ref="wave_arc" />
+
         <wave-ref ref="wave_arc" />
+
         <wave-ref ref="wave_arc" />
+
         <wave-ref ref="wave_arc" />
+
         <wave-ref ref="wave_arc" />
+
         <wave-ref ref="wave_arc" />
+
         <wave-ref ref="wave_arc" />
+
         <wave-ref ref="wave_arc" />
+
         <wave-ref ref="wave_arc" />
+
         <wave-ref ref="wave_arc" />
-        
     </wave>
-    
+
     <horde name="horde_arc" >
 
         <wave-ref ref="wave_arcs" />
     </horde>
-    
+
     <enemy
         name="enemy_arc"
         health="100" >
@@ -178,7 +371,7 @@
     </enemy>
 
     <!-- Game -->
-    
+
     <game name="game_name" >
 
         <spawn time="6000" >
@@ -189,7 +382,7 @@
 
             <enemy-ref ref="enemy_butterfly" />
         </spawn>
-        
+
         <spawn time="2000" >
 
             <vertex
