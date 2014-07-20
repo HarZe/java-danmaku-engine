@@ -3,17 +3,14 @@
     <movement name="butterfly" >
 
         <direction
-            acceleration="-400"
-            duration="500"
-            speed="200" />
-
-        <direction
-            acceleration="400"
-            duration="1000"
+            acceleration="30"
+            duration="1500"
             rotation="120"
-            speed="50" />
+            speed="20" />
 
-        <direction speed="-30" />
+        <direction 
+            acceleration="-30"
+            speed="-20" />
     </movement>
 
     <movement name="arc" >

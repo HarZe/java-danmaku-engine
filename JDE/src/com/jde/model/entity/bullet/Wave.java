@@ -178,6 +178,8 @@ public class Wave {
 		else {
 			ArrayList<Bullet> spawnedBullets = new ArrayList<Bullet>();
 
+			// TODO: implement repeat
+			
 			for (Wave w : subWaves)
 				for (Bullet b : applySpawnPosition(w.forward(ms)))
 					spawnedBullets.add(b);
