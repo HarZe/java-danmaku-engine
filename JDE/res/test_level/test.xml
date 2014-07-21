@@ -272,7 +272,9 @@
         <wave-ref ref="wave_butterfly_yellow_counterclockwise" />
     </wave>
 
-    <horde name="horde_butterfly" >
+    <wave name="horde_butterfly" >
+        
+        <direction-modifier />
 
         <wave-ref ref="wave_butterflies_darkblue_clockwise" />
 
@@ -285,7 +287,8 @@
         <wave-ref ref="wave_butterflies_yellow_clockwise" />
 
         <wave-ref ref="wave_butterflies_yellow_counterclockwise" />
-    </horde>
+        
+    </wave>
 
     <enemy
         name="enemy_butterfly"
@@ -297,7 +300,7 @@
 
         <movement-ref ref="move_ghost_up" />
 
-        <horde-ref ref="horde_butterfly" />
+        <wave-ref ref="horde_butterfly" />
     </enemy>
 
     <!-- Circular waved horde -->
@@ -321,7 +324,11 @@
 
     <wave
         name="wave_arcs"
-        bullets="12" >
+        bullets="12"
+        repeat="yes"
+        interval="1000"
+        timestart="0"
+        timeend="1000" >
 
         <direction-modifier
             angleend="360"
@@ -351,12 +358,7 @@
 
         <wave-ref ref="wave_arc" />
     </wave>
-
-    <horde name="horde_arc" >
-
-        <wave-ref ref="wave_arcs" />
-    </horde>
-
+    
     <enemy
         name="enemy_arc"
         health="100" >
@@ -367,14 +369,14 @@
 
         <movement-ref ref="move_ghost_up" />
 
-        <horde-ref ref="horde_arc" />
+        <wave-ref ref="wave_arcs" />
     </enemy>
 
     <!-- Game -->
 
     <game name="game_name" >
 
-        <spawn time="6000" >
+        <spawn time="2000" >
 
             <vertex
                 x="0"
@@ -383,7 +385,7 @@
             <enemy-ref ref="enemy_butterfly" />
         </spawn>
 
-        <spawn time="2000" >
+        <spawn time="6000" >
 
             <vertex
                 x="0"

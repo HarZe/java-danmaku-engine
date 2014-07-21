@@ -13,7 +13,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.jde.model.entity.bullet.Bullet;
-import com.jde.model.entity.bullet.Horde;
 import com.jde.model.entity.bullet.Wave;
 import com.jde.model.entity.enemy.Enemy;
 import com.jde.model.physics.Direction;
@@ -34,7 +33,6 @@ public class Parser {
 	protected HashMap<String, Direction> directions;
 	protected HashMap<String, DirectionModifier> modifiers;
 	protected HashMap<String, Enemy> enemies;
-	protected HashMap<String, Horde> hordes;
 	protected HashMap<String, Sprite> sprites;
 	protected HashMap<String, SpriteSheet> sheets;
 	protected HashMap<String, Movement> movements;
@@ -48,7 +46,6 @@ public class Parser {
 		directions = new HashMap<String, Direction>();
 		modifiers = new HashMap<String, DirectionModifier>();
 		enemies = new HashMap<String, Enemy>();
-		hordes = new HashMap<String, Horde>();
 		sprites = new HashMap<String, Sprite>();
 		sheets = new HashMap<String, SpriteSheet>();
 		movements = new HashMap<String, Movement>();
@@ -82,6 +79,7 @@ public class Parser {
 		} catch (Exception e) {
 			System.err.println("There has been an error while parsing XML");
 			System.err.println(e.getMessage());
+			e.printStackTrace();
 		}
 
 		ArrayList<Stage> stages = new ArrayList<Stage>();
@@ -131,11 +129,6 @@ public class Parser {
 		case "hitbox":
 		case "hitbox-ref":
 			// TODO
-			break;
-
-		case "horde":
-		case "horde-ref":
-			processHorde(node);
 			break;
 
 		case "import":
@@ -377,10 +370,10 @@ public class Parser {
 
 	protected Enemy processEnemy(Node node) throws Exception {
 		Enemy e = null;
-		HitZone hb = null;
+		HitZone h = null;
 		Sprite s = null;
 		Movement m = null;
-		Horde hd = null;
+		Wave w = null;
 
 		if (node.hasAttributes()) {
 			NamedNodeMap nodeMap = node.getAttributes();
@@ -403,16 +396,16 @@ public class Parser {
 					Node currentNode = node.getChildNodes().item(i);
 					if (currentNode.getNodeName().equals("hitbox")
 							|| currentNode.getNodeName().equals("hitbox-ref"))
-						hb = new HitBox(); // TODO
+						h = new HitBox(); // TODO
 					else if (currentNode.getNodeName().equals("movement")
 							|| currentNode.getNodeName().equals("movement-ref"))
 						m = processMovement(currentNode);
 					else if (currentNode.getNodeName().equals("sprite")
 							|| currentNode.getNodeName().equals("sprite-ref"))
 						s = processSprite(currentNode);
-					else if (currentNode.getNodeName().equals("horde")
-							|| currentNode.getNodeName().equals("horde-ref"))
-						hd = processHorde(currentNode);
+					else if (currentNode.getNodeName().equals("wave")
+							|| currentNode.getNodeName().equals("wave-ref"))
+						w = processWave(currentNode);
 				}
 			else
 				throw new Exception(
@@ -421,7 +414,7 @@ public class Parser {
 			if (nodeMap.getNamedItem("health") != null) {
 				double health = Double.parseDouble(nodeMap.getNamedItem(
 						"health").getNodeValue());
-				e = new Enemy(s, hb, m, hd, health);
+				e = new Enemy(s, h, m, w, health);
 			} else
 				throw new Exception("<enemy> with no health declared");
 
@@ -447,49 +440,6 @@ public class Parser {
 				else
 					throw new Exception("<game> must contains only <spawn>");
 			}
-	}
-
-	protected Horde processHorde(Node node) throws Exception {
-		Horde h = null;
-		ArrayList<Wave> waves = new ArrayList<Wave>();
-
-		if (node.hasAttributes()) {
-			NamedNodeMap nodeMap = node.getAttributes();
-
-			if (node.getNodeName().equals("horde-ref")) {
-				if (nodeMap.getNamedItem("ref") != null) {
-					String ref = nodeMap.getNamedItem("ref").getNodeValue();
-
-					if (!hordes.containsKey(ref))
-						throw new Exception("<horde> with name:" + ref
-								+ " is not declared");
-
-					return hordes.get(ref);
-				}
-			}
-
-			if (node.hasChildNodes())
-				for (int i = 1; i < node.getChildNodes().getLength(); i += 2) {
-					Node currentNode = node.getChildNodes().item(i);
-					if (currentNode.getNodeName().equals("wave")
-							|| currentNode.getNodeName().equals("wave-ref"))
-						waves.add(processWave(currentNode));
-				}
-			else
-				throw new Exception("<horde> requieres <wave>");
-
-			h = new Horde(waves);
-
-			if (nodeMap.getNamedItem("name") != null) {
-				String name = nodeMap.getNamedItem("name").getNodeValue();
-				hordes.put(name, h);
-				return h;
-			}
-
-		} else
-			throw new Exception("<horde> with no attributes declared");
-
-		return h;
 	}
 
 	protected void processImport(Node node) throws Exception {

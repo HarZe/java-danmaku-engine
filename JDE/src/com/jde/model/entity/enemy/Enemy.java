@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.jde.model.entity.Entity;
 import com.jde.model.entity.bullet.Bullet;
-import com.jde.model.entity.bullet.Horde;
+import com.jde.model.entity.bullet.Wave;
 import com.jde.model.entity.spawning.Spawnable;
 import com.jde.model.physics.Movement;
 import com.jde.model.physics.collision.HitZone;
@@ -16,19 +16,19 @@ public class Enemy extends Entity implements Spawnable {
 	protected boolean spawned;
 	protected double health;
 	
-	protected Horde horde;
+	protected Wave wave;
 
-	public Enemy(Sprite sprite, HitZone hitbox, Movement movement, Horde horde, double health) {
+	public Enemy(Sprite sprite, HitZone hitbox, Movement movement, Wave wave, double health) {
 		super(sprite, hitbox, movement);
 		this.health = health;
 		this.spawnTime = 0;
 		this.spawned = false;
-		this.horde = null;
+		this.wave = null;
 		lookAtMovingDirection = false;
 		drawingRotateCorretion = false;
 		
-		if (horde != null)
-			this.horde = horde.clone();
+		if (wave != null)
+			this.wave = wave.clone();
 	}
 	
 	public void damage(double dmgPoints) {
@@ -44,16 +44,16 @@ public class Enemy extends Entity implements Spawnable {
 			return null;
 		
 		forward(timeStamp - spawnTime);
-		if (horde != null)
-			return horde.start(spawnTime, timeStamp, movement.getPosition());
+		if (wave != null)
+			return wave.start(timeStamp, movement.getPosition());
 		else
 			return new ArrayList<Bullet>();
 	}
 	
 	public ArrayList<Bullet> forwardAndBullets(double ms) {
 		forward(ms);
-		if (horde != null)
-			return horde.forward(ms);
+		if (wave != null)
+			return wave.forward(ms);
 		else
 			return new ArrayList<Bullet>();
 	}
@@ -82,6 +82,8 @@ public class Enemy extends Entity implements Spawnable {
 	@Override
 	public void setSpawnTime(double spawnTime) {
 		this.spawnTime = spawnTime;
+		if (wave != null)
+			wave.setSpawnTime(spawnTime);
 	}
 
 	@Override
@@ -93,7 +95,7 @@ public class Enemy extends Entity implements Spawnable {
 	 * Warning: this is not a pure cloning, it provides a Enemy template
 	 */
 	public Enemy clone() {
-		Enemy e = new Enemy(sprite, hitbox, movement.clone(), horde.clone(), health);
+		Enemy e = new Enemy(sprite, hitbox, movement.clone(), wave.clone(), health);
 		e.setSpawnTime(spawnTime);
 		return e;
 	}

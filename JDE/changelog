@@ -1,4 +1,9 @@
 
+Version 0.04 (July 21, 2014):
+Removed <horde> and <wave> takes its place, now <wave> can do its job
+Now <wave> can use timestart and timeend on other <wave>
+Combined XML samples, still a lot to test
+
 Version 0.03.7 (July 20, 2014):
 Added spawnpoint combination from <wave> to the insiders <wave>
 New XML sample with all new features
