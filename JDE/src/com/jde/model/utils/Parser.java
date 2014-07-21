@@ -409,7 +409,7 @@ public class Parser {
 				}
 			else
 				throw new Exception(
-						"<enemy> requieres: <hitbox>, <movement>, <horde> and <sprite>");
+						"<enemy> requieres: <hitbox>, <movement>, <wave> and <sprite>");
 
 			if (nodeMap.getNamedItem("health") != null) {
 				double health = Double.parseDouble(nodeMap.getNamedItem(
