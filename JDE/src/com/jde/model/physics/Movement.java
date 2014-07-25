@@ -66,7 +66,7 @@ public class Movement {
 		if (direction.isHoming())
 			direction.setAngle(Vertex.vertexToAngle(direction.getHomingPosition().clone().sub(position)));
 		else if (direction.getDuration() > 0)
-			direction.setAngle(direction.getAngle() + (direction.getRotation()*ms / direction.getDuration()));
+			direction.setAngle(direction.getAngle() + (direction.getRotation() * ms * 0.001));
 		
 		Vertex step = Vertex.angleToVertex(Math.toRadians(direction.getAngle()));
 		step.scale(direction.getSpeed() * ms * 0.001);

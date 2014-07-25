@@ -84,6 +84,11 @@ public class DirectionModifier {
 	}
 
 	public void modify(int step, int total, Direction dir) {
+		
+		if (total == 1)
+			step = 0;
+		else
+			total--;
 
 		double angleStep = (angleEnd - angleStart) * step / total;
 		double rotationStep = (rotationEnd - rotationStart) * step / total;

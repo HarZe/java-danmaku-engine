@@ -225,7 +225,7 @@ public class Wave implements Spawnable {
 			Bullet current = bullet.clone();
 			Movement currentMovement = current.getMovement();
 
-			double timeStep = (timeEnd - timeStart) / bullets;
+			double timeStep = (bullets > 1) ? (timeEnd - timeStart) / (bullets - 1) : 0;
 
 			currentMovement.setPosition(spawnPoint.clone());	// TODO: check if necessary
 			current.setSpawnTime(time);
@@ -248,7 +248,7 @@ public class Wave implements Spawnable {
 		double time = timeStamp;
 		int total = subWaves.size();
 		int step = 0;
-		double timeStep = (timeEnd - timeStart) / total;
+		double timeStep = (total > 1) ? (timeEnd - timeStart) / (total - 1) : 0;
 
 		for (Wave w : subWaves) {
 

@@ -3,6 +3,7 @@ package com.jde.model.utils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -28,6 +29,8 @@ import com.jde.view.sprites.Sprite;
 import com.jde.view.sprites.SpriteSheet;
 
 public class Parser {
+	
+	protected HashSet<String> importedFiles;
 
 	protected HashMap<String, Bullet> bullets;
 	protected HashMap<String, Direction> directions;
@@ -42,6 +45,8 @@ public class Parser {
 	protected ArrayList<Enemy> spawns;
 
 	public Parser() {
+		importedFiles = new HashSet<String>();
+		
 		bullets = new HashMap<String, Bullet>();
 		directions = new HashMap<String, Direction>();
 		modifiers = new HashMap<String, DirectionModifier>();
@@ -448,6 +453,11 @@ public class Parser {
 
 			if (nodeMap.getNamedItem("file") != null) {
 				String filename = nodeMap.getNamedItem("file").getNodeValue();
+				
+				if (importedFiles.contains(filename))
+					return;
+				else
+					importedFiles.add(filename);
 
 				File file = new File(filename);
 

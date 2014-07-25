@@ -1,4 +1,9 @@
 
+Version 0.04.1 (July 25, 2014):
+Added XML import duplication protection
+Fixed attributes with "start" and "end" values not using the "end" value in last iteration
+Rotation is now measured in degrees/second
+
 Version 0.04 (July 21, 2014):
 Removed <horde> and <wave> takes its place, now <wave> can do its job
 Now <wave> can use timestart and timeend on other <wave>

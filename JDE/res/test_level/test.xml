@@ -312,7 +312,7 @@
         <bullet-ref ref="arc" />
 
         <direction-modifier
-            angleend="30"
+            angleend="22.5"
             anglestart="0" />
 
         <direction-modifier />
@@ -328,10 +328,10 @@
         repeat="yes"
         interval="1000"
         timestart="0"
-        timeend="1000" >
+        timeend="500" >
 
         <direction-modifier
-            angleend="360"
+            angleend="330"
             anglestart="0" />
 
         <wave-ref ref="wave_arc" />
