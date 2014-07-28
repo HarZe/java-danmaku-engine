@@ -33,9 +33,14 @@
     <movement name="random" >
 
         <direction
-            speed="50"
+            speed="400"
+            acceleration="-600"
             random-angle-offset="360"
-            random-speed-offset="40" />
+            random-speed-offset="40"
+            random-acceleration-offset="50"
+            duration="500" />
+        
+        <direction acceleration="600" />
 
     </movement>
 

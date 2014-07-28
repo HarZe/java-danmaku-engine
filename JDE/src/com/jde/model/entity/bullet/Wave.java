@@ -176,7 +176,7 @@ public class Wave implements Spawnable {
 			spawnerBullets = new Spawner<Bullet>(timeStarted);
 			spawnerBullets.addSpawnables(getBulletWave(timeStarted));
 			return applySpawnPosition(spawnerBullets.forward(timeStamp
-					- timeStart));
+					- timeStarted));
 		} 
 		else {
 			spawnerWaves = new Spawner<Wave>(timeStarted);

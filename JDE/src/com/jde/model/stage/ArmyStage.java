@@ -79,6 +79,7 @@ public class ArmyStage implements Stage {
 			// Spawn bullets from them
 			for (Bullet b : e.spawnAndBullets(elapsed)) {
 				b.spawn(elapsed);
+				System.out.println(b.spawnTime());
 				bullets.add(b);
 			}
 		}

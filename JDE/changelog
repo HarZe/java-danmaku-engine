@@ -1,3 +1,7 @@
+Version 0.05.1 (July 28, 2014):
+Fixed wave time calculation not working properly
+Modified XML sample
+
 Version 0.05 (July 27, 2014):
 Renamed XML attributes with multiple words for a better reading
 Added <wave> absolute spawn position

@@ -255,7 +255,7 @@
         name="wave_stamps"
         bullets="250"
         time-start="0"
-        time-end="10000" >
+        time-end="3000" >
 
         <bullet-ref ref="stamp" />
         
@@ -278,7 +278,7 @@
 
     <game name="game_name" >
 
-        <spawn time="10000" >
+        <spawn time="2000" >
 
             <vertex
                 x="0"
@@ -296,7 +296,7 @@
             <enemy-ref ref="enemy_arc" />
         </spawn>
         
-        <spawn time="2000" >
+        <spawn time="10000" >
 
             <vertex
                 x="0"
