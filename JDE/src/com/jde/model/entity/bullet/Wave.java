@@ -33,9 +33,12 @@ public class Wave implements Spawnable {
 	protected double timeEnd = 0;
 
 	protected int bullets = 1;
+	protected int waves = 1;
 
 	protected boolean repeat = false;
 	protected double interval = 0;
+	
+	protected boolean absolute = false;
 
 	public Wave(Bullet bullet) {
 		this.spawnerBullets = new Spawner<Bullet>(0);
@@ -97,6 +100,14 @@ public class Wave implements Spawnable {
 		this.bullets = bullets;
 	}
 
+	public int getWaves() {
+		return waves;
+	}
+
+	public void setWaves(int waves) {
+		this.waves = waves;
+	}
+
 	public boolean isRepeat() {
 		return repeat;
 	}
@@ -123,6 +134,14 @@ public class Wave implements Spawnable {
 
 	public ArrayList<Wave> getSubWaves() {
 		return subWaves;
+	}
+
+	public boolean isAbsolute() {
+		return absolute;
+	}
+
+	public void setAbsolute(boolean absolute) {
+		this.absolute = absolute;
 	}
 
 	@Override
@@ -236,6 +255,7 @@ public class Wave implements Spawnable {
 			for (int j = 0; j < Math.min(modifiers.size(), bulletDirs.size()); j++)
 				modifiers.get(j).modify(i, bullets, bulletDirs.get(j));
 
+			currentMovement.applyRandomization();
 			bulletList.add(current);
 		}
 
@@ -246,28 +266,31 @@ public class Wave implements Spawnable {
 
 		ArrayList<Wave> newWaves = new ArrayList<Wave>();
 		double time = timeStamp;
-		int total = subWaves.size();
+		int total = subWaves.size() * waves;
 		int step = 0;
 		double timeStep = (total > 1) ? (timeEnd - timeStart) / (total - 1) : 0;
 
-		for (Wave w : subWaves) {
-
-			Wave gw = w.clone();
-			gw.setSpawnTime(time);
-			time += timeStep;
-
-			modifyWave(gw, modifiers.get(0), step, total);
-			newWaves.add(gw);
-			step++;
-		}
+		for (Wave w : subWaves)
+			for (int i = 0; i < waves; i++) {
+				Wave gw = w.clone();
+				gw.setSpawnTime(time);
+				time += timeStep;
+	
+				modifyWave(gw, modifiers.get(0), step, total);
+				newWaves.add(gw);
+				step++;
+			}
 
 		return newWaves;
 	}
 
 	public ArrayList<Bullet> applySpawnPosition(ArrayList<Bullet> bullets) {
+		Vertex spawnPos = absolute ? new Vertex(223, 240) : spawnOrigin; // Center of the game zone
+		
 		for (Bullet b : bullets)
 			b.getMovement().setPosition(
-					b.getMovement().getPosition().add(spawnOrigin));
+					b.getMovement().getPosition().add(spawnPos));
+		
 		return bullets;
 	}
 
@@ -305,9 +328,13 @@ public class Wave implements Spawnable {
 		w.setTimeStart(timeStart);
 
 		w.setBullets(bullets);
+		w.setWaves(waves);
 		w.setInterval(interval);
 		w.setRepeat(repeat);
+		w.setAbsolute(absolute);
 		w.setSpawnPoint(spawnPoint.clone());
+		
+		w.setSpawnTime(spawnTime);
 
 		return w;
 	}

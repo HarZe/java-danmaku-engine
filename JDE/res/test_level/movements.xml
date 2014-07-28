@@ -5,7 +5,7 @@
         <direction
             acceleration="30"
             duration="1500"
-            rotation="120"
+            rotation="80"
             speed="20" />
 
         <direction 
@@ -28,6 +28,15 @@
         <direction
             acceleration="10"
             speed="50" />
+    </movement>
+    
+    <movement name="random" >
+
+        <direction
+            speed="50"
+            random-angle-offset="360"
+            random-speed-offset="40" />
+
     </movement>
 
     <movement name="move_ghost_up" >

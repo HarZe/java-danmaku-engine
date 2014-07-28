@@ -1,3 +1,10 @@
+Version 0.05 (July 27, 2014):
+Renamed XML attributes with multiple words for a better reading
+Added <wave> absolute spawn position
+Added <wave> attribute: waves (to repeat all the waves counting)
+Added new <direction> attributes:
+- motion: rotation acceleration
+- random offsets for all the attributes (default 0)
 
 Version 0.04.1 (July 25, 2014):
 Added XML import duplication protection

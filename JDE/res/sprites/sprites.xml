@@ -27,6 +27,15 @@
         y="32" />
     
     <sprite
+        name="bullet_stamp_red_halfsize"
+        h="32"
+        scaling="0.5"
+        sheet="touhou_bullets"
+        w="32"
+        x="64"
+        y="224" />
+    
+    <sprite
         name="bullet_butterfly_gray"
         h="64"
         scaling="0.5"

@@ -25,8 +25,8 @@
         <direction-modifier />
 
         <direction-modifier
-            accelerationend="100"
-            accelerationstart="0" />
+            acceleration-end="100"
+            acceleration-start="0" />
     </wave>
 
     <wave
@@ -36,12 +36,12 @@
         <bullet-ref ref="butterfly_darkblue" />
 
         <direction-modifier
-            rotationend="-240"
-            rotationstart="-240" />
+            rotation-end="-160"
+            rotation-start="-160" />
 
         <direction-modifier
-            accelerationend="100"
-            accelerationstart="0" />
+            acceleration-end="100"
+            acceleration-start="0" />
     </wave>
 
     <wave
@@ -53,8 +53,8 @@
         <direction-modifier />
 
         <direction-modifier
-            accelerationend="100"
-            accelerationstart="0" />
+            acceleration-end="100"
+            acceleration-start="0" />
     </wave>
 
     <wave
@@ -64,12 +64,12 @@
         <bullet-ref ref="butterfly_green" />
 
         <direction-modifier
-            rotationend="-240"
-            rotationstart="-240" />
+            rotation-end="-160"
+            rotation-start="-160" />
 
         <direction-modifier
-            accelerationend="100"
-            accelerationstart="0" />
+            acceleration-end="100"
+            acceleration-start="0" />
     </wave>
     
     <wave
@@ -81,8 +81,8 @@
         <direction-modifier />
 
         <direction-modifier
-            accelerationend="100"
-            accelerationstart="0" />
+            acceleration-end="100"
+            acceleration-start="0" />
     </wave>
 
     <wave
@@ -92,184 +92,82 @@
         <bullet-ref ref="butterfly_yellow" />
 
         <direction-modifier
-            rotationend="-240"
-            rotationstart="-240" />
+            rotation-end="-160"
+            rotation-start="-160" />
 
         <direction-modifier
-            accelerationend="100"
-            accelerationstart="0" />
+            acceleration-end="100"
+            acceleration-start="0" />
     </wave>
     
     <!-- Complex waves -->
     
-    <wave name="wave_butterflies_darkblue_clockwise" >
+    <wave name="wave_butterflies_darkblue_clockwise" waves="10" >
 
         <direction-modifier
-            angleend="360"
-            anglestart="0" />
+            angle-end="360"
+            angle-start="0" />
 
         <wave-ref ref="wave_butterfly_darkblue_clockwise" />
 
-        <wave-ref ref="wave_butterfly_darkblue_clockwise" />
-
-        <wave-ref ref="wave_butterfly_darkblue_clockwise" />
-
-        <wave-ref ref="wave_butterfly_darkblue_clockwise" />
-
-        <wave-ref ref="wave_butterfly_darkblue_clockwise" />
-
-        <wave-ref ref="wave_butterfly_darkblue_clockwise" />
-
-        <wave-ref ref="wave_butterfly_darkblue_clockwise" />
-
-        <wave-ref ref="wave_butterfly_darkblue_clockwise" />
-
-        <wave-ref ref="wave_butterfly_darkblue_clockwise" />
-
-        <wave-ref ref="wave_butterfly_darkblue_clockwise" />
     </wave>
 
-    <wave name="wave_butterflies_darkblue_counterclockwise" >
+    <wave name="wave_butterflies_darkblue_counterclockwise" waves="10" >
 
         <direction-modifier
-            angleend="0"
-            anglestart="360" />
+            angle-end="0"
+            angle-start="360" />
 
         <wave-ref ref="wave_butterfly_darkblue_counterclockwise" />
 
-        <wave-ref ref="wave_butterfly_darkblue_counterclockwise" />
-
-        <wave-ref ref="wave_butterfly_darkblue_counterclockwise" />
-
-        <wave-ref ref="wave_butterfly_darkblue_counterclockwise" />
-
-        <wave-ref ref="wave_butterfly_darkblue_counterclockwise" />
-
-        <wave-ref ref="wave_butterfly_darkblue_counterclockwise" />
-
-        <wave-ref ref="wave_butterfly_darkblue_counterclockwise" />
-
-        <wave-ref ref="wave_butterfly_darkblue_counterclockwise" />
-
-        <wave-ref ref="wave_butterfly_darkblue_counterclockwise" />
-
-        <wave-ref ref="wave_butterfly_darkblue_counterclockwise" />
     </wave>
     
-    <wave name="wave_butterflies_green_clockwise" >
+    <wave name="wave_butterflies_green_clockwise" waves="10" >
 
         <vertex x="60" y="10" />
         
         <direction-modifier
-            angleend="360"
-            anglestart="0" />
+            angle-end="360"
+            angle-start="0" />
 
         <wave-ref ref="wave_butterfly_green_clockwise" />
 
-        <wave-ref ref="wave_butterfly_green_clockwise" />
-
-        <wave-ref ref="wave_butterfly_green_clockwise" />
-
-        <wave-ref ref="wave_butterfly_green_clockwise" />
-
-        <wave-ref ref="wave_butterfly_green_clockwise" />
-
-        <wave-ref ref="wave_butterfly_green_clockwise" />
-
-        <wave-ref ref="wave_butterfly_green_clockwise" />
-
-        <wave-ref ref="wave_butterfly_green_clockwise" />
-
-        <wave-ref ref="wave_butterfly_green_clockwise" />
-
-        <wave-ref ref="wave_butterfly_green_clockwise" />
     </wave>
     
-    <wave name="wave_butterflies_green_counterclockwise" >
+    <wave name="wave_butterflies_green_counterclockwise" waves="10" >
 
         <vertex x="-60" y="10" />
         
         <direction-modifier
-            angleend="0"
-            anglestart="360" />
+            angle-end="0"
+            angle-start="360" />
 
         <wave-ref ref="wave_butterfly_green_counterclockwise" />
 
-        <wave-ref ref="wave_butterfly_green_counterclockwise" />
-
-        <wave-ref ref="wave_butterfly_green_counterclockwise" />
-
-        <wave-ref ref="wave_butterfly_green_counterclockwise" />
-
-        <wave-ref ref="wave_butterfly_green_counterclockwise" />
-
-        <wave-ref ref="wave_butterfly_green_counterclockwise" />
-
-        <wave-ref ref="wave_butterfly_green_counterclockwise" />
-
-        <wave-ref ref="wave_butterfly_green_counterclockwise" />
-
-        <wave-ref ref="wave_butterfly_green_counterclockwise" />
-
-        <wave-ref ref="wave_butterfly_green_counterclockwise" />
     </wave>
     
-    <wave name="wave_butterflies_yellow_clockwise" >
+    <wave name="wave_butterflies_yellow_clockwise" waves="10" >
 
         <vertex x="-120" y="0" />
         
         <direction-modifier
-            angleend="360"
-            anglestart="0" />
+            angle-end="360"
+            angle-start="0" />
 
         <wave-ref ref="wave_butterfly_yellow_clockwise" />
 
-        <wave-ref ref="wave_butterfly_yellow_clockwise" />
-
-        <wave-ref ref="wave_butterfly_yellow_clockwise" />
-
-        <wave-ref ref="wave_butterfly_yellow_clockwise" />
-
-        <wave-ref ref="wave_butterfly_yellow_clockwise" />
-
-        <wave-ref ref="wave_butterfly_yellow_clockwise" />
-
-        <wave-ref ref="wave_butterfly_yellow_clockwise" />
-
-        <wave-ref ref="wave_butterfly_yellow_clockwise" />
-
-        <wave-ref ref="wave_butterfly_yellow_clockwise" />
-
-        <wave-ref ref="wave_butterfly_yellow_clockwise" />
     </wave>
     
-    <wave name="wave_butterflies_yellow_counterclockwise" >
+    <wave name="wave_butterflies_yellow_counterclockwise" waves="10" >
 
         <vertex x="120" y="0" />
         
         <direction-modifier
-            angleend="0"
-            anglestart="360" />
+            angle-end="0"
+            angle-start="360" />
 
         <wave-ref ref="wave_butterfly_yellow_counterclockwise" />
 
-        <wave-ref ref="wave_butterfly_yellow_counterclockwise" />
-
-        <wave-ref ref="wave_butterfly_yellow_counterclockwise" />
-
-        <wave-ref ref="wave_butterfly_yellow_counterclockwise" />
-
-        <wave-ref ref="wave_butterfly_yellow_counterclockwise" />
-
-        <wave-ref ref="wave_butterfly_yellow_counterclockwise" />
-
-        <wave-ref ref="wave_butterfly_yellow_counterclockwise" />
-
-        <wave-ref ref="wave_butterfly_yellow_counterclockwise" />
-
-        <wave-ref ref="wave_butterfly_yellow_counterclockwise" />
-
-        <wave-ref ref="wave_butterfly_yellow_counterclockwise" />
     </wave>
 
     <wave name="horde_butterfly" >
@@ -312,14 +210,14 @@
         <bullet-ref ref="arc" />
 
         <direction-modifier
-            angleend="22.5"
-            anglestart="0" />
+            angle-end="22.5"
+            angle-start="0" />
 
         <direction-modifier />
 
         <direction-modifier
-            angleend="-15"
-            anglestart="45" />
+            angle-end="-15"
+            angle-start="45" />
     </wave>
 
     <wave
@@ -327,36 +225,16 @@
         bullets="12"
         repeat="yes"
         interval="1000"
-        timestart="0"
-        timeend="500" >
+        time-start="0"
+        time-end="500"
+        waves="12" >
 
         <direction-modifier
-            angleend="330"
-            anglestart="0" />
+            angle-end="330"
+            angle-start="0" />
 
         <wave-ref ref="wave_arc" />
-
-        <wave-ref ref="wave_arc" />
-
-        <wave-ref ref="wave_arc" />
-
-        <wave-ref ref="wave_arc" />
-
-        <wave-ref ref="wave_arc" />
-
-        <wave-ref ref="wave_arc" />
-
-        <wave-ref ref="wave_arc" />
-
-        <wave-ref ref="wave_arc" />
-
-        <wave-ref ref="wave_arc" />
-
-        <wave-ref ref="wave_arc" />
-
-        <wave-ref ref="wave_arc" />
-
-        <wave-ref ref="wave_arc" />
+        
     </wave>
     
     <enemy
@@ -371,12 +249,36 @@
 
         <wave-ref ref="wave_arcs" />
     </enemy>
+    
+    <!-- Random bullets -->
+    <wave
+        name="wave_stamps"
+        bullets="250"
+        time-start="0"
+        time-end="10000" >
+
+        <bullet-ref ref="stamp" />
+        
+    </wave>
+    
+    <enemy
+        name="enemy_stamps"
+        health="100" >
+
+        <hitbox-ref ref="hitbox_ghost" />
+
+        <sprite-ref ref="sprite_ghost" />
+
+        <movement-ref ref="move_ghost_up" />
+
+        <wave-ref ref="wave_stamps" />
+    </enemy>
 
     <!-- Game -->
 
     <game name="game_name" >
 
-        <spawn time="2000" >
+        <spawn time="10000" >
 
             <vertex
                 x="0"
@@ -392,6 +294,15 @@
                 y="100" />
 
             <enemy-ref ref="enemy_arc" />
+        </spawn>
+        
+        <spawn time="2000" >
+
+            <vertex
+                x="0"
+                y="-100" />
+
+            <enemy-ref ref="enemy_stamps" />
         </spawn>
     </game>
 

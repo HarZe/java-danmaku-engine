@@ -24,6 +24,7 @@ public class Bullet extends Entity implements Spawnable {
 
 		spawned = true;
 		movement.setPosition(movement.getPosition().clone());
+		//movement.applyRandomization();
 		forward(timeStamp - spawnTime);
 	}
 

@@ -1,6 +1,7 @@
 package com.jde.view;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
 
@@ -10,12 +11,14 @@ import com.jde.view.sprites.SpriteSheet;
 
 public class Game {
 	
-	protected String VERSION = "pre-alpha 0.04.1";
+	protected String VERSION = "pre-alpha 0.05";
 	
 	protected HUD hud;
 	
 	protected ArrayList<Stage> stages;
 	protected int currentStage;
+	
+	public static Random random = new Random();
 
 	public Game(ArrayList<Stage> stages) {
 		SpriteSheet hudsheet = new SpriteSheet("res/sprites/hud.png");

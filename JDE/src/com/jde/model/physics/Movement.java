@@ -49,6 +49,7 @@ public class Movement {
 			
 			newDir.setAngle(newDir.getAngle() + direction.getAngle());
 			newDir.setRotation(newDir.getRotation() + direction.getRotation());
+			newDir.setMotion(newDir.getMotion() + direction.getMotion());
 			newDir.setSpeed(newDir.getSpeed() + direction.getSpeed());
 			newDir.setAcceleration(newDir.getAcceleration() + direction.getAcceleration());
 			
@@ -62,6 +63,7 @@ public class Movement {
 	
 	private void forwardAux(double ms) {
 		direction.setSpeed(direction.getSpeed() + direction.getAcceleration() * ms * 0.001);
+		direction.setRotation(direction.getRotation() + direction.getMotion() * ms * 0.001);
 		
 		if (direction.isHoming())
 			direction.setAngle(Vertex.vertexToAngle(direction.getHomingPosition().clone().sub(position)));
@@ -71,6 +73,11 @@ public class Movement {
 		Vertex step = Vertex.angleToVertex(Math.toRadians(direction.getAngle()));
 		step.scale(direction.getSpeed() * ms * 0.001);
 		position.add(step);
+	}
+	
+	public void applyRandomization() {
+		for (Direction d : directions)
+			d.applyRandomitazion();
 	}
 
 	public Movement clone() {
