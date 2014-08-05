@@ -377,6 +377,11 @@ public class Parser {
 						"random-angle-offset-end").getNodeValue());
 				d.setRandomAngleOffsetEnd(randomAngleOffsetEnd);
 			}
+			if (nodeMap.getNamedItem("angle-exponent") != null) {
+				double angleExponent = Double.parseDouble(nodeMap.getNamedItem(
+						"angle-exponent").getNodeValue());
+				d.setAngleExponent(angleExponent);
+			}
 			if (nodeMap.getNamedItem("rotation-start") != null) {
 				double rotationStart = Double.parseDouble(nodeMap.getNamedItem(
 						"rotation-start").getNodeValue());
@@ -392,10 +397,40 @@ public class Parser {
 						"rotation-end").getNodeValue());
 				d.setRotationEnd(rotationEnd);
 			}
+			if (nodeMap.getNamedItem("random-motion-offset-end") != null) {
+				double randomMotionOffsetEnd = Double.parseDouble(nodeMap.getNamedItem(
+						"random-moation-offset-end").getNodeValue());
+				d.setRandomMotionOffsetEnd(randomMotionOffsetEnd);
+			}
+			if (nodeMap.getNamedItem("rotation-exponent") != null) {
+				double rotationExponent = Double.parseDouble(nodeMap.getNamedItem(
+						"rotation-exponent").getNodeValue());
+				d.setRotationExponent(rotationExponent);
+			}
+			if (nodeMap.getNamedItem("motion-start") != null) {
+				double motionStart = Double.parseDouble(nodeMap.getNamedItem(
+						"motion-start").getNodeValue());
+				d.setMotionStart(motionStart);
+			}
+			if (nodeMap.getNamedItem("random-motion-offset-start") != null) {
+				double randomMotionOffsetStart = Double.parseDouble(nodeMap.getNamedItem(
+						"random-motion-offset-start").getNodeValue());
+				d.setRandomMotionOffsetStart(randomMotionOffsetStart);
+			}
+			if (nodeMap.getNamedItem("motion-end") != null) {
+				double motionEnd = Double.parseDouble(nodeMap.getNamedItem(
+						"motion-end").getNodeValue());
+				d.setMotionEnd(motionEnd);
+			}
 			if (nodeMap.getNamedItem("random-rotation-offset-end") != null) {
 				double randomRotationOffsetEnd = Double.parseDouble(nodeMap.getNamedItem(
 						"random-rotation-offset-end").getNodeValue());
 				d.setRandomRotationOffsetEnd(randomRotationOffsetEnd);
+			}
+			if (nodeMap.getNamedItem("motion-exponent") != null) {
+				double motionExponent = Double.parseDouble(nodeMap.getNamedItem(
+						"motion-exponent").getNodeValue());
+				d.setMotionExponent(motionExponent);
 			}
 			if (nodeMap.getNamedItem("speed-start") != null) {
 				double speedStart = Double.parseDouble(nodeMap.getNamedItem(
@@ -417,6 +452,11 @@ public class Parser {
 						"random-speed-offset-end").getNodeValue());
 				d.setRandomSpeedOffsetEnd(randomSpeedOffsetEnd);
 			}
+			if (nodeMap.getNamedItem("speed-exponent") != null) {
+				double speedExponent = Double.parseDouble(nodeMap.getNamedItem(
+						"speed-exponent").getNodeValue());
+				d.setSpeedExponent(speedExponent);
+			}
 			if (nodeMap.getNamedItem("acceleration-start") != null) {
 				double accelerationStart = Double.parseDouble(nodeMap.getNamedItem(
 						"acceleration-start").getNodeValue());
@@ -436,6 +476,11 @@ public class Parser {
 				double randomAccelerationOffsetEnd = Double.parseDouble(nodeMap.getNamedItem(
 						"random-acceleration-offset-end").getNodeValue());
 				d.setRandomAccelerationOffsetEnd(randomAccelerationOffsetEnd);
+			}
+			if (nodeMap.getNamedItem("acceleration-exponent") != null) {
+				double accelerationExponent = Double.parseDouble(nodeMap.getNamedItem(
+						"acceleration-exponent").getNodeValue());
+				d.setAccelerationExponent(accelerationExponent);
 			}
 
 			if (nodeMap.getNamedItem("name") != null) {

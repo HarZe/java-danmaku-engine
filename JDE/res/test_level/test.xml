@@ -255,7 +255,8 @@
         name="wave_stamps"
         bullets="250"
         time-start="0"
-        time-end="3000" >
+        time-end="3000"
+        exponent="0.5" >
 
         <bullet-ref ref="stamp" />
         
@@ -279,14 +280,14 @@
         name="simple_spiral"
         bullets="250"
         time-start="0"
-        time-end="10000"
-        exponent="0.5" >
+        time-end="10000" >
 
         <bullet-ref ref="simple_gray" />
         
         <direction-modifier
             angle-end="1000"
-            angle-start="0" />
+            angle-start="0"
+            angle-exponent="3" />
         
     </wave>
     

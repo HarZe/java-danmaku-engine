@@ -10,6 +10,9 @@ public class DirectionModifier {
 	protected double rotationStart = 0;
 	protected double rotationEnd = 0;
 
+	protected double motionStart = 0;
+	protected double motionEnd = 0;
+	
 	protected double speedStart = 0;
 	protected double speedEnd = 0;
 
@@ -32,6 +35,13 @@ public class DirectionModifier {
 	protected double randomAccelerationOffsetStart = 0;
 	protected double randomAccelerationOffsetEnd = 0;
 
+	// Exponent modifiers
+	protected double angleExponent = 1;
+	protected double rotationExponent = 1;
+	protected double motionExponent = 1;
+	protected double speedExponent = 1;
+	protected double accelerationExponent = 1;
+	
 	public DirectionModifier() {
 
 	}
@@ -66,6 +76,22 @@ public class DirectionModifier {
 
 	public void setRotationEnd(double rotationEnd) {
 		this.rotationEnd = rotationEnd;
+	}
+
+	public double getMotionStart() {
+		return motionStart;
+	}
+
+	public void setMotionStart(double motionStart) {
+		this.motionStart = motionStart;
+	}
+
+	public double getMotionEnd() {
+		return motionEnd;
+	}
+
+	public void setMotionEnd(double motionEnd) {
+		this.motionEnd = motionEnd;
 	}
 
 	public double getSpeedStart() {
@@ -181,37 +207,82 @@ public class DirectionModifier {
 		this.randomMotionOffsetEnd = randomMotionOffsetEnd;
 	}
 
+	public double getAngleExponent() {
+		return angleExponent;
+	}
+
+	public void setAngleExponent(double angleExponent) {
+		this.angleExponent = angleExponent;
+	}
+
+	public double getRotationExponent() {
+		return rotationExponent;
+	}
+
+	public void setRotationExponent(double rotationExponent) {
+		this.rotationExponent = rotationExponent;
+	}
+
+	public double getMotionExponent() {
+		return motionExponent;
+	}
+
+	public void setMotionExponent(double motionExponent) {
+		this.motionExponent = motionExponent;
+	}
+
+	public double getSpeedExponent() {
+		return speedExponent;
+	}
+
+	public void setSpeedExponent(double speedExponent) {
+		this.speedExponent = speedExponent;
+	}
+
+	public double getAccelerationExponent() {
+		return accelerationExponent;
+	}
+
+	public void setAccelerationExponent(double accelerationExponent) {
+		this.accelerationExponent = accelerationExponent;
+	}
+
 	public void modify(int step, int total, Direction dir) {
 		
 		if (total == 1)
 			step = 0;
 		else
 			total--;
+		
+		double fixedStep = ((double) step) / total;
 
-		double angleStep = (angleEnd - angleStart) * step / total;
-		double rotationStep = (rotationEnd - rotationStart) * step / total;
-		double speedStep = (speedEnd - speedStart) * step / total;
-		double accelerationStep = (accelerationEnd - accelerationStart) * step / total;
-		double randomAngleOffsetStep = (randomAngleOffsetEnd - randomAngleOffsetStart) * step / total;
-		double randomRotationOffsetStep = (randomRotationOffsetEnd - randomRotationOffsetStart) * step / total;
-		double randomMotionOffsetStep = (randomMotionOffsetEnd - randomMotionOffsetStart) * step / total;
-		double randomSpeedOffsetStep = (randomSpeedOffsetEnd - randomSpeedOffsetStart) * step / total;
-		double randomAccelerationOffsetStep = (randomAccelerationOffsetEnd - randomAccelerationOffsetStart) * step / total;
-
-		double angle = angleStart + angleStep;
-		double rotation = rotationStart + rotationStep;
-		double speed = speedStart + speedStep;
-		double acceleration = accelerationStart + accelerationStep;
+		// Exponential parameter calculus
+		double angle = angleStart + (angleEnd - angleStart)*Math.pow(fixedStep, angleExponent);
+		double rotation = rotationStart + (rotationEnd - rotationStart)*Math.pow(fixedStep, rotationExponent);
+		double motion = motionStart + (motionEnd - motionStart)*Math.pow(fixedStep, motionExponent);
+		double speed = speedStart + (speedEnd - speedStart)*Math.pow(fixedStep, speedExponent);
+		double acceleration = accelerationStart + (accelerationEnd - accelerationStart)*Math.pow(fixedStep, accelerationExponent);
+		
+		// Random offsets linear calculus
+		double randomAngleOffsetStep = (randomAngleOffsetEnd - randomAngleOffsetStart) * fixedStep;
+		double randomRotationOffsetStep = (randomRotationOffsetEnd - randomRotationOffsetStart) * fixedStep;
+		double randomMotionOffsetStep = (randomMotionOffsetEnd - randomMotionOffsetStart) * fixedStep;
+		double randomSpeedOffsetStep = (randomSpeedOffsetEnd - randomSpeedOffsetStart) * fixedStep;
+		double randomAccelerationOffsetStep = (randomAccelerationOffsetEnd - randomAccelerationOffsetStart) * fixedStep;
+		
 		double randomAngleOffset = randomAngleOffsetStart + randomAngleOffsetStep;
 		double randomRotationOffset = randomRotationOffsetStart + randomRotationOffsetStep;
 		double randomMotionOffset = randomMotionOffsetStart + randomMotionOffsetStep;
 		double randomSpeedOffset = randomSpeedOffsetStart + randomSpeedOffsetStep;
 		double randomAccelerationOffset = randomAccelerationOffsetStart + randomAccelerationOffsetStep;
 
+		// Final sets
 		dir.setAngle(dir.getAngle() + angle);
 		dir.setRotation(dir.getRotation() + rotation);
+		dir.setMotion(dir.getMotion() + motion);
 		dir.setSpeed(dir.getSpeed() + speed);
 		dir.setAcceleration(dir.getAcceleration() + acceleration);
+		
 		dir.setRandomAngleOffset(dir.getRandomAngleOffset() + randomAngleOffset);
 		dir.setRandomRotationOffset(dir.getRandomRotationOffset() + randomRotationOffset);
 		dir.setRandomMotionOffset(dir.getRandomMotionOffset() + randomMotionOffset);
@@ -226,10 +297,13 @@ public class DirectionModifier {
 		d.setAngleEnd(angleEnd);
 		d.setRotationStart(rotationStart);
 		d.setRotationEnd(rotationEnd);
+		d.setMotionStart(motionStart);
+		d.setMotionEnd(motionEnd);
 		d.setSpeedStart(speedStart);
 		d.setSpeedEnd(speedEnd);
 		d.setAccelerationStart(accelerationStart);
 		d.setAccelerationEnd(accelerationEnd);
+		
 		d.setRandomAngleOffsetStart(randomAngleOffsetStart);
 		d.setRandomAngleOffsetEnd(randomAngleOffsetEnd);
 		d.setRandomRotationOffsetStart(randomRotationOffsetStart);
@@ -240,6 +314,12 @@ public class DirectionModifier {
 		d.setRandomRotationOffsetEnd(randomRotationOffsetEnd);
 		d.setRandomAccelerationOffsetStart(randomAccelerationOffsetStart);
 		d.setRandomAccelerationOffsetEnd(randomAccelerationOffsetEnd);
+		
+		d.setAngleExponent(angleExponent);
+		d.setRotationExponent(rotationExponent);
+		d.setMotionExponent(motionExponent);
+		d.setSpeedExponent(speedExponent);
+		d.setAccelerationExponent(accelerationExponent);
 
 		return d;
 	}
