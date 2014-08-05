@@ -317,6 +317,11 @@ public class Parser {
 						"random-acceleration-offset").getNodeValue());
 				d.setRandomAccelerationOffset(randomaccelerationoffset);
 			}
+			if (nodeMap.getNamedItem("inheritance") != null) {
+				if (nodeMap.getNamedItem("inheritance").getNodeValue()
+						.equalsIgnoreCase("no"))
+					d.setInheritance(false);
+			}
 			if (nodeMap.getNamedItem("duration") != null) {
 				double duration = Double.parseDouble(nodeMap.getNamedItem(
 						"duration").getNodeValue());
@@ -847,9 +852,9 @@ public class Parser {
 				w.setWaves(waves);
 			}
 			if (nodeMap.getNamedItem("repeat") != null) {
-				if (nodeMap.getNamedItem("repeat").getNodeValue()
-						.equalsIgnoreCase("yes"))
-					w.setRepeat(true);
+				int repeat = Integer.parseInt(nodeMap.getNamedItem(
+						"repeat").getNodeValue());
+				w.setRepeat(repeat);
 			}
 			if (nodeMap.getNamedItem("interval") != null) {
 				double interval = Double.parseDouble(nodeMap.getNamedItem(
@@ -860,6 +865,11 @@ public class Parser {
 				if (nodeMap.getNamedItem("absolute").getNodeValue()
 						.equalsIgnoreCase("yes"))
 					w.setAbsolute(true);
+			}
+			if (nodeMap.getNamedItem("exponent") != null) {
+				double exponent = Double.parseDouble(nodeMap.getNamedItem(
+						"exponent").getNodeValue());
+				w.setTimeExponent(exponent);
 			}
 
 			if (nodeMap.getNamedItem("name") != null) {

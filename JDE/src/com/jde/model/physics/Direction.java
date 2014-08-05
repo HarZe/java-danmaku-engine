@@ -27,6 +27,9 @@ public class Direction {
 	protected Vertex homingPosition = new Vertex();
 	protected boolean homing = false;
 	
+	// Inheritance
+	protected boolean inheritance = true;
+	
 	public Direction() {
 		
 	}
@@ -140,6 +143,14 @@ public class Direction {
 		this.motion = motion;
 	}
 
+	public boolean isInheritance() {
+		return inheritance;
+	}
+
+	public void setInheritance(boolean inheritance) {
+		this.inheritance = inheritance;
+	}
+
 	public void applyRandomitazion() {
 		angle += (Game.random.nextDouble()*randomAngleOffset) - (randomAngleOffset / 2.0);
 		rotation += (Game.random.nextDouble()*randomRotationOffset) - (randomRotationOffset / 2.0);
@@ -167,6 +178,7 @@ public class Direction {
 		nd.setRandomSpeedOffset(randomSpeedOffset);
 		
 		nd.setDuration(duration);
+		nd.setInheritance(inheritance);
 		
 		return nd;
 	}

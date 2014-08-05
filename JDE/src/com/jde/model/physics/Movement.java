@@ -47,11 +47,13 @@ public class Movement {
 			
 			Direction newDir = directions.get(currentDir);
 			
-			newDir.setAngle(newDir.getAngle() + direction.getAngle());
-			newDir.setRotation(newDir.getRotation() + direction.getRotation());
-			newDir.setMotion(newDir.getMotion() + direction.getMotion());
-			newDir.setSpeed(newDir.getSpeed() + direction.getSpeed());
-			newDir.setAcceleration(newDir.getAcceleration() + direction.getAcceleration());
+			if (direction.isInheritance()) {
+				newDir.setAngle(newDir.getAngle() + direction.getAngle());
+				newDir.setRotation(newDir.getRotation() + direction.getRotation());
+				newDir.setMotion(newDir.getMotion() + direction.getMotion());
+				newDir.setSpeed(newDir.getSpeed() + direction.getSpeed());
+				newDir.setAcceleration(newDir.getAcceleration() + direction.getAcceleration());
+			}
 			
 			direction = newDir;
 			

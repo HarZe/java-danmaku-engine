@@ -29,5 +29,11 @@
         <sprite-ref ref="bullet_butterfly_yellow" />
         <movement-ref ref="butterfly" />
     </bullet>
+
+    <bullet name="simple_gray" >
+        <hitbox-ref ref="hitbox_bullet" />
+        <sprite-ref ref="bullet_eliptic_gray_halfsize" />
+        <movement-ref ref="simple" />
+    </bullet>
     
 </jde-content>

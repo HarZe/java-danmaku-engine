@@ -223,7 +223,7 @@
     <wave
         name="wave_arcs"
         bullets="12"
-        repeat="yes"
+        repeat="10"
         interval="1000"
         time-start="0"
         time-end="500"
@@ -273,12 +273,62 @@
 
         <wave-ref ref="wave_stamps" />
     </enemy>
+    
+    <!-- Acceleration spirals -->
+    <wave
+        name="simple_spiral"
+        bullets="250"
+        time-start="0"
+        time-end="10000"
+        exponent="0.5" >
+
+        <bullet-ref ref="simple_gray" />
+        
+        <direction-modifier
+            angle-end="1000"
+            angle-start="0" />
+        
+    </wave>
+    
+    <wave
+        name="simple_spirals"
+        waves="12" >
+
+        <wave-ref ref="simple_spiral" />
+        
+        <direction-modifier
+            angle-end="330"
+            angle-start="0" />
+        
+    </wave>
+    
+    <enemy
+        name="enemy_spirals"
+        health="100" >
+
+        <hitbox-ref ref="hitbox_ghost" />
+
+        <sprite-ref ref="sprite_ghost" />
+
+        <movement-ref ref="move_ghost_up" />
+
+        <wave-ref ref="simple_spirals" />
+    </enemy>
 
     <!-- Game -->
 
     <game name="game_name" >
+        
+		<spawn time="2000" >
 
-        <spawn time="2000" >
+            <vertex
+                x="0"
+                y="-100" />
+
+            <enemy-ref ref="enemy_spirals" />
+        </spawn>
+        
+        <spawn time="12000" >
 
             <vertex
                 x="0"
@@ -287,7 +337,7 @@
             <enemy-ref ref="enemy_butterfly" />
         </spawn>
 
-        <spawn time="6000" >
+        <spawn time="16000" >
 
             <vertex
                 x="0"
@@ -296,7 +346,7 @@
             <enemy-ref ref="enemy_arc" />
         </spawn>
         
-        <spawn time="10000" >
+        <spawn time="20000" >
 
             <vertex
                 x="0"

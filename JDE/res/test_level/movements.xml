@@ -43,6 +43,13 @@
         <direction acceleration="600" />
 
     </movement>
+    
+    <movement name="simple" >
+
+        <direction
+            speed="200" />
+
+    </movement>
 
     <movement name="move_ghost_up" >
 

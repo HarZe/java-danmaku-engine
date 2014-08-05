@@ -1,3 +1,8 @@
+Version 0.06 (August 5, 2014):
+Changed <wave> attribute "repeat" to be a number of repetitions, <0 for infinite, default: 0
+Added inheritance disable option to the <direction>
+Added <wave> attribute "exponent" that allows to curve the time used for bullet spawning, default: 1
+
 Version 0.05.1 (July 28, 2014):
 Fixed wave time calculation not working properly
 Modified XML sample

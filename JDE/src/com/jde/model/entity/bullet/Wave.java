@@ -31,11 +31,12 @@ public class Wave implements Spawnable {
 	protected double spawnTime = 0;
 	protected double timeStart = 0;
 	protected double timeEnd = 0;
+	protected double timeExponent = 1;
 
 	protected int bullets = 1;
 	protected int waves = 1;
 
-	protected boolean repeat = false;
+	protected int repeat = 0;
 	protected double interval = 0;
 	
 	protected boolean absolute = false;
@@ -92,6 +93,14 @@ public class Wave implements Spawnable {
 		this.timeEnd = timeEnd;
 	}
 
+	public double getTimeExponent() {
+		return timeExponent;
+	}
+
+	public void setTimeExponent(double timeExponent) {
+		this.timeExponent = timeExponent;
+	}
+
 	public int getBullets() {
 		return bullets;
 	}
@@ -108,11 +117,11 @@ public class Wave implements Spawnable {
 		this.waves = waves;
 	}
 
-	public boolean isRepeat() {
+	public int getRepeat() {
 		return repeat;
 	}
 
-	public void setRepeat(boolean repeat) {
+	public void setRepeat(int repeat) {
 		this.repeat = repeat;
 	}
 
@@ -204,10 +213,13 @@ public class Wave implements Spawnable {
 
 		if (bullet != null) {
 
-			if (repeat && elapsed > interval) {
+			if (repeat != 0 && elapsed > interval) {
 				timeStarted += interval;
 				elapsed -= interval;
 				spawnerBullets.addSpawnables(getBulletWave(timeStarted));
+				
+				if (repeat > 0)
+					repeat--;
 			}
 
 			return applySpawnPosition(spawnerBullets.forward(ms));
@@ -215,10 +227,13 @@ public class Wave implements Spawnable {
 		else {
 			ArrayList<Bullet> spawnedBullets = new ArrayList<Bullet>();
 
-			if (repeat && elapsed > interval) {
+			if (repeat != 0 && elapsed > interval) {
 				timeStarted += interval;
 				elapsed -= interval;
 				spawnerWaves.addSpawnables(getWaves(timeStarted));
+				
+				if (repeat > 0)
+					repeat--;
 			}
 			
 			for (Wave w : spawnedWaves)
@@ -244,11 +259,9 @@ public class Wave implements Spawnable {
 			Bullet current = bullet.clone();
 			Movement currentMovement = current.getMovement();
 
-			double timeStep = (bullets > 1) ? (timeEnd - timeStart) / (bullets - 1) : 0;
-
 			currentMovement.setPosition(spawnPoint.clone());	// TODO: check if necessary
+			time = timeStamp + curvedTime(i, bullets - 1);
 			current.setSpawnTime(time);
-			time += timeStep;
 
 			ArrayList<Direction> bulletDirs = current.getMovement()
 					.getDirections();
@@ -268,13 +281,12 @@ public class Wave implements Spawnable {
 		double time = timeStamp;
 		int total = subWaves.size() * waves;
 		int step = 0;
-		double timeStep = (total > 1) ? (timeEnd - timeStart) / (total - 1) : 0;
 
 		for (Wave w : subWaves)
 			for (int i = 0; i < waves; i++) {
 				Wave gw = w.clone();
+				time = timeStamp + curvedTime(i, total - 1);
 				gw.setSpawnTime(time);
-				time += timeStep;
 	
 				modifyWave(gw, modifiers.get(0), step, total);
 				newWaves.add(gw);
@@ -305,6 +317,13 @@ public class Wave implements Spawnable {
 					.get(0));
 		}
 	}
+	
+	protected double curvedTime(int step, int total) {
+		double dStep = step;
+		double dTotal = total;
+		double relativeStep = Math.pow(dStep / dTotal, timeExponent);
+		return timeStart + (timeEnd - timeStart)*relativeStep;
+	}
 
 	/**
 	 * Warning: this is not a pure cloning, it provides a Horde template
@@ -326,6 +345,7 @@ public class Wave implements Spawnable {
 
 		w.setTimeEnd(timeEnd);
 		w.setTimeStart(timeStart);
+		w.setTimeExponent(timeExponent);
 
 		w.setBullets(bullets);
 		w.setWaves(waves);
