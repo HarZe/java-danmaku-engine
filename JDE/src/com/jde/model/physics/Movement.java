@@ -6,6 +6,8 @@ public class Movement {
 
 	protected Vertex position;
 	protected Direction direction;
+	protected double spin = 90;
+	protected boolean lookAtMovingDirection = true;
 	
 	protected ArrayList<Direction> directions;
 	protected int currentDir = 0;
@@ -35,6 +37,30 @@ public class Movement {
 
 	public ArrayList<Direction> getDirections() {
 		return directions;
+	}
+
+	public double getSpin() {
+		return spin;
+	}
+
+	public void setSpin(double spin) {
+		this.spin = spin;
+	}
+
+	public boolean isLookAtMovingDirection() {
+		return lookAtMovingDirection;
+	}
+
+	public void setLookAtMovingDirection(boolean lookAtMovingDirection) {
+		this.lookAtMovingDirection = lookAtMovingDirection;
+	}
+	
+	public double getDrawingAngle() {
+		return spin + (lookAtMovingDirection ? direction.getAngle() : 0);
+	}
+	
+	public double getPhysicAngle() {
+		return getDrawingAngle() - 90;
 	}
 
 	public void forward(double ms) {
@@ -68,7 +94,7 @@ public class Movement {
 		direction.setRotation(direction.getRotation() + direction.getMotion() * ms * 0.001);
 		
 		if (direction.isHoming())
-			direction.setAngle(Vertex.vertexToAngle(direction.getHomingPosition().clone().sub(position)));
+			direction.setAngle(direction.getHomingPosition().clone().sub(position).angle());
 		else if (direction.getDuration() > 0)
 			direction.setAngle(direction.getAngle() + (direction.getRotation() * ms * 0.001));
 		
@@ -83,7 +109,12 @@ public class Movement {
 	}
 
 	public Movement clone() {
-		return new Movement(position.clone(), directions);
+		Movement m = new Movement(position.clone(), directions);
+		m.currentDir = currentDir;
+		m.direction = m.directions.get(currentDir);
+		m.elapsed = elapsed;
+		m.spin = spin;
+		return m;
 	}
 
 	public String toString() {

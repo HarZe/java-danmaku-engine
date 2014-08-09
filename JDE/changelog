@@ -1,3 +1,11 @@
+Version 0.1 (Agusut 9, 2014):
+Added collision system for circles and convex polygons: <hit-circle> and <hit-polygon>
+Added <hit-body> to contain multiple <hit-circle> or <hit-polygon> into an entity
+Added parameter "spin" to <movement> to get local rotation angle, default: 90 (general correction) 
+Added parameter "look-at-direction" to <movement> to specify if sprite rotates at where is moving, default: yes (for bullets), enemies use to have "no"
+Added <animation> which contains a set of <sprites> with a duration, animations can loop, now the entities have <animation> instead of <sprite>
+Added <player> with control with arrows and focus with left SHIFT
+
 Version 0.06.1 (August 5, 2014):
 Fixed <direction-modifier> not having motionStart and motionEnd
 Added "exponent" attribute for each basic atribute of <direction> in the <direction-modifier>

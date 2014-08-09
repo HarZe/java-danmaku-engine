@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,15 +17,19 @@ import org.w3c.dom.NodeList;
 import com.jde.model.entity.bullet.Bullet;
 import com.jde.model.entity.bullet.Wave;
 import com.jde.model.entity.enemy.Enemy;
+import com.jde.model.entity.player.Player;
 import com.jde.model.physics.Direction;
 import com.jde.model.physics.DirectionModifier;
 import com.jde.model.physics.Movement;
 import com.jde.model.physics.Vertex;
-import com.jde.model.physics.collision.HitBox;
+import com.jde.model.physics.collision.HitBody;
+import com.jde.model.physics.collision.HitCircle;
+import com.jde.model.physics.collision.HitPolygon;
 import com.jde.model.physics.collision.HitZone;
 import com.jde.model.stage.ArmyStage;
 import com.jde.model.stage.Stage;
 import com.jde.view.Game;
+import com.jde.view.sprites.Animation;
 import com.jde.view.sprites.Sprite;
 import com.jde.view.sprites.SpriteSheet;
 
@@ -32,10 +37,14 @@ public class Parser {
 	
 	protected HashSet<String> importedFiles;
 
+	protected HashMap<String, Animation> animations;
 	protected HashMap<String, Bullet> bullets;
 	protected HashMap<String, Direction> directions;
 	protected HashMap<String, DirectionModifier> modifiers;
 	protected HashMap<String, Enemy> enemies;
+	protected HashMap<String, HitPolygon> polygons;
+	protected HashMap<String, HitCircle> circles;
+	protected HashMap<String, HitBody> bodies;
 	protected HashMap<String, Sprite> sprites;
 	protected HashMap<String, SpriteSheet> sheets;
 	protected HashMap<String, Movement> movements;
@@ -43,14 +52,19 @@ public class Parser {
 	protected HashMap<String, Wave> waves;
 
 	protected ArrayList<Enemy> spawns;
+	protected Player player;
 
 	public Parser() {
 		importedFiles = new HashSet<String>();
 		
+		animations = new HashMap<String, Animation>();
 		bullets = new HashMap<String, Bullet>();
 		directions = new HashMap<String, Direction>();
 		modifiers = new HashMap<String, DirectionModifier>();
 		enemies = new HashMap<String, Enemy>();
+		polygons = new HashMap<String, HitPolygon>();
+		circles = new HashMap<String, HitCircle>();
+		bodies = new HashMap<String, HitBody>();
 		sprites = new HashMap<String, Sprite>();
 		sheets = new HashMap<String, SpriteSheet>();
 		movements = new HashMap<String, Movement>();
@@ -58,6 +72,7 @@ public class Parser {
 		waves = new HashMap<String, Wave>();
 
 		spawns = new ArrayList<Enemy>();
+		player = null;
 	}
 
 	public Game parseXML(String filename) {
@@ -88,7 +103,7 @@ public class Parser {
 		}
 
 		ArrayList<Stage> stages = new ArrayList<Stage>();
-		stages.add(new ArmyStage(spawns));
+		stages.add(new ArmyStage(spawns, player));
 		return new Game(stages);
 	}
 
@@ -107,6 +122,11 @@ public class Parser {
 
 		switch (node.getNodeName()) {
 
+		case "animation":
+		case "animation-ref":
+			processAnimation(node);
+			break;
+		
 		case "bullet":
 		case "bullet-ref":
 			processBullet(node);
@@ -130,10 +150,20 @@ public class Parser {
 		case "game":
 			processGame(node);
 			break;
+			
+		case "hit-body":
+		case "hit-body-ref":
+			processHitBody(node);
+			break;
 
-		case "hitbox":
-		case "hitbox-ref":
-			// TODO
+		case "hit-circle":
+		case "hit-circle-ref":
+			processHitCircle(node);
+			break;
+			
+		case "hit-polygon":
+		case "hit-polygon-ref":
+			processHitPolygon(node);
 			break;
 
 		case "import":
@@ -145,6 +175,10 @@ public class Parser {
 			processMovement(node);
 			break;
 
+		case "player":
+			processPlayer(node);
+			break;
+			
 		case "spawn":
 			processSpawn(node);
 			break;
@@ -182,11 +216,67 @@ public class Parser {
 
 		}
 	}
+	
+	protected Animation processAnimation(Node node) throws Exception {
+		ArrayList<Sprite> spritesAnim = new ArrayList<Sprite>();
+		ArrayList<Double> durationsAnim = new ArrayList<Double>();
+		Animation anim = null;
+
+		if (node.hasAttributes()) {
+			NamedNodeMap nodeMap = node.getAttributes();
+
+			if (node.getNodeName().equals("animation-ref")) {
+				if (nodeMap.getNamedItem("ref") != null) {
+					String ref = nodeMap.getNamedItem("ref").getNodeValue();
+
+					if (!animations.containsKey(ref))
+						throw new Exception("<animation> with name:" + ref
+								+ " is not declared");
+
+					return animations.get(ref);
+				}
+			}
+
+			if (node.hasChildNodes())
+				for (int i = 1; i < node.getChildNodes().getLength(); i++) {
+					Node currentNode = node.getChildNodes().item(i);
+					if (i % 2 == 1 && (currentNode.getNodeName().equals("sprite")
+							|| currentNode.getNodeName().equals("sprite-ref")))
+						spritesAnim.add(processSprite(currentNode));
+					else if (i % 2 == 0) 
+						durationsAnim.add(Double.parseDouble(currentNode.getNodeValue()));
+				}
+
+			if (spritesAnim.size() != durationsAnim.size())
+				throw new Exception("<animation> has not the same number of <sprite> and durations");
+			
+			if (spritesAnim.size() == 0)
+				throw new Exception("<animation> must have at least one <sprite>");
+
+			anim = new Animation(spritesAnim, durationsAnim);
+
+			if (nodeMap.getNamedItem("repeat") != null) {
+				if (nodeMap.getNamedItem("repeat").getNodeValue()
+						.equalsIgnoreCase("yes"))
+					anim.setRepeat(true);
+			}
+
+			if (nodeMap.getNamedItem("name") != null) {
+				String name = nodeMap.getNamedItem("name").getNodeValue();
+				animations.put(name, anim);
+				return anim;
+			}
+
+		} else
+			throw new Exception("<animation> with no attributes declared");
+
+		return anim;
+	}
 
 	protected Bullet processBullet(Node node) throws Exception {
 		Bullet b = null;
-		HitZone h = null;
-		Sprite s = null;
+		HitBody h = null;
+		Animation a = null;
 		Movement m = null;
 
 		if (node.hasAttributes()) {
@@ -208,23 +298,23 @@ public class Parser {
 					&& node.getChildNodes().getLength() == 3 * 2 + 1)
 				for (int i = 1; i < 3 * 2 + 1; i += 2) {
 					Node currentNode = node.getChildNodes().item(i);
-					if (currentNode.getNodeName().equals("hitbox")
-							|| currentNode.getNodeName().equals("hitbox-ref"))
-						h = new HitBox(); // TODO
+					if (currentNode.getNodeName().equals("hit-body")
+							|| currentNode.getNodeName().equals("hit-body-ref"))
+						h = processHitBody(currentNode);
 					else if (currentNode.getNodeName().equals("movement")
 							|| currentNode.getNodeName().equals("movement-ref"))
 						m = processMovement(currentNode);
-					else if (currentNode.getNodeName().equals("sprite")
-							|| currentNode.getNodeName().equals("sprite-ref"))
-						s = processSprite(currentNode);
+					else if (currentNode.getNodeName().equals("animation")
+							|| currentNode.getNodeName().equals("animation-ref"))
+						a = processAnimation(currentNode);
 				}
 			else
 				throw new Exception(
-						"<bullet> requieres: <hitbox>, <movement> and <sprite>");
+						"<bullet> requieres: <hit-body>, <movement> and <animation>");
 
 			if (nodeMap.getNamedItem("name") != null) {
 				String name = nodeMap.getNamedItem("name").getNodeValue();
-				b = new Bullet(s, h, m);
+				b = new Bullet(a, h, m);
 				bullets.put(name, b);
 			} else
 				throw new Exception("<bullet> with no name declared");
@@ -495,8 +585,8 @@ public class Parser {
 
 	protected Enemy processEnemy(Node node) throws Exception {
 		Enemy e = null;
-		HitZone h = null;
-		Sprite s = null;
+		HitBody h = null;
+		Animation a = null;
 		Movement m = null;
 		Wave w = null;
 
@@ -519,27 +609,27 @@ public class Parser {
 					&& node.getChildNodes().getLength() == 4 * 2 + 1)
 				for (int i = 1; i < 4 * 2 + 1; i += 2) {
 					Node currentNode = node.getChildNodes().item(i);
-					if (currentNode.getNodeName().equals("hitbox")
-							|| currentNode.getNodeName().equals("hitbox-ref"))
-						h = new HitBox(); // TODO
+					if (currentNode.getNodeName().equals("hit-body")
+							|| currentNode.getNodeName().equals("hit-body-ref"))
+						h = processHitBody(currentNode);
 					else if (currentNode.getNodeName().equals("movement")
 							|| currentNode.getNodeName().equals("movement-ref"))
 						m = processMovement(currentNode);
-					else if (currentNode.getNodeName().equals("sprite")
-							|| currentNode.getNodeName().equals("sprite-ref"))
-						s = processSprite(currentNode);
+					else if (currentNode.getNodeName().equals("animation")
+							|| currentNode.getNodeName().equals("animation-ref"))
+						a = processAnimation(currentNode);
 					else if (currentNode.getNodeName().equals("wave")
 							|| currentNode.getNodeName().equals("wave-ref"))
 						w = processWave(currentNode);
 				}
 			else
 				throw new Exception(
-						"<enemy> requieres: <hitbox>, <movement>, <wave> and <sprite>");
+						"<enemy> requieres: <hit-body>, <movement>, <wave> and <animation>");
 
 			if (nodeMap.getNamedItem("health") != null) {
 				double health = Double.parseDouble(nodeMap.getNamedItem(
 						"health").getNodeValue());
-				e = new Enemy(s, h, m, w, health);
+				e = new Enemy(a, h, m, w, health);
 			} else
 				throw new Exception("<enemy> with no health declared");
 
@@ -562,9 +652,151 @@ public class Parser {
 				Node currentNode = node.getChildNodes().item(i);
 				if (currentNode.getNodeName().equals("spawn"))
 					processSpawn(currentNode);
+				else if (currentNode.getNodeName().equals("player"))
+					processPlayer(currentNode);
 				else
-					throw new Exception("<game> must contains only <spawn>");
+					throw new Exception("<game> must contains only <spawn> and a <player>");
 			}
+		
+		if (player == null)
+			throw new Exception("<game> must contains a <player>");
+	}
+	
+	protected HitBody processHitBody(Node node) throws Exception {
+		ArrayList<HitZone> zones = new ArrayList<HitZone>();
+		HitBody hitB = null;
+
+		if (node.hasAttributes()) {
+			NamedNodeMap nodeMap = node.getAttributes();
+
+			if (node.getNodeName().equals("hit-body-ref")) {
+				if (nodeMap.getNamedItem("ref") != null) {
+					String ref = nodeMap.getNamedItem("ref").getNodeValue();
+
+					if (!bodies.containsKey(ref))
+						throw new Exception("<hit-body> with name:" + ref
+								+ " is not declared");
+
+					return bodies.get(ref);
+				}
+			}
+
+			if (node.hasChildNodes())
+				for (int i = 1; i < node.getChildNodes().getLength(); i += 2) {
+					Node currentNode = node.getChildNodes().item(i);
+					if (currentNode.getNodeName().equals("hit-circle")
+							|| currentNode.getNodeName().equals("hit-circle-ref"))
+						zones.add(processHitCircle(currentNode));
+					else if (currentNode.getNodeName().equals("hit-polygon")
+							|| currentNode.getNodeName().equals("hit-polygon-ref"))
+						zones.add(processHitPolygon(currentNode));
+				}
+
+			if (zones.size() == 0)
+				throw new Exception("<hit-body> must have at least one <hit-circle> or <hit-polygon>");
+
+			hitB = new HitBody(zones);
+
+			if (nodeMap.getNamedItem("name") != null) {
+				String name = nodeMap.getNamedItem("name").getNodeValue();
+				bodies.put(name, hitB);
+				return hitB;
+			}
+
+		} else
+			throw new Exception("<hit-body> with no attributes declared");
+
+		return hitB;
+	}
+	
+	protected HitCircle processHitCircle(Node node) throws Exception {
+		HitCircle hitC = new HitCircle(new Vertex(), 0);
+
+		if (node.hasAttributes()) {
+			NamedNodeMap nodeMap = node.getAttributes();
+
+			if (node.getNodeName().equals("hit-circle-ref")) {
+				if (nodeMap.getNamedItem("ref") != null) {
+					String ref = nodeMap.getNamedItem("ref").getNodeValue();
+
+					if (!circles.containsKey(ref))
+						throw new Exception("<hit-circle> with name:" + ref
+								+ " is not declared");
+
+					return circles.get(ref);
+				}
+			}
+			
+			if (node.hasChildNodes()
+					&& node.getChildNodes().getLength() == 1 * 2 + 1)
+				for (int i = 1; i < 2 * 1 + 1; i += 2) {
+					Node currentNode = node.getChildNodes().item(i);
+					if (currentNode.getNodeName().equals("vertex")
+							|| currentNode.getNodeName().equals("vertex-ref"))
+						hitC.setCenter(processVertex(currentNode).clone());
+				}
+
+			if (nodeMap.getNamedItem("radius") != null) {
+				double radius = Double.parseDouble(nodeMap.getNamedItem("radius")
+						.getNodeValue());
+				hitC.setRadius(radius);
+			}
+			else
+				throw new Exception("<hit-circle> with no radius declared");
+
+			if (nodeMap.getNamedItem("name") != null) {
+				String name = nodeMap.getNamedItem("name").getNodeValue();
+				circles.put(name, hitC);
+			}
+
+		} else
+			throw new Exception("<hit-circle> with no attributes declared");
+
+		return hitC;
+	}
+	
+	protected HitPolygon processHitPolygon(Node node) throws Exception {
+		LinkedList<Vertex> polygonVrtcs = new LinkedList<Vertex>();
+		HitPolygon hitP = null;
+
+		if (node.hasAttributes()) {
+			NamedNodeMap nodeMap = node.getAttributes();
+
+			if (node.getNodeName().equals("hit-polygon-ref")) {
+				if (nodeMap.getNamedItem("ref") != null) {
+					String ref = nodeMap.getNamedItem("ref").getNodeValue();
+
+					if (!polygons.containsKey(ref))
+						throw new Exception("<hit-polygon> with name:" + ref
+								+ " is not declared");
+
+					return polygons.get(ref);
+				}
+			}
+
+			if (node.hasChildNodes())
+				for (int i = 1; i < node.getChildNodes().getLength(); i += 2) {
+					Node currentNode = node.getChildNodes().item(i);
+					if (i % 2 == 1 && (currentNode.getNodeName().equals("vertex")
+							|| currentNode.getNodeName().equals("vertex-ref")))
+						polygonVrtcs.add(processVertex(currentNode));
+				}
+
+			if (polygonVrtcs.size() < 3)
+				throw new Exception("<hit-polygon> must have 3 <vertex> or more to be a polygon");
+
+			hitP = new HitPolygon(polygonVrtcs);
+
+			if (nodeMap.getNamedItem("name") != null) {
+				String name = nodeMap.getNamedItem("name").getNodeValue();
+				polygons.put(name, hitP);
+				return hitP;
+			}
+
+		} else
+			throw new Exception("<hit-polygon> with no attributes declared");
+
+		return hitP;
 	}
 
 	protected void processImport(Node node) throws Exception {
@@ -637,6 +869,17 @@ public class Parser {
 				throw new Exception("<movement> has no directions");
 
 			m = new Movement(pos, dirs);
+			
+			if (nodeMap.getNamedItem("spin") != null) {
+				double spin = Double.parseDouble(nodeMap.getNamedItem(
+						"spin").getNodeValue());
+				m.setSpin(spin);
+			}
+			if (nodeMap.getNamedItem("look-at-direction") != null) {
+				if (nodeMap.getNamedItem("look-at-direction").getNodeValue()
+						.equalsIgnoreCase("no"))
+					m.setLookAtMovingDirection(false);
+			}
 
 			if (nodeMap.getNamedItem("name") != null) {
 				String name = nodeMap.getNamedItem("name").getNodeValue();
@@ -647,6 +890,38 @@ public class Parser {
 			throw new Exception("<movement> with no attributes declared");
 
 		return m;
+	}
+	
+	protected Player processPlayer(Node node) throws Exception {
+		HitBody h = null;
+		ArrayList<Animation> anims = new ArrayList<Animation>();
+		Movement m = null;
+
+		if (node.hasChildNodes()
+				&& node.getChildNodes().getLength() == 4 * 2 + 1)
+			for (int i = 1; i < 4 * 2 + 1; i += 2) {
+				Node currentNode = node.getChildNodes().item(i);
+				if (currentNode.getNodeName().equals("hit-body")
+						|| currentNode.getNodeName().equals("hit-body-ref"))
+					h = processHitBody(currentNode);
+				else if (currentNode.getNodeName().equals("movement")
+						|| currentNode.getNodeName().equals("movement-ref"))
+					m = processMovement(currentNode);
+				else if (currentNode.getNodeName().equals("animation")
+						|| currentNode.getNodeName().equals("animation-ref"))
+					anims.add(processAnimation(currentNode));
+			}
+		else
+			throw new Exception(
+					"<player> requieres: <hit-body>, <movement> and two <animation>");
+
+		if (anims.size() != 2)
+			throw new Exception(
+					"<player> requieres: <hit-body>, <movement> and two <animation>");
+
+		player = new Player(anims.get(0), h, m, anims.get(1));
+		player.getMovement().setPosition(unvirtualizeCoordinates(player.getMovement().getPosition()));
+		return player;
 	}
 
 	// TODO: provisional spawner for enemies

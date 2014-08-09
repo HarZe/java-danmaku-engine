@@ -3,16 +3,16 @@ package com.jde.model.entity.bullet;
 import com.jde.model.entity.Entity;
 import com.jde.model.entity.spawning.Spawnable;
 import com.jde.model.physics.Movement;
-import com.jde.model.physics.collision.HitZone;
-import com.jde.view.sprites.Sprite;
+import com.jde.model.physics.collision.HitBody;
+import com.jde.view.sprites.Animation;
 
 public class Bullet extends Entity implements Spawnable {
 
 	protected double spawnTime;
 	protected boolean spawned;
 
-	public Bullet(Sprite sprite, HitZone hitbox, Movement movement) {
-		super(sprite, hitbox, movement);
+	public Bullet(Animation animation, HitBody body, Movement movement) {
+		super(animation, body, movement);
 		this.spawnTime = 0;
 		this.spawned = false;
 	}
@@ -52,7 +52,7 @@ public class Bullet extends Entity implements Spawnable {
 	 * Warning: this is not a pure cloning, it provides a Bullet template
 	 */
 	public Bullet clone() {
-		Bullet b = new Bullet(sprite, hitbox, movement.clone());
+		Bullet b = new Bullet(animation.clone(), body, movement.clone());
 		b.setSpawnTime(spawnTime);
 		return b;
 	}

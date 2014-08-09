@@ -5,7 +5,7 @@ import com.jde.model.physics.Vertex;
 
 public interface HitZone {
 
-	public boolean isInside(Vertex v);
+	public boolean isInside(Movement self, Vertex collider);
 	
-	public boolean collides(Movement m, double ms);
+	public boolean collides(Movement self, Movement collider, double ms);
 }

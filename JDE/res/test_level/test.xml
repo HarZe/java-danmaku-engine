@@ -71,7 +71,7 @@
             acceleration-end="100"
             acceleration-start="0" />
     </wave>
-    
+
     <wave
         name="wave_butterfly_yellow_clockwise"
         bullets="8" >
@@ -99,93 +99,106 @@
             acceleration-end="100"
             acceleration-start="0" />
     </wave>
-    
+
     <!-- Complex waves -->
-    
-    <wave name="wave_butterflies_darkblue_clockwise" waves="10" >
+
+    <wave
+        name="wave_butterflies_darkblue_clockwise"
+        waves="10" >
 
         <direction-modifier
             angle-end="360"
             angle-start="0" />
 
         <wave-ref ref="wave_butterfly_darkblue_clockwise" />
-
     </wave>
 
-    <wave name="wave_butterflies_darkblue_counterclockwise" waves="10" >
+    <wave
+        name="wave_butterflies_darkblue_counterclockwise"
+        waves="10" >
 
         <direction-modifier
             angle-end="0"
             angle-start="360" />
 
         <wave-ref ref="wave_butterfly_darkblue_counterclockwise" />
-
     </wave>
-    
-    <wave name="wave_butterflies_green_clockwise" waves="10" >
 
-        <vertex x="60" y="10" />
-        
+    <wave
+        name="wave_butterflies_green_clockwise"
+        waves="10" >
+
+        <vertex
+            x="60"
+            y="10" />
+
         <direction-modifier
             angle-end="360"
             angle-start="0" />
 
         <wave-ref ref="wave_butterfly_green_clockwise" />
-
     </wave>
-    
-    <wave name="wave_butterflies_green_counterclockwise" waves="10" >
 
-        <vertex x="-60" y="10" />
-        
+    <wave
+        name="wave_butterflies_green_counterclockwise"
+        waves="10" >
+
+        <vertex
+            x="-60"
+            y="10" />
+
         <direction-modifier
             angle-end="0"
             angle-start="360" />
 
         <wave-ref ref="wave_butterfly_green_counterclockwise" />
-
     </wave>
-    
-    <wave name="wave_butterflies_yellow_clockwise" waves="10" >
 
-        <vertex x="-120" y="0" />
-        
+    <wave
+        name="wave_butterflies_yellow_clockwise"
+        waves="10" >
+
+        <vertex
+            x="-120"
+            y="0" />
+
         <direction-modifier
             angle-end="360"
             angle-start="0" />
 
         <wave-ref ref="wave_butterfly_yellow_clockwise" />
-
     </wave>
-    
-    <wave name="wave_butterflies_yellow_counterclockwise" waves="10" >
 
-        <vertex x="120" y="0" />
-        
+    <wave
+        name="wave_butterflies_yellow_counterclockwise"
+        waves="10" >
+
+        <vertex
+            x="120"
+            y="0" />
+
         <direction-modifier
             angle-end="0"
             angle-start="360" />
 
         <wave-ref ref="wave_butterfly_yellow_counterclockwise" />
-
     </wave>
 
     <wave name="horde_butterfly" >
-        
+
         <direction-modifier />
 
         <wave-ref ref="wave_butterflies_darkblue_clockwise" />
 
         <wave-ref ref="wave_butterflies_darkblue_counterclockwise" />
-        
+
         <wave-ref ref="wave_butterflies_green_clockwise" />
 
         <wave-ref ref="wave_butterflies_green_counterclockwise" />
-        
+
         <wave-ref ref="wave_butterflies_yellow_clockwise" />
 
         <wave-ref ref="wave_butterflies_yellow_counterclockwise" />
-        
     </wave>
 
     <enemy
@@ -194,7 +207,11 @@
 
         <hitbox-ref ref="hitbox_ghost" />
 
-        <sprite-ref ref="sprite_ghost" />
+        <animation name="enemy_butterfly" >
+
+            <sprite-ref ref="sprite_ghost" />
+        	1000
+        </animation>
 
         <movement-ref ref="move_ghost_up" />
 
@@ -223,10 +240,10 @@
     <wave
         name="wave_arcs"
         bullets="12"
-        repeat="10"
         interval="1000"
-        time-start="0"
+        repeat="10"
         time-end="500"
+        time-start="0"
         waves="12" >
 
         <direction-modifier
@@ -234,82 +251,92 @@
             angle-start="0" />
 
         <wave-ref ref="wave_arc" />
-        
     </wave>
-    
+
     <enemy
         name="enemy_arc"
         health="100" >
 
         <hitbox-ref ref="hitbox_ghost" />
 
-        <sprite-ref ref="sprite_ghost" />
+        <animation name="enemy_arc" >
+
+            <sprite-ref ref="sprite_ghost" />
+        	1000
+        </animation>
 
         <movement-ref ref="move_ghost_up" />
 
         <wave-ref ref="wave_arcs" />
     </enemy>
-    
+
     <!-- Random bullets -->
+
     <wave
         name="wave_stamps"
         bullets="250"
-        time-start="0"
+        exponent="0.5"
         time-end="3000"
-        exponent="0.5" >
+        time-start="0" >
 
         <bullet-ref ref="stamp" />
-        
     </wave>
-    
+
     <enemy
         name="enemy_stamps"
         health="100" >
 
         <hitbox-ref ref="hitbox_ghost" />
 
-        <sprite-ref ref="sprite_ghost" />
+        <animation name="enemy_stamps" >
+
+            <sprite-ref ref="sprite_ghost" />
+        	1000
+        </animation>
 
         <movement-ref ref="move_ghost_up" />
 
         <wave-ref ref="wave_stamps" />
     </enemy>
-    
+
     <!-- Acceleration spirals -->
+
     <wave
         name="simple_spiral"
         bullets="250"
-        time-start="0"
-        time-end="10000" >
+        time-end="10000"
+        time-start="0" >
 
         <bullet-ref ref="simple_gray" />
-        
+
         <direction-modifier
             angle-end="1000"
-            angle-start="0"
-            angle-exponent="3" />
-        
+            angle-exponent="3"
+            angle-start="0" />
     </wave>
-    
+
     <wave
         name="simple_spirals"
         waves="12" >
 
         <wave-ref ref="simple_spiral" />
-        
+
         <direction-modifier
             angle-end="330"
             angle-start="0" />
-        
     </wave>
-    
+
     <enemy
         name="enemy_spirals"
         health="100" >
 
         <hitbox-ref ref="hitbox_ghost" />
 
-        <sprite-ref ref="sprite_ghost" />
+        <animation name="enemy_spirals" >
+
+            <sprite-ref ref="sprite_ghost" />
+        	1000
+        </animation>
 
         <movement-ref ref="move_ghost_up" />
 
@@ -319,8 +346,37 @@
     <!-- Game -->
 
     <game name="game_name" >
-        
-		<spawn time="2000" >
+
+        <player>
+
+            <animation name="player_back" >
+
+                <sprite-ref ref="sprite_player_back" />
+        	1000
+            </animation>
+
+            <animation name="player_focus" >
+
+                <sprite-ref ref="sprite_player_focus" />
+        	1000
+            </animation>
+
+            <movement name="player_move" look-at-direction="no" spin="0" >
+
+                <vertex
+                    x="0"
+                    y="100" />
+
+                <direction
+                    angle="0"
+                    speed="0" />
+            </movement>
+            
+            <hit-body-ref ref="hit_butterfly" />
+            
+        </player>
+
+        <spawn time="2000" >
 
             <vertex
                 x="0"
@@ -328,7 +384,7 @@
 
             <enemy-ref ref="enemy_spirals" />
         </spawn>
-        
+
         <spawn time="12000" >
 
             <vertex
@@ -346,7 +402,7 @@
 
             <enemy-ref ref="enemy_arc" />
         </spawn>
-        
+
         <spawn time="20000" >
 
             <vertex

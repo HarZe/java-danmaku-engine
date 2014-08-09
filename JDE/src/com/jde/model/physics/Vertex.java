@@ -10,9 +10,13 @@ public class Vertex {
 	}
 
 	public Vertex(double x, double y) {
-		super();
 		this.x = x;
 		this.y = y;
+	}
+	
+	public Vertex(Vertex start, Vertex end) {
+		x = end.x - start.x;
+		y = end.y - start.y;
 	}
 
 	public double getX() {
@@ -31,19 +35,19 @@ public class Vertex {
 		this.y = y;
 	}
 	
-	public Vertex clone() {
-		return new Vertex(x,y);
+	public double lenght() {
+		return Math.sqrt(x * x + y * y);
 	}
 	
 	public Vertex add(Vertex v) {
-		x += v.getX();
-		y += v.getY();
+		x += v.x;
+		y += v.y;
 		return this;
 	}
 	
 	public Vertex sub(Vertex v) {
-		x -= v.getX();
-		y -= v.getY();
+		x -= v.x;
+		y -= v.y;
 		return this;
 	}
 	
@@ -54,9 +58,13 @@ public class Vertex {
 	}
 	
 	public Vertex multiply(Vertex v) {
-		x *= v.getX();
-		y *= v.getY();
+		x *= v.x;
+		y *= v.y;
 		return this;
+	}
+	
+	public double scalar(Vertex v) {
+		return v.x * x + v.y * y;
 	}
 	
 	public Vertex rotate(double a) {
@@ -66,28 +74,48 @@ public class Vertex {
 		return this;
 	}
 	
-	@Override
-	public String toString() {
-		return "(" + x + ", " + y + ")";
+	public Vertex unit() {
+		double lenght = lenght();
+		return new Vertex(x / lenght, y / lenght);
 	}
 	
-	public static Vertex unit(Vertex v) {
-		double lenght = Math.sqrt(v.getX()*v.getX() + v.getY()*v.getY());
-		return new Vertex(v.getX() / lenght, v.getY() / lenght);
-	}
-	
-	public static Vertex angleToVertex(double a) {
-		return new Vertex(Math.cos(a), Math.sin(a));
-	}
-	
-	public static double vertexToAngle(Vertex v) {
-		Vertex unitVertex = unit(v);
-		double acos = Math.acos(unitVertex.getX());
-		double asin = Math.asin(unitVertex.getY());
+	public double angle() {
+		Vertex uv = unit();
+		double acos = Math.acos(uv.x);
+		double asin = Math.asin(uv.y);
 		
 		if (asin >= 0)
 			return Math.toDegrees(acos);
 		else
 			return 360 - Math.toDegrees(acos);
+	}
+	
+	public double distanceTo(Vertex v) {
+		return Math.sqrt((v.x - x)*(v.x - x) + (v.y - y)*(v.y - y));
+	}
+	
+	public Vertex normal() {
+		return new Vertex(-y, x);
+	}
+	
+	public Vertex opposite() {
+		return new Vertex(-x, -y);
+	}
+	
+	public double crossProduct(Vertex v) {
+		return x*v.y - y*v.x;
+	}
+	
+	@Override
+	public String toString() {
+		return "(" + x + ", " + y + ")";
+	}
+	
+	public Vertex clone() {
+		return new Vertex(x, y);
+	}
+	
+	public static Vertex angleToVertex(double a) {
+		return new Vertex(Math.cos(a), Math.sin(a));
 	}
 }

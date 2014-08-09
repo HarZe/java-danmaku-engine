@@ -7,8 +7,8 @@ import com.jde.model.entity.bullet.Bullet;
 import com.jde.model.entity.bullet.Wave;
 import com.jde.model.entity.spawning.Spawnable;
 import com.jde.model.physics.Movement;
-import com.jde.model.physics.collision.HitZone;
-import com.jde.view.sprites.Sprite;
+import com.jde.model.physics.collision.HitBody;
+import com.jde.view.sprites.Animation;
 
 public class Enemy extends Entity implements Spawnable {
 	
@@ -18,14 +18,12 @@ public class Enemy extends Entity implements Spawnable {
 	
 	protected Wave wave;
 
-	public Enemy(Sprite sprite, HitZone hitbox, Movement movement, Wave wave, double health) {
-		super(sprite, hitbox, movement);
+	public Enemy(Animation animation, HitBody body, Movement movement, Wave wave, double health) {
+		super(animation, body, movement);
 		this.health = health;
 		this.spawnTime = 0;
 		this.spawned = false;
 		this.wave = null;
-		lookAtMovingDirection = false;
-		drawingRotateCorretion = false;
 		
 		if (wave != null)
 			this.wave = wave.clone();
@@ -95,7 +93,7 @@ public class Enemy extends Entity implements Spawnable {
 	 * Warning: this is not a pure cloning, it provides a Enemy template
 	 */
 	public Enemy clone() {
-		Enemy e = new Enemy(sprite, hitbox, movement.clone(), wave.clone(), health);
+		Enemy e = new Enemy(animation.clone(), body, movement.clone(), wave.clone(), health);
 		e.setSpawnTime(spawnTime);
 		return e;
 	}

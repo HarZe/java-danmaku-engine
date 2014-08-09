@@ -1,41 +1,60 @@
 <jde-content>
 
-    <hitbox name="hitbox_square" >
+    <hit-body name="hit_butterfly" >
 
-        <vertex
-            x="-10"
-            y="-10" />
+        <hit-circle radius="12" />
+    </hit-body>
 
-        <vertex
-            x="10"
-            y="-10" />
+    <hit-body name="hit_stamp" >
 
-        <vertex
-            x="10"
-            y="10" />
+        <hit-polygon name="hit_plygon_stamp" >
 
-        <vertex
-            x="-10"
-            y="10" />
-    </hitbox>
+            <vertex
+                x="10"
+                y="-11" />
 
-    <hitbox name="hitbox_ghost" >
+            <vertex
+                x="10"
+                y="11" />
 
-        <vertex
-            x="-20"
-            y="-20" />
+            <vertex
+                x="-10"
+                y="11" />
 
-        <vertex
-            x="20"
-            y="-20" />
+            <vertex
+                x="-10"
+                y="-11" />
+        </hit-polygon>
+    </hit-body>
+    
+    <hit-body name="hit_simple" >
 
-        <vertex
-            x="20"
-            y="20" />
+        <hit-polygon name="hit_plygon_simple" >
 
-        <vertex
-            x="-20"
-            y="20" />
-    </hitbox>
+            <vertex
+                x="7"
+                y="0" />
+            
+            <vertex
+                x="5"
+                y="11" />
+            
+            <vertex
+                x="-5"
+                y="11" />
+            
+            <vertex
+                x="-7"
+                y="0" />
+            
+            <vertex
+                x="-5"
+                y="-11" />
+            
+            <vertex
+                x="5"
+                y="-11" />
+        </hit-polygon>
+    </hit-body>
 
 </jde-content>

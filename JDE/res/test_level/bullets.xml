@@ -1,39 +1,81 @@
 <jde-content>
-    
+
     <bullet name="arc" >
-        <hitbox-ref ref="hitbox_bullet" />
-        <sprite-ref ref="bullet_arc_ref_halfsize" />
+
+        <hit-body-ref ref="hit_simple" />
+
+        <animation name="arc_ref_halfsize">
+
+            <sprite-ref ref="bullet_arc_ref_halfsize" />
+			1000
+        </animation>
+
         <movement-ref ref="arc" />
     </bullet>
-    
+
     <bullet name="stamp" >
-        <hitbox-ref ref="hitbox_bullet" />
-        <sprite-ref ref="bullet_stamp_red_halfsize" />
+
+        <hit-body-ref ref="hit_stamp" />
+
+        <animation name="stamp_red_halfsize">
+
+            <sprite-ref ref="bullet_stamp_red_halfsize" />
+			1000
+        </animation>
+
         <movement-ref ref="random" />
     </bullet>
-    
+
     <bullet name="butterfly_darkblue" >
-        <hitbox-ref ref="hitbox_bullet" />
-        <sprite-ref ref="bullet_butterfly_darkblue" />
+
+        <hit-body-ref ref="hit_butterfly" />
+
+        <animation name="butterfly_darkblue">
+
+            <sprite-ref ref="bullet_butterfly_darkblue" />
+			1000
+        </animation>
+
         <movement-ref ref="butterfly" />
     </bullet>
-    
+
     <bullet name="butterfly_green" >
-        <hitbox-ref ref="hitbox_bullet" />
-        <sprite-ref ref="bullet_butterfly_green" />
+
+        <hit-body-ref ref="hit_butterfly" />
+
+        <animation name="butterfly_green">
+
+            <sprite-ref ref="bullet_butterfly_green" />
+			1000
+        </animation>
+
         <movement-ref ref="butterfly" />
     </bullet>
-    
+
     <bullet name="butterfly_yellow" >
-        <hitbox-ref ref="hitbox_bullet" />
-        <sprite-ref ref="bullet_butterfly_yellow" />
+
+        <hit-body-ref ref="hit_butterfly" />
+
+        <animation name="butterfly_yellow">
+
+            <sprite-ref ref="bullet_butterfly_yellow" />
+			1000
+        </animation>
+
         <movement-ref ref="butterfly" />
     </bullet>
 
     <bullet name="simple_gray" >
-        <hitbox-ref ref="hitbox_bullet" />
-        <sprite-ref ref="bullet_eliptic_gray_halfsize" />
+
+        <hit-body-ref ref="hit_simple" />
+
+        <animation name="eliptic_gray_halfsize">
+
+            <sprite-ref ref="bullet_eliptic_gray_halfsize" />
+			1000
+        </animation>
+
         <movement-ref ref="simple" />
     </bullet>
-    
+
 </jde-content>

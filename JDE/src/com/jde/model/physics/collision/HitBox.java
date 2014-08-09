@@ -7,10 +7,6 @@ public class HitBox implements HitZone {
 
 	protected Vertex center;
 	protected Vertex dimensions;
-
-	public HitBox() {
-		
-	}
 	
 	public HitBox(Vertex center, Vertex dimensions) {
 		this.center = center;
@@ -18,15 +14,15 @@ public class HitBox implements HitZone {
 	}
 
 	@Override
-	public boolean isInside(Vertex v) {
-		return (center.getX() - (dimensions.getX() / 2.0) <= v.getX()
-				&& center.getX() + (dimensions.getX() / 2.0) >= v.getX()
-				&& center.getY() - (dimensions.getY() / 2.0) <= v.getY()
-				&& center.getY() + (dimensions.getY() / 2.0) >= v.getY());
+	public boolean isInside(Movement self, Vertex collider) {
+		return (center.getX() - (dimensions.getX() / 2.0) <= collider.getX()
+				&& center.getX() + (dimensions.getX() / 2.0) >= collider.getX()
+				&& center.getY() - (dimensions.getY() / 2.0) <= collider.getY()
+				&& center.getY() + (dimensions.getY() / 2.0) >= collider.getY());
 	}
 
 	@Override
-	public boolean collides(Movement m, double ms) {
+	public boolean collides(Movement self, Movement collider, double ms) {
 		// TODO Auto-generated method stub
 		return false;
 	}

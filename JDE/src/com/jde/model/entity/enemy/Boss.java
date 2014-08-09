@@ -2,13 +2,13 @@ package com.jde.model.entity.enemy;
 
 import com.jde.model.entity.Entity;
 import com.jde.model.physics.Movement;
-import com.jde.model.physics.collision.HitZone;
-import com.jde.view.sprites.Sprite;
+import com.jde.model.physics.collision.HitBody;
+import com.jde.view.sprites.Animation;
 
 public class Boss extends Entity {
 
-	public Boss(Sprite sprite, HitZone hitbox, Movement movement) {
-		super(sprite, hitbox, movement);
+	public Boss(Animation animation, HitBody body, Movement movement) {
+		super(animation, body, movement);
 		// TODO Auto-generated constructor stub
 	}
 

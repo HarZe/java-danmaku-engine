@@ -8,7 +8,7 @@
             rotation="80"
             speed="20" />
 
-        <direction 
+        <direction
             acceleration="-30"
             speed="-20" />
     </movement>
@@ -29,29 +29,29 @@
             acceleration="10"
             speed="50" />
     </movement>
-    
+
     <movement name="random" >
 
         <direction
-            speed="400"
             acceleration="-600"
+            duration="500"
+            random-acceleration-offset="50"
             random-angle-offset="360"
             random-speed-offset="40"
-            random-acceleration-offset="50"
-            duration="500" />
-        
-        <direction acceleration="600" />
+            speed="400" />
 
+        <direction acceleration="600" />
     </movement>
-    
+
     <movement name="simple" >
 
-        <direction
-            speed="200" />
-
+        <direction speed="200" />
     </movement>
 
-    <movement name="move_ghost_up" >
+    <movement
+        name="move_ghost_up"
+        look-at-direction="no"
+        spin="90" >
 
         <direction
             angle="-90"

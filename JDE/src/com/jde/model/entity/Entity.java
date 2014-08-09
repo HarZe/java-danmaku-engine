@@ -3,22 +3,19 @@ package com.jde.model.entity;
 import org.lwjgl.opengl.GL11;
 
 import com.jde.model.physics.Movement;
-import com.jde.model.physics.collision.HitZone;
-import com.jde.view.sprites.Sprite;
+import com.jde.model.physics.collision.HitBody;
+import com.jde.view.sprites.Animation;
 
 public class Entity {
 
-	protected Sprite sprite;
-	protected HitZone hitbox;
+	protected Animation animation;
+	protected HitBody body;
 	protected Movement movement;
 	
-	protected boolean lookAtMovingDirection = true;
-	protected boolean drawingRotateCorretion = true;
-	
-	public Entity(Sprite sprite, HitZone hitbox, Movement movement) {
-		this.sprite = sprite;
+	public Entity(Animation animation, HitBody body, Movement movement) {
+		this.animation = animation;
 		this.movement = movement;
-		this.hitbox = hitbox;
+		this.body = body;
 	}
 
 	public Movement getMovement() {
@@ -33,27 +30,23 @@ public class Entity {
 		GL11.glPushMatrix();
 		
 		GL11.glTranslated(movement.getPosition().getX(), movement.getPosition().getY(), 0);
+		GL11.glRotated(movement.getDrawingAngle(), 0, 0, 1);
 		
-		if (drawingRotateCorretion)
-			GL11.glRotated(90, 0, 0, 1);
-		if (lookAtMovingDirection)
-			GL11.glRotated(movement.getDirection().getAngle(), 0, 0, 1);
-		
-		sprite.draw();
+		animation.draw();
 		
 		GL11.glPopMatrix();
 	}
 	
 	public void forward(double ms) {
 		movement.forward(ms);
+		animation.forward(ms);
+	}
+	
+	public boolean collides(Movement collider, double ms) {
+		return body.collides(movement, collider, ms);
 	}
 
 	public Entity clone() {
-		return new Entity(sprite, hitbox, movement.clone());
-	}
-	
-	public String toString() {
-		return "{" + "\n" + "\t" + sprite + "\n" + "\t" + movement
-				+ "\n" + "}";
+		return new Entity(animation.clone(), body, movement.clone());
 	}
 }

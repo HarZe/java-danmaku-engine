@@ -12,5 +12,31 @@
         w="44"
         x="0"
         y="0" />
+    
+    <spritesheet
+        name="player_back"
+        file="res/sprites/sprite_player.png" />
+
+    <sprite
+        name="sprite_player_back"
+        h="64"
+        scaling="1"
+        sheet="player_back"
+        w="64"
+        x="0"
+        y="0" />
+    
+    <spritesheet
+        name="player_focus"
+        file="res/sprites/sprite_focus.png" />
+
+    <sprite
+        name="sprite_player_focus"
+        h="16"
+        scaling="1"
+        sheet="player_focus"
+        w="16"
+        x="0"
+        y="0" />
 
 </jde-content>
