@@ -43,7 +43,7 @@ public class Entity {
 	}
 	
 	public boolean collides(Movement collider, double ms) {
-		return body.collides(movement, collider, ms);
+		return body.collides(movement.clone(), collider.clone(), ms);
 	}
 
 	public Entity clone() {

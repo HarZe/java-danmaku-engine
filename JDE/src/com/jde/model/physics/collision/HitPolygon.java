@@ -122,8 +122,7 @@ public class HitPolygon implements HitZone {
 			return false;
 				
 		// Necessary steps for accurate collision
-		double maxDistance = maxSelfSpeed * 0.001 * ms;
-		int steps = (int) Math.floor(3 * maxDistance / radius);
+		int steps = (int) Math.floor(3 * maxDistanceToCollide / radius);
 		if (steps < 3)
 			steps = 3;
 				
@@ -131,8 +130,8 @@ public class HitPolygon implements HitZone {
 		double stepMs = ms / (steps - 1);
 		for (int step = 0; step < steps; step++) {
 					
-		if (isInside(self, collider.getPosition()) || pierces(self, collider, stepMs))
-			return true;
+			if (isInside(self, collider.getPosition()) || pierces(self, collider, stepMs))
+				return true;
 					
 			if (step < steps - 1) {
 				self.forward(stepMs);

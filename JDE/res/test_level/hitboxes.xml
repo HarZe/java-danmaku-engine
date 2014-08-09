@@ -2,7 +2,7 @@
 
     <hit-body name="hit_butterfly" >
 
-        <hit-circle radius="12" />
+        <hit-circle radius="16" />
     </hit-body>
 
     <hit-body name="hit_stamp" >

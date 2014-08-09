@@ -62,16 +62,15 @@ public class HitCircle implements HitZone {
 	public boolean collides(Movement self, Movement collider, double ms) {
 		
 		// Aprox. distance check (counting acceleration)
-		final double SECURE_MARGIN = 1.2;
+		final double SECURE_MARGIN = 1.25;
 		double maxSelfSpeed = Math.max(self.getDirection().getSpeed(), self.getDirection().getSpeed() + self.getDirection().getAcceleration() * 0.001 * ms);
-		double maxCooliderSpeed = Math.max(collider.getDirection().getSpeed(), collider.getDirection().getSpeed() + collider.getDirection().getAcceleration() * 0.001 * ms);
-		double maxDistanceToCollide = (maxSelfSpeed + maxCooliderSpeed) * 0.001 * ms;
+		double maxColliderSpeed = Math.max(collider.getDirection().getSpeed(), collider.getDirection().getSpeed() + collider.getDirection().getAcceleration() * 0.001 * ms);
+		double maxDistanceToCollide = (maxSelfSpeed + maxColliderSpeed) * 0.001 * ms;
 		if (SECURE_MARGIN*maxDistanceToCollide < self.getPosition().distanceTo(collider.getPosition()))
 			return false;
 		
 		// Necessary steps for accurate collision
-		double maxDistance = maxSelfSpeed * 0.001 * ms;
-		int steps = (int) Math.floor(3 * maxDistance / radius);
+		int steps = (int) Math.floor(3 * maxDistanceToCollide / radius);
 		if (steps < 3)
 			steps = 3;
 		

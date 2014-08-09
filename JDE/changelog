@@ -1,3 +1,6 @@
+Version 0.1.1 (August 10, 2014):
+Fixed some internal errors
+
 Version 0.1 (Agusut 9, 2014):
 Added collision system for circles and convex polygons: <hit-circle> and <hit-polygon>
 Added <hit-body> to contain multiple <hit-circle> or <hit-polygon> into an entity
