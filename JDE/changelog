@@ -1,3 +1,9 @@
+Version 0.1.4 (August 10, 2014):
+Added collision with enemies
+Modified <player> to get only <vertex> as spawn point, and not a <movement>
+Added "hit-size" to <player> to set the radius of player hitbox, to "inflate" all hit-bodies in the game
+Fixed some bullets not colliding because multithreading
+
 Version 0.1.3 (August 10, 2014):
 Fixed a mayor bug in sprite loading, now FPS are 1000% higher
 Fixed angle corretion for hit-polygon rotation

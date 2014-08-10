@@ -31,4 +31,9 @@ public class HitBody implements HitZone {
 		return false;
 	}
 
+	@Override
+	public void expand(double size) {
+		for (HitZone h : hitZones)
+			h.expand(size);
+	}
 }

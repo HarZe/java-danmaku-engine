@@ -205,7 +205,7 @@
         name="enemy_butterfly"
         health="100" >
 
-        <hitbox-ref ref="hitbox_ghost" />
+        <hit-body-ref ref="hit_stamp" />
 
         <animation name="enemy_butterfly" >
 
@@ -257,7 +257,7 @@
         name="enemy_arc"
         health="100" >
 
-        <hitbox-ref ref="hitbox_ghost" />
+        <hit-body-ref ref="hit_stamp" />
 
         <animation name="enemy_arc" >
 
@@ -286,7 +286,7 @@
         name="enemy_stamps"
         health="100" >
 
-        <hitbox-ref ref="hitbox_ghost" />
+        <hit-body-ref ref="hit_stamp" />
 
         <animation name="enemy_stamps" >
 
@@ -330,7 +330,7 @@
         name="enemy_spirals"
         health="100" >
 
-        <hitbox-ref ref="hitbox_ghost" />
+        <hit-body-ref ref="hit_stamp" />
 
         <animation name="enemy_spirals" >
 
@@ -347,7 +347,7 @@
 
     <game name="game_name" >
 
-        <player>
+        <player hit-size="4">
 
             <animation name="player_back" >
 
@@ -361,19 +361,9 @@
         	1000
             </animation>
 
-            <movement name="player_move" look-at-direction="no" spin="0" >
-
-                <vertex
-                    x="0"
-                    y="100" />
-
-                <direction
-                    angle="0"
-                    speed="0" />
-            </movement>
-            
-            <hit-body-ref ref="hit_butterfly" />
-            
+            <vertex
+                x="0"
+                y="100" />
         </player>
 
         <spawn time="2000" >

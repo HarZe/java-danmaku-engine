@@ -102,6 +102,11 @@ public class Parser {
 			e.printStackTrace();
 		}
 
+		// Resizing hit-bodies
+		for (HitBody h : bodies.values())
+			h.expand(player.getHitboxRadius());
+		
+		// Creating the game
 		ArrayList<Stage> stages = new ArrayList<Stage>();
 		stages.add(new ArmyStage(spawns, player));
 		return new Game(stages);
@@ -893,35 +898,43 @@ public class Parser {
 	}
 	
 	protected Player processPlayer(Node node) throws Exception {
-		HitBody h = null;
 		ArrayList<Animation> anims = new ArrayList<Animation>();
-		Movement m = null;
+		Vertex v = new Vertex(0, 100);
 
-		if (node.hasChildNodes()
-				&& node.getChildNodes().getLength() == 4 * 2 + 1)
-			for (int i = 1; i < 4 * 2 + 1; i += 2) {
-				Node currentNode = node.getChildNodes().item(i);
-				if (currentNode.getNodeName().equals("hit-body")
-						|| currentNode.getNodeName().equals("hit-body-ref"))
-					h = processHitBody(currentNode);
-				else if (currentNode.getNodeName().equals("movement")
-						|| currentNode.getNodeName().equals("movement-ref"))
-					m = processMovement(currentNode);
-				else if (currentNode.getNodeName().equals("animation")
-						|| currentNode.getNodeName().equals("animation-ref"))
-					anims.add(processAnimation(currentNode));
-			}
-		else
-			throw new Exception(
-					"<player> requieres: <hit-body>, <movement> and two <animation>");
-
-		if (anims.size() != 2)
-			throw new Exception(
-					"<player> requieres: <hit-body>, <movement> and two <animation>");
-
-		player = new Player(anims.get(0), h, m, anims.get(1));
-		player.getMovement().setPosition(unvirtualizeCoordinates(player.getMovement().getPosition()));
-		return player;
+		if (node.hasAttributes()) {
+			NamedNodeMap nodeMap = node.getAttributes();
+				
+			if (node.hasChildNodes()
+					&& node.getChildNodes().getLength() == 3 * 2 + 1)
+				for (int i = 1; i < 3 * 2 + 1; i += 2) {
+					Node currentNode = node.getChildNodes().item(i);
+					if (currentNode.getNodeName().equals("vertex")
+							|| currentNode.getNodeName().equals("vertex-ref"))
+						v = processVertex(currentNode);
+					else if (currentNode.getNodeName().equals("animation")
+							|| currentNode.getNodeName().equals("animation-ref"))
+						anims.add(processAnimation(currentNode));
+				}
+			else
+				throw new Exception(
+						"<player> requieres: <vertex> and two <animation>");
+	
+			if (anims.size() != 2)
+				throw new Exception(
+						"<player> requieres: <vertex> and two <animation>");
+	
+			player = new Player(anims.get(0), anims.get(1), unvirtualizeCoordinates(v));
+			
+			if (nodeMap.getNamedItem("hit-size") != null) {
+				double hitSize = Double.parseDouble(nodeMap.getNamedItem("hit-size")
+						.getNodeValue());
+				player.setHitboxRadius(hitSize);
+			} else
+				throw new Exception("<player> with no hit-size declared");
+			
+			return player;
+		} else
+			throw new Exception("<player> with no attributes declared");
 	}
 
 	// TODO: provisional spawner for enemies

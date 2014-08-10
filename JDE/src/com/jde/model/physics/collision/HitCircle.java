@@ -29,6 +29,11 @@ public class HitCircle implements HitZone {
 	public void setRadius(double radius) {
 		this.radius = radius;
 	}
+	
+	@Override
+	public void expand(double size) {
+		radius += size;
+	}
 
 	@Override
 	public boolean isInside(Movement self, Vertex collider) {

@@ -57,8 +57,6 @@ public class ArmyStage implements Stage {
 		for (Bullet b : bullets)
 			b.draw();
 		
-		player.drawFocus();
-		
 		// DEBUG
 		/*System.out.println("************** NEW FRAME **************");
 		for (Enemy e : enemies)
@@ -81,6 +79,10 @@ public class ArmyStage implements Stage {
 			colliders.get(i).start();
 		}
 		colliders.add(new Collider(bullets, player.getMovement(), (cores - 1)*step, bullets.size(), ms));
+		colliders.get(cores - 1).start();
+		
+		for (Enemy e : enemies)
+			collision = collision || e.collides(player.getMovement(), ms);
 		
 		for (Collider c : colliders) {
 			try {
@@ -120,8 +122,6 @@ public class ArmyStage implements Stage {
 
 		// Forward current enemies
 		for (Enemy e : enemies) {		
-			
-			// TODO: enemies collision
 			
 			// Spawn new bullets if shot
 			for (Bullet b : e.forwardAndBullets(ms)) {

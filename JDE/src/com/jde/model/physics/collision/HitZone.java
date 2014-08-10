@@ -8,4 +8,6 @@ public interface HitZone {
 	public boolean isInside(Movement self, Vertex collider);
 	
 	public boolean collides(Movement self, Movement collider, double ms);
+	
+	public void expand(double size);
 }

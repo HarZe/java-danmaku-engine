@@ -79,6 +79,12 @@ public class Vertex {
 		return new Vertex(x / lenght, y / lenght);
 	}
 	
+	public void resize(double s) {
+		double lenght = lenght();
+		x *= s / lenght;
+		y *= s / lenght;
+	}
+	
 	public double angle() {
 		Vertex uv = unit();
 		double acos = Math.acos(uv.x);

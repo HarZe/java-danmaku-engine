@@ -27,4 +27,10 @@ public class HitBox implements HitZone {
 		return false;
 	}
 
+	@Override
+	public void expand(double size) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

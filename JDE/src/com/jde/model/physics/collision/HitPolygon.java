@@ -34,6 +34,12 @@ public class HitPolygon implements HitZone {
 					.normal().opposite().unit());
 		}
 	}
+
+	@Override
+	public void expand(double size) {
+		for (Vertex v : verteces)
+			v.resize(v.lenght() + size);
+	}
 	
 	@Override
 	public boolean isInside(Movement self, Vertex collider) {
