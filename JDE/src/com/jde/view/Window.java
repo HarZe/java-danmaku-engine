@@ -30,8 +30,7 @@ public class Window {
 		while (!Display.isCloseRequested()) {
 			
 			double time = timer.update();
-			game.draw(width, height);
-			game.forward(time);
+			game.update(width, height, time);
 			
 			Display.update();
 			Display.sync(144);

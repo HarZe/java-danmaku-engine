@@ -11,7 +11,8 @@ import com.jde.view.sprites.SpriteSheet;
 
 public class Game {
 	
-	protected String VERSION = "pre-alpha 0.1.2";
+	protected String VERSION = "pre-alpha 0.1.3";
+	protected boolean loaded = false;
 	
 	protected HUD hud;
 	
@@ -27,8 +28,26 @@ public class Game {
 		currentStage = 0;
 	}
 	
-	public void draw(int w, int h) {
-        GL11.glViewport(0, 0, w, h);
+	public void update(int w, int h, double ms) {
+
+		Collider collider = new Collider(ms);
+		collider.start();
+		
+		draw(w, h);
+		
+		try {
+			collider.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		forward(ms);
+		
+		//System.out.println(((int) (1000 / ms)) + " fps");
+	}
+	
+	protected void initGL(int w, int h) {
+		GL11.glViewport(0, 0, w, h);
 
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
@@ -39,6 +58,13 @@ public class Game {
 
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+	}
+	
+	protected void draw(int w, int h) {
+		if (!loaded) {
+			initGL(w, h);
+			loaded = true;
+		}
 		
         GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
@@ -57,13 +83,34 @@ public class Game {
 		GL11.glPopMatrix();
 	}
 	
-	public void forward(double ms) {
-		//System.out.println(((int) (1000 / ms)) + " fps");
-		
+	protected boolean colliding(double ms) {
+		return stages.get(currentStage).colliding(ms);
+	}
+	
+	protected void forward(double ms) {
 		stages.get(currentStage).forward(ms);
 		
 		if (stages.get(currentStage).isFinished() && currentStage + 1 < stages.size())
 			currentStage++;
+	}
+	
+	protected class Collider extends Thread {
+		
+		protected double ms;
+		protected boolean collision;
+		
+		public Collider(double ms) {
+			this.ms = ms;
+		}
+		
+		public void run() {
+	        collision = colliding(ms);
+	    }
+		
+		public boolean collision() {
+			return collision;
+		}
+		
 	}
 
 	@Override

@@ -24,4 +24,10 @@ public class BossStage implements Stage {
 		return false;
 	}
 
+	@Override
+	public boolean colliding(double ms) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

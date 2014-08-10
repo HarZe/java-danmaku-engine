@@ -39,7 +39,7 @@ public class HitPolygon implements HitZone {
 	public boolean isInside(Movement self, Vertex collider) {
 		ArrayList<Vertex> fixedVerteces = new ArrayList<Vertex>();
 		for (Vertex v : verteces) 
-			fixedVerteces.add(self.getPosition().clone().add(v.clone().rotate(Math.toRadians(self.getPhysicAngle()))));
+			fixedVerteces.add(self.getPosition().clone().add(v.clone().rotate(Math.toRadians(self.getDrawingAngle()))));
 		
 		int last_side = 0, current_side = 0;
 		for (int i = 0; i < fixedVerteces.size(); i++) {
@@ -75,7 +75,7 @@ public class HitPolygon implements HitZone {
 		
 		LinkedList<Vertex> fixedVerteces = new LinkedList<Vertex>();
 		for (Vertex v : verteces)
-			fixedVerteces.add(self.getPosition().clone().add(v.clone().rotate(Math.toRadians(self.getPhysicAngle()))));
+			fixedVerteces.add(self.getPosition().clone().add(v.clone().rotate(Math.toRadians(self.getDrawingAngle()))));
 		
 		Vertex pos = collider.getPosition();
 		Direction cDir = collider.getDirection();
@@ -111,6 +111,7 @@ public class HitPolygon implements HitZone {
 		return tIn > 0 && tIn <= tOut;
 	}
 
+	// self and collider MUST be clons
 	@Override
 	public boolean collides(Movement self, Movement collider, double ms) {
 		
@@ -148,8 +149,6 @@ public class HitPolygon implements HitZone {
 	public HitPolygon clone() {
 		return new HitPolygon(verteces);
 	}
-	
-	// TODO: FIX THIS SHIT (may be fixed? )
 	
 	/*
 	// Tester

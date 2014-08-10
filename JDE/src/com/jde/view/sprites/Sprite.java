@@ -19,8 +19,10 @@ public class Sprite {
 	}
 
 	public void draw() {
-		if (!loaded)
+		if (!loaded) {
 			displayListId = sheet.getDisplayListId(x, y, w, h, scaling);
+			loaded = true;
+		}
 		
 		sheet.draw(displayListId);
 	}
