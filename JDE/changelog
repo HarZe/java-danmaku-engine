@@ -1,3 +1,7 @@
+Version 0.1.2 (August 10, 2014):
+Fixed "inside-checking" in hit-polygons
+Fixed a critical bug about cyrus-beck algorith
+
 Version 0.1.1 (August 10, 2014):
 Fixed some internal errors
 

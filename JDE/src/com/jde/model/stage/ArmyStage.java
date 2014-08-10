@@ -110,7 +110,7 @@ public class ArmyStage implements Stage {
 		player.update(ms);
 		
 		if (collision) {
-			System.out.println("Collision");
+			System.out.println("Collision, player: " + player.getMovement().getPosition());
 			player.getMovement().setPosition(Parser.unvirtualizeCoordinates(new Vertex(0, 100)));
 		}
 	}

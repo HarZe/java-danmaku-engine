@@ -38,15 +38,15 @@ public class HitPolygon implements HitZone {
 	@Override
 	public boolean isInside(Movement self, Vertex collider) {
 		ArrayList<Vertex> fixedVerteces = new ArrayList<Vertex>();
-		for (Vertex v : verteces)
+		for (Vertex v : verteces) 
 			fixedVerteces.add(self.getPosition().clone().add(v.clone().rotate(Math.toRadians(self.getPhysicAngle()))));
 		
 		int last_side = 0, current_side = 0;
 		for (int i = 0; i < fixedVerteces.size(); i++) {
 			Vertex a = fixedVerteces.get(i);
-			Vertex b = fixedVerteces.get(i % fixedVerteces.size());
+			Vertex b = fixedVerteces.get((i+1) % fixedVerteces.size());
 
-			Vertex edge = b.sub(a);
+			Vertex edge = b.clone().sub(a);
 			Vertex point = collider.clone().sub(a);
 			double cp = edge.crossProduct(point);
 			current_side = cp > 0 ? 1 : -1;
@@ -79,7 +79,7 @@ public class HitPolygon implements HitZone {
 		
 		Vertex pos = collider.getPosition();
 		Direction cDir = collider.getDirection();
-		Vertex dir = Vertex.angleToVertex(cDir.getAngle()).scale(cDir.getSpeed() * 0.001 * ms);
+		Vertex dir = Vertex.angleToVertex(Math.toRadians(cDir.getAngle())).scale(cDir.getSpeed() * 0.001 * ms);
 
 		Iterator<Vertex> itV = verteces.iterator();
 		Iterator<Vertex> itN = normals.iterator();
@@ -108,23 +108,26 @@ public class HitPolygon implements HitZone {
 			}
 		}
 
-		return tIn <= tOut;
+		return tIn > 0 && tIn <= tOut;
 	}
 
 	@Override
 	public boolean collides(Movement self, Movement collider, double ms) {
+		
 		// Aprox. distance check (counting acceleration)
-		final double SECURE_MARGIN = 1.2;
-		double maxSelfSpeed = Math.max(self.getDirection().getSpeed(), self.getDirection().getSpeed() + self.getDirection().getAcceleration() * 0.001 * ms);
-		double maxCooliderSpeed = Math.max(collider.getDirection().getSpeed(), collider.getDirection().getSpeed() + collider.getDirection().getAcceleration() * 0.001 * ms);
-		double maxDistanceToCollide = (maxSelfSpeed + maxCooliderSpeed) * 0.001 * ms;
+		double SECURE_MARGIN = 1.2;
+		double absSelfSpeed = Math.abs(self.getDirection().getSpeed());
+		double absCollSpeed = Math.abs(collider.getDirection().getSpeed());
+		double maxSelfSpeed = Math.max(absSelfSpeed, absSelfSpeed + self.getDirection().getAcceleration() * 0.001 * ms);
+		double maxColliderSpeed = Math.max(absCollSpeed, absCollSpeed + collider.getDirection().getAcceleration() * 0.001 * ms);
+		double maxDistanceToCollide = radius + (maxSelfSpeed + maxColliderSpeed) * 0.001 * ms;
 		if (SECURE_MARGIN*maxDistanceToCollide < self.getPosition().distanceTo(collider.getPosition()))
 			return false;
 				
 		// Necessary steps for accurate collision
-		int steps = (int) Math.floor(3 * maxDistanceToCollide / radius);
-		if (steps < 3)
-			steps = 3;
+		int steps = (int) (maxDistanceToCollide / 6.0);
+		if (steps < 6)
+			steps = 6;
 				
 		// Step collision
 		double stepMs = ms / (steps - 1);
@@ -138,7 +141,7 @@ public class HitPolygon implements HitZone {
 				collider.forward(stepMs);
 			}
 		}
-					
+		
 		return false;
 	}
 	
@@ -146,20 +149,22 @@ public class HitPolygon implements HitZone {
 		return new HitPolygon(verteces);
 	}
 	
+	// TODO: FIX THIS SHIT (may be fixed? )
+	
 	/*
 	// Tester
 	public static void main(String args[]) {
 		LinkedList<Vertex> list = new LinkedList<Vertex>();
-		list.add(new Vertex(10,0));
-		list.add(new Vertex(0,10));
-		list.add(new Vertex(-10,0));
-		list.add(new Vertex(0,-10));
+		list.add(new Vertex(10,-10));
+		list.add(new Vertex(10,10));
+		list.add(new Vertex(-10,10));
+		list.add(new Vertex(-10,-10));
 		HitPolygon hit = new HitPolygon(list);
 		
 		ArrayList<Direction> selfDirs = new ArrayList<Direction>();
 		Direction selfDir1 = new Direction();
 		selfDir1.setAngle(-135);
-		selfDir1.setSpeed(100);
+		selfDir1.setSpeed(50);
 		selfDirs.add(selfDir1);
 		Movement self = new Movement(new Vertex(200,200), selfDirs);
 		
@@ -171,11 +176,12 @@ public class HitPolygon implements HitZone {
 		colDirs.add(colDir1);
 		Movement collider = new Movement(new Vertex(), colDirs);
 		
-		while (!hit.collides(self, collider, 16)) {
+		while (!hit.collides(self.clone(), collider.clone(), 16)) {
 			self.forward(16);
 			collider.forward(16);
 		}
 		
+		System.out.println(self.getPosition());
 		System.out.println(collider.getPosition());
 	}
 	*/

@@ -38,7 +38,7 @@ public class HitCircle implements HitZone {
 	protected boolean pierces(Vertex selfPos, Movement collider, double ms) {
 		selfPos = selfPos.clone().add(center);
 		Direction cDir = collider.getDirection();
-		Vertex v = Vertex.angleToVertex(cDir.getAngle()).scale(cDir.getSpeed() * 0.001 * ms);
+		Vertex v = Vertex.angleToVertex(Math.toRadians(cDir.getAngle())).scale(cDir.getSpeed() * 0.001 * ms);
 		Vertex cp = new Vertex(selfPos, collider.getPosition());
 		
 		double r2 = radius * radius;
@@ -62,17 +62,19 @@ public class HitCircle implements HitZone {
 	public boolean collides(Movement self, Movement collider, double ms) {
 		
 		// Aprox. distance check (counting acceleration)
-		final double SECURE_MARGIN = 1.25;
-		double maxSelfSpeed = Math.max(self.getDirection().getSpeed(), self.getDirection().getSpeed() + self.getDirection().getAcceleration() * 0.001 * ms);
-		double maxColliderSpeed = Math.max(collider.getDirection().getSpeed(), collider.getDirection().getSpeed() + collider.getDirection().getAcceleration() * 0.001 * ms);
-		double maxDistanceToCollide = (maxSelfSpeed + maxColliderSpeed) * 0.001 * ms;
+		double SECURE_MARGIN = 1.2;
+		double absSelfSpeed = Math.abs(self.getDirection().getSpeed());
+		double absCollSpeed = Math.abs(collider.getDirection().getSpeed());
+		double maxSelfSpeed = Math.max(absSelfSpeed, absSelfSpeed + self.getDirection().getAcceleration() * 0.001 * ms);
+		double maxColliderSpeed = Math.max(absCollSpeed, absCollSpeed + collider.getDirection().getAcceleration() * 0.001 * ms);
+		double maxDistanceToCollide = radius + (maxSelfSpeed + maxColliderSpeed) * 0.001 * ms;
 		if (SECURE_MARGIN*maxDistanceToCollide < self.getPosition().distanceTo(collider.getPosition()))
 			return false;
 		
 		// Necessary steps for accurate collision
-		int steps = (int) Math.floor(3 * maxDistanceToCollide / radius);
-		if (steps < 3)
-			steps = 3;
+		int steps = (int) (maxDistanceToCollide / 6.0);
+		if (steps < 6)
+			steps = 6;
 		
 		// Step collision
 		double stepMs = ms / (steps - 1);
@@ -97,12 +99,12 @@ public class HitCircle implements HitZone {
 	/*
 	// Tester
 	public static void main(String args[]) {
-		HitCircle hit = new HitCircle(new Vertex(0, 10), 11);
+		HitCircle hit = new HitCircle(new Vertex(0, 10), 20);
 		
 		ArrayList<Direction> selfDirs = new ArrayList<Direction>();
 		Direction selfDir1 = new Direction();
 		selfDir1.setAngle(-135);
-		selfDir1.setSpeed(100);
+		selfDir1.setSpeed(50);
 		selfDirs.add(selfDir1);
 		Movement self = new Movement(new Vertex(200,200), selfDirs);
 		
@@ -114,11 +116,12 @@ public class HitCircle implements HitZone {
 		colDirs.add(colDir1);
 		Movement collider = new Movement(new Vertex(), colDirs);
 		
-		while (!hit.collides(self, collider, 16)) {
+		while (!hit.collides(self.clone(), collider.clone(), 16)) {
 			self.forward(16);
 			collider.forward(16);
 		}
 		
+		System.out.println(self.getPosition());
 		System.out.println(collider.getPosition());
 	}
 	*/

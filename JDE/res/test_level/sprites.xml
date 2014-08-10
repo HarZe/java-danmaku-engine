@@ -20,7 +20,7 @@
     <sprite
         name="sprite_player_back"
         h="64"
-        scaling="1"
+        scaling="0.5"
         sheet="player_back"
         w="64"
         x="0"
@@ -33,7 +33,7 @@
     <sprite
         name="sprite_player_focus"
         h="16"
-        scaling="1"
+        scaling="0.5"
         sheet="player_focus"
         w="16"
         x="0"

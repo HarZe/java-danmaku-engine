@@ -69,8 +69,8 @@ public class Vertex {
 	
 	public Vertex rotate(double a) {
 		double px = x;
-		x *= px*Math.cos(a) - y*Math.sin(a);
-		y *= px*Math.sin(a) + y*Math.cos(a);
+		x = px*Math.cos(a) - y*Math.sin(a);
+		y = px*Math.sin(a) + y*Math.cos(a);
 		return this;
 	}
 	

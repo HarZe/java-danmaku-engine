@@ -24,8 +24,10 @@ public class HitBody implements HitZone {
 	@Override
 	public boolean collides(Movement self, Movement collider, double ms) {
 		for (HitZone h : hitZones)
-			if (h.collides(self, collider, ms))
+			if (h.collides(self, collider, ms)) {
+				System.out.println("Collision, with : " + self.getPosition());
 				return true;
+			}
 		return false;
 	}
 

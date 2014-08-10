@@ -2,7 +2,7 @@
 
     <hit-body name="hit_butterfly" >
 
-        <hit-circle radius="16" />
+        <hit-circle radius="12" />
     </hit-body>
 
     <hit-body name="hit_stamp" >
@@ -10,20 +10,20 @@
         <hit-polygon name="hit_plygon_stamp" >
 
             <vertex
-                x="10"
-                y="-11" />
+                x="9"
+                y="-10" />
 
             <vertex
-                x="10"
-                y="11" />
+                x="9"
+                y="10" />
 
             <vertex
-                x="-10"
-                y="11" />
+                x="-9"
+                y="10" />
 
             <vertex
-                x="-10"
-                y="-11" />
+                x="-9"
+                y="-10" />
         </hit-polygon>
     </hit-body>
     
@@ -32,28 +32,28 @@
         <hit-polygon name="hit_plygon_simple" >
 
             <vertex
-                x="7"
+                x="6"
                 y="0" />
             
             <vertex
-                x="5"
-                y="11" />
+                x="4"
+                y="10" />
             
             <vertex
-                x="-5"
-                y="11" />
+                x="-4"
+                y="10" />
             
             <vertex
-                x="-7"
+                x="-6"
                 y="0" />
             
             <vertex
-                x="-5"
-                y="-11" />
+                x="-4"
+                y="-10" />
             
             <vertex
-                x="5"
-                y="-11" />
+                x="4"
+                y="-10" />
         </hit-polygon>
     </hit-body>
 
