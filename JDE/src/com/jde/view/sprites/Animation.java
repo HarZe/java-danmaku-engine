@@ -8,19 +8,21 @@ public class Animation {
 	protected ArrayList<Double> durations;
 	protected double elapsed = 0;
 	protected int current = 0;
-	protected boolean repeat = false;
+	protected int loopFrom = 0;
 	
 	public Animation(ArrayList<Sprite> sprites, ArrayList<Double> durations) {
 		this.sprites = sprites;
 		this.durations = durations;
-	}
-	
-	public boolean isRepeat() {
-		return repeat;
+		this.loopFrom = sprites.size() - 1;
 	}
 
-	public void setRepeat(boolean repeat) {
-		this.repeat = repeat;
+	public int getLoopFrom() {
+		return loopFrom;
+	}
+
+	public void setLoopFrom(int loopFrom) {
+		if (loopFrom < sprites.size() - 1)
+			this.loopFrom = loopFrom;
 	}
 
 	public void forward(double ms) {
@@ -29,22 +31,24 @@ public class Animation {
 		while (current < sprites.size() && durations.get(current) < elapsed)
 			current++;
 		
-		if (current == sprites.size())
-			if (repeat) {
-				elapsed -= durations.get(current - 1);
-				current = 0;
-			}
-			else
-				current--;
+		if (current == sprites.size()) {
+			elapsed -= durations.get(current - 1) - durations.get(loopFrom);
+			current = loopFrom;
+		}
 	}
 	
 	public void draw() {
 		sprites.get(current).draw();
 	}
 	
+	public void reset() {
+		current = 0;
+		elapsed = 0;
+	}
+	
 	public Animation clone() {
 		Animation a = new Animation(sprites, durations);
-		a.setRepeat(repeat);
+		a.setLoopFrom(loopFrom);
 		return a;
 	}
 	

@@ -5,7 +5,11 @@
 
     <import file="res/sprites/sprites.xml" />
 
+    <import file="res/sprites/sprites_reimu.xml" />
+
     <import file="res/test_level/sprites.xml" />
+    
+    <import file="res/test_level/player.xml" />
 
     <import file="res/test_level/movements.xml" />
 
@@ -347,19 +351,15 @@
 
     <game name="game_name" >
 
-        <player hit-size="4">
+        <player hit-size="4" >
 
-            <animation name="player_back" >
+            <animation-ref ref="player_back" />
 
-                <sprite-ref ref="sprite_player_back" />
-        	1000
-            </animation>
-
-            <animation name="player_focus" >
-
-                <sprite-ref ref="sprite_player_focus" />
-        	1000
-            </animation>
+            <animation-ref ref="player_focus" />
+            
+            <animation-ref ref="player_left" />
+            
+            <animation-ref ref="player_right" />
 
             <vertex
                 x="0"

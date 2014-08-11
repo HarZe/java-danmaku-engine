@@ -53,6 +53,7 @@ public class Parser {
 
 	protected ArrayList<Enemy> spawns;
 	protected Player player;
+	protected Vertex playerPos = new Vertex(0, 100);
 
 	public Parser() {
 		importedFiles = new HashSet<String>();
@@ -260,10 +261,10 @@ public class Parser {
 
 			anim = new Animation(spritesAnim, durationsAnim);
 
-			if (nodeMap.getNamedItem("repeat") != null) {
-				if (nodeMap.getNamedItem("repeat").getNodeValue()
-						.equalsIgnoreCase("yes"))
-					anim.setRepeat(true);
+			if (nodeMap.getNamedItem("loop-from") != null) {
+				int loopFrom = Integer.parseInt(nodeMap.getNamedItem("loop-from")
+						.getNodeValue());
+				anim.setLoopFrom(loopFrom);
 			}
 
 			if (nodeMap.getNamedItem("name") != null) {
@@ -358,7 +359,14 @@ public class Parser {
 						hv = unvirtualizeCoordinates(processVertex(currentNode));
 				}
 				d = new Direction(hv);
-			} else {
+			} 
+			else if (nodeMap.getNamedItem("homing-to-player") != null &&
+					nodeMap.getNamedItem("homing-to-player").getNodeValue().equalsIgnoreCase("yes")) {
+				d = new Direction();
+				d.setHoming(true);
+				d.setHomingPosition(playerPos);
+			}
+			else {
 				double angle = 0;
 				if (nodeMap.getNamedItem("angle") != null) {
 					angle = Double.parseDouble(nodeMap.getNamedItem(
@@ -411,6 +419,11 @@ public class Parser {
 				double randomaccelerationoffset = Double.parseDouble(nodeMap.getNamedItem(
 						"random-acceleration-offset").getNodeValue());
 				d.setRandomAccelerationOffset(randomaccelerationoffset);
+			}
+			if (nodeMap.getNamedItem("homing-offset") != null) {
+				double homingOffset = Double.parseDouble(nodeMap.getNamedItem(
+						"homing-offset").getNodeValue());
+				d.setHomingOffset(homingOffset);
 			}
 			if (nodeMap.getNamedItem("inheritance") != null) {
 				if (nodeMap.getNamedItem("inheritance").getNodeValue()
@@ -576,6 +589,16 @@ public class Parser {
 				double accelerationExponent = Double.parseDouble(nodeMap.getNamedItem(
 						"acceleration-exponent").getNodeValue());
 				d.setAccelerationExponent(accelerationExponent);
+			}
+			if (nodeMap.getNamedItem("homing-offset-start") != null) {
+				double homingOffsetStart = Double.parseDouble(nodeMap.getNamedItem(
+						"homing-offset-start").getNodeValue());
+				d.setHomingOffsetStart(homingOffsetStart);
+			}
+			if (nodeMap.getNamedItem("homing-offset-end") != null) {
+				double homingOffsetEnd = Double.parseDouble(nodeMap.getNamedItem(
+						"homing-offset-end").getNodeValue());
+				d.setHomingOffsetEnd(homingOffsetEnd);
 			}
 
 			if (nodeMap.getNamedItem("name") != null) {
@@ -904,9 +927,8 @@ public class Parser {
 		if (node.hasAttributes()) {
 			NamedNodeMap nodeMap = node.getAttributes();
 				
-			if (node.hasChildNodes()
-					&& node.getChildNodes().getLength() == 3 * 2 + 1)
-				for (int i = 1; i < 3 * 2 + 1; i += 2) {
+			if (node.hasChildNodes())
+				for (int i = 1; i < node.getChildNodes().getLength(); i += 2) {
 					Node currentNode = node.getChildNodes().item(i);
 					if (currentNode.getNodeName().equals("vertex")
 							|| currentNode.getNodeName().equals("vertex-ref"))
@@ -919,11 +941,18 @@ public class Parser {
 				throw new Exception(
 						"<player> requieres: <vertex> and two <animation>");
 	
-			if (anims.size() != 2)
+			if (anims.size() < 2)
 				throw new Exception(
 						"<player> requieres: <vertex> and two <animation>");
 	
-			player = new Player(anims.get(0), anims.get(1), unvirtualizeCoordinates(v));
+			v = unvirtualizeCoordinates(v);
+			playerPos.setX(v.getX());
+			playerPos.setY(v.getY());
+			player = new Player(anims.get(0), anims.get(1), playerPos);
+			if (anims.size() >= 3)
+				player.setMovingLeftAnimation(anims.get(2));
+			if (anims.size() >= 4)
+				player.setMovingRightAnimation(anims.get(3));
 			
 			if (nodeMap.getNamedItem("hit-size") != null) {
 				double hitSize = Double.parseDouble(nodeMap.getNamedItem("hit-size")

@@ -1,0 +1,223 @@
+<jde-content>
+
+    <spritesheet
+        name="touhou_reimu"
+        file="res/sprites/touhou_sprites_reimu.png" />
+
+    <sprite
+        name="reimu_forward_1"
+        h="48"
+        scaling="1"
+        sheet="touhou_reimu"
+        w="32"
+        x="0"
+        y="0" />
+
+    <sprite
+        name="reimu_forward_2"
+        h="48"
+        scaling="1"
+        sheet="touhou_reimu"
+        w="32"
+        x="32"
+        y="0" />
+
+    <sprite
+        name="reimu_forward_3"
+        h="48"
+        scaling="1"
+        sheet="touhou_reimu"
+        w="32"
+        x="64"
+        y="0" />
+
+    <sprite
+        name="reimu_forward_4"
+        h="48"
+        scaling="1"
+        sheet="touhou_reimu"
+        w="32"
+        x="96"
+        y="0" />
+	
+    <sprite
+        name="reimu_forward_5"
+        h="48"
+        scaling="1"
+        sheet="touhou_reimu"
+        w="32"
+        x="128"
+        y="0" />
+
+    <sprite
+        name="reimu_forward_6"
+        h="48"
+        scaling="1"
+        sheet="touhou_reimu"
+        w="32"
+        x="160"
+        y="0" />
+
+    <sprite
+        name="reimu_forward_7"
+        h="48"
+        scaling="1"
+        sheet="touhou_reimu"
+        w="32"
+        x="192"
+        y="0" />
+
+    <sprite
+        name="reimu_forward_8"
+        h="48"
+        scaling="1"
+        sheet="touhou_reimu"
+        w="32"
+        x="224"
+        y="0" />
+
+    <sprite
+        name="reimu_left_1"
+        h="48"
+        scaling="1"
+        sheet="touhou_reimu"
+        w="32"
+        x="0"
+        y="48" />
+
+    <sprite
+        name="reimu_left_2"
+        h="48"
+        scaling="1"
+        sheet="touhou_reimu"
+        w="32"
+        x="32"
+        y="48" />
+
+    <sprite
+        name="reimu_left_3"
+        h="48"
+        scaling="1"
+        sheet="touhou_reimu"
+        w="32"
+        x="64"
+        y="48" />
+
+    <sprite
+        name="reimu_left_4"
+        h="48"
+        scaling="1"
+        sheet="touhou_reimu"
+        w="32"
+        x="96"
+        y="48" />
+	
+    <sprite
+        name="reimu_left_5"
+        h="48"
+        scaling="1"
+        sheet="touhou_reimu"
+        w="32"
+        x="128"
+        y="48" />
+
+    <sprite
+        name="reimu_left_6"
+        h="48"
+        scaling="1"
+        sheet="touhou_reimu"
+        w="32"
+        x="160"
+        y="48" />
+
+    <sprite
+        name="reimu_left_7"
+        h="48"
+        scaling="1"
+        sheet="touhou_reimu"
+        w="32"
+        x="192"
+        y="48" />
+
+    <sprite
+        name="reimu_left_8"
+        h="48"
+        scaling="1"
+        sheet="touhou_reimu"
+        w="32"
+        x="224"
+        y="48" />
+
+    <sprite
+        name="reimu_right_1"
+        h="48"
+        scaling="1"
+        sheet="touhou_reimu"
+        w="32"
+        x="0"
+        y="96" />
+
+    <sprite
+        name="reimu_right_2"
+        h="48"
+        scaling="1"
+        sheet="touhou_reimu"
+        w="32"
+        x="32"
+        y="96" />
+
+    <sprite
+        name="reimu_right_3"
+        h="48"
+        scaling="1"
+        sheet="touhou_reimu"
+        w="32"
+        x="64"
+        y="96" />
+
+    <sprite
+        name="reimu_right_4"
+        h="48"
+        scaling="1"
+        sheet="touhou_reimu"
+        w="32"
+        x="96"
+        y="96" />
+	
+    <sprite
+        name="reimu_right_5"
+        h="48"
+        scaling="1"
+        sheet="touhou_reimu"
+        w="32"
+        x="128"
+        y="96" />
+
+    <sprite
+        name="reimu_right_6"
+        h="48"
+        scaling="1"
+        sheet="touhou_reimu"
+        w="32"
+        x="160"
+        y="96" />
+
+    <sprite
+        name="reimu_right_7"
+        h="48"
+        scaling="1"
+        sheet="touhou_reimu"
+        w="32"
+        x="192"
+        y="96" />
+
+    <sprite
+        name="reimu_right_8"
+        h="48"
+        scaling="1"
+        sheet="touhou_reimu"
+        w="32"
+        x="224"
+        y="96" />
+
+</jde-content>

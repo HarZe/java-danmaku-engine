@@ -1,0 +1,90 @@
+<jde-content>
+
+    <animation name="player_back" loop-from="0" >
+
+        <sprite-ref ref="reimu_forward_1" />
+        	66
+
+        <sprite-ref ref="reimu_forward_2" />
+        	133
+
+        <sprite-ref ref="reimu_forward_3" />
+        	200
+
+        <sprite-ref ref="reimu_forward_4" />
+        	266
+
+        <sprite-ref ref="reimu_forward_5" />
+        	333
+
+        <sprite-ref ref="reimu_forward_6" />
+        	400
+
+        <sprite-ref ref="reimu_forward_7" />
+        	466
+
+        <sprite-ref ref="reimu_forward_8" />
+        	533
+    </animation>
+
+    <animation name="player_focus" >
+
+        <sprite-ref ref="sprite_player_focus" />
+        	1000
+    </animation>
+    
+    <animation name="player_left" loop-from="5" >
+
+        <sprite-ref ref="reimu_left_1" />
+        	33
+
+        <sprite-ref ref="reimu_left_2" />
+        	66
+
+        <sprite-ref ref="reimu_left_3" />
+        	100
+
+        <sprite-ref ref="reimu_left_4" />
+        	133
+
+        <sprite-ref ref="reimu_left_5" />
+        	166
+
+        <sprite-ref ref="reimu_left_6" />
+        	200
+
+        <sprite-ref ref="reimu_left_7" />
+        	266
+
+        <sprite-ref ref="reimu_left_8" />
+        	333
+    </animation>
+    
+    <animation name="player_right" loop-from="5" >
+
+        <sprite-ref ref="reimu_right_1" />
+        	33
+
+        <sprite-ref ref="reimu_right_2" />
+        	66
+
+        <sprite-ref ref="reimu_right_3" />
+        	100
+
+        <sprite-ref ref="reimu_right_4" />
+        	133
+
+        <sprite-ref ref="reimu_right_5" />
+        	166
+
+        <sprite-ref ref="reimu_right_6" />
+        	200
+
+        <sprite-ref ref="reimu_right_7" />
+        	266
+
+        <sprite-ref ref="reimu_right_8" />
+        	333
+    </animation>
+
+</jde-content>

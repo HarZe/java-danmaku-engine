@@ -25,7 +25,9 @@ public class Direction {
 	
 	// Homing position for initial angle calculus
 	protected Vertex homingPosition = new Vertex();
+	protected double homingOffset = 0;	// degrees
 	protected boolean homing = false;
+	protected boolean homingToPlayer = true;
 	
 	// Inheritance
 	protected boolean inheritance = true;
@@ -41,6 +43,7 @@ public class Direction {
 	public Direction(Vertex homingPosition) {
 		this.homingPosition = homingPosition;
 		this.homing = true;
+		this.homingToPlayer = false;
 	}
 
 	public boolean isHoming() {
@@ -143,12 +146,32 @@ public class Direction {
 		this.motion = motion;
 	}
 
+	public double getHomingOffset() {
+		return homingOffset;
+	}
+
+	public void setHomingOffset(double homingOffset) {
+		this.homingOffset = homingOffset;
+	}
+
+	public void setHoming(boolean homing) {
+		this.homing = homing;
+	}
+
 	public boolean isInheritance() {
 		return inheritance;
 	}
 
 	public void setInheritance(boolean inheritance) {
 		this.inheritance = inheritance;
+	}
+
+	public boolean isHomingToPlayer() {
+		return homingToPlayer;
+	}
+
+	public void setHomingToPlayer(boolean homingToPlayer) {
+		this.homingToPlayer = homingToPlayer;
 	}
 
 	public void applyRandomitazion() {
@@ -163,8 +186,10 @@ public class Direction {
 		Direction nd;
 		if (!homing)
 			nd = new Direction(angle);
-		else
+		else if (!homingToPlayer)
 			nd = new Direction(homingPosition.clone());
+		else
+			nd = new Direction();
 		
 		nd.setRotation(rotation);
 		nd.setMotion(motion);
@@ -179,6 +204,10 @@ public class Direction {
 		
 		nd.setDuration(duration);
 		nd.setInheritance(inheritance);
+		nd.setHomingOffset(homingOffset);
+		
+		nd.setHoming(homing);
+		nd.setHomingToPlayer(homingToPlayer);
 		
 		return nd;
 	}

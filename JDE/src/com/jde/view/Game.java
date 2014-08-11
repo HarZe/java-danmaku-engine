@@ -11,7 +11,7 @@ import com.jde.view.sprites.SpriteSheet;
 
 public class Game {
 	
-	protected String VERSION = "pre-alpha 0.1.4";
+	protected String VERSION = "pre-alpha 0.1.5";
 	protected boolean loaded = false;
 	
 	protected HUD hud;
@@ -57,7 +57,7 @@ public class Game {
 		GL11.glLoadIdentity();
 
         GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);      
 	}
 	
 	protected void draw(int w, int h) {

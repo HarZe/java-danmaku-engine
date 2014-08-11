@@ -94,7 +94,7 @@ public class Movement {
 		direction.setRotation(direction.getRotation() + direction.getMotion() * ms * 0.001);
 		
 		if (direction.isHoming())
-			direction.setAngle(direction.getHomingPosition().clone().sub(position).angle());
+			direction.setAngle(direction.getHomingPosition().clone().sub(position).rotate(Math.toRadians(direction.getHomingOffset())).angle());
 		else if (direction.getDuration() > 0)
 			direction.setAngle(direction.getAngle() + (direction.getRotation() * ms * 0.001));
 		

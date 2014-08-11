@@ -57,6 +57,8 @@ public class ArmyStage implements Stage {
 		for (Bullet b : bullets)
 			b.draw();
 		
+		player.drawFocus();
+		
 		// DEBUG
 		/*System.out.println("************** NEW FRAME **************");
 		for (Enemy e : enemies)

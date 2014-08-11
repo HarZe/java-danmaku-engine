@@ -42,6 +42,10 @@ public class DirectionModifier {
 	protected double speedExponent = 1;
 	protected double accelerationExponent = 1;
 	
+	// Homing modifiers
+	protected double homingOffsetStart = 0;
+	protected double homingOffsetEnd = 0;
+	
 	public DirectionModifier() {
 
 	}
@@ -247,6 +251,22 @@ public class DirectionModifier {
 		this.accelerationExponent = accelerationExponent;
 	}
 
+	public double getHomingOffsetStart() {
+		return homingOffsetStart;
+	}
+
+	public void setHomingOffsetStart(double homingOffsetStart) {
+		this.homingOffsetStart = homingOffsetStart;
+	}
+
+	public double getHomingOffsetEnd() {
+		return homingOffsetEnd;
+	}
+
+	public void setHomingOffsetEnd(double homingOffsetEnd) {
+		this.homingOffsetEnd = homingOffsetEnd;
+	}
+
 	public void modify(int step, int total, Direction dir) {
 		
 		if (total == 1)
@@ -275,6 +295,9 @@ public class DirectionModifier {
 		double randomMotionOffset = randomMotionOffsetStart + randomMotionOffsetStep;
 		double randomSpeedOffset = randomSpeedOffsetStart + randomSpeedOffsetStep;
 		double randomAccelerationOffset = randomAccelerationOffsetStart + randomAccelerationOffsetStep;
+		
+		// Homing offset calculus
+		double homingOffset = (homingOffsetEnd - homingOffsetStart) * fixedStep;
 
 		// Final sets
 		dir.setAngle(dir.getAngle() + angle);
@@ -288,6 +311,8 @@ public class DirectionModifier {
 		dir.setRandomMotionOffset(dir.getRandomMotionOffset() + randomMotionOffset);
 		dir.setRandomSpeedOffset(dir.getRandomSpeedOffset() + randomSpeedOffset);
 		dir.setRandomAccelerationOffset(dir.getRandomAccelerationOffset() + randomAccelerationOffset);
+		
+		dir.setHomingOffset(homingOffset);
 	}
 
 	public DirectionModifier clone() {
@@ -320,6 +345,9 @@ public class DirectionModifier {
 		d.setMotionExponent(motionExponent);
 		d.setSpeedExponent(speedExponent);
 		d.setAccelerationExponent(accelerationExponent);
+		
+		d.setHomingOffsetStart(homingOffsetStart);
+		d.setHomingOffsetEnd(homingOffsetEnd);
 
 		return d;
 	}
