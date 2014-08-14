@@ -1,0 +1,15 @@
+<jde-content>
+
+    <import file="res/sprites/touhou/sprites_touhou_bullets.xml" />
+    
+    <import file="res/sprites/touhou/sprites_touhou_big_bullets.xml" />
+    
+    <import file="res/sprites/touhou/sprites_touhou_music_bullets.xml" />
+    
+    <import file="res/sprites/touhou/sprites_touhou_special_bullets.xml" />
+    
+    <import file="res/sprites/touhou/sprites_touhou_laser_bullets.xml" />
+    
+    <import file="res/sprites/touhou/sprites_touhou_reimu.xml" />
+	
+</jde-content>

@@ -1,0 +1,310 @@
+<jde-content>
+
+    <spritesheet
+        name="touhou_special_bullets"
+        file="res/sprites/touhou/touhou_spritesheet_special_bullets.png" />
+
+    <!-- Heart bullets -->
+    
+    <sprite
+        name="touhou_bullet_heart_gray" sheet="touhou_special_bullets"
+        x="0" y="0" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_heart_red" sheet="touhou_special_bullets"
+        x="64" y="0" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_heart_pink" sheet="touhou_special_bullets"
+        x="128" y="0" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_heart_blue" sheet="touhou_special_bullets"
+        x="192" y="0" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_heart_cyan" sheet="touhou_special_bullets"
+        x="256" y="0" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_heart_green" sheet="touhou_special_bullets"
+        x="320" y="0" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_heart_yellow" sheet="touhou_special_bullets"
+        x="384" y="0" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_heart_white" sheet="touhou_special_bullets"
+        x="448" y="0" w="64" h="64" scaling="0.5" />
+    
+    <hit-body name="touhou_bullet_heart">
+        <hit-polygon name="touhou_bullet_heart_polygon">
+            <vertex x="12.5" y="2" />
+            <vertex x="0" y="-11" />
+            <vertex x="-12.5" y="2" />
+            <vertex x="-12.5" y="12" />
+            <vertex x="12.5" y="12" />
+        </hit-polygon>
+    </hit-body>
+
+    <!-- Arrow bullets -->
+    
+    <sprite
+        name="touhou_bullet_arrow_gray" sheet="touhou_special_bullets"
+        x="0" y="64" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_arrow_red" sheet="touhou_special_bullets"
+        x="64" y="64" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_arrow_pink" sheet="touhou_special_bullets"
+        x="128" y="64" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_arrow_blue" sheet="touhou_special_bullets"
+        x="192" y="64" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_arrow_cyan" sheet="touhou_special_bullets"
+        x="256" y="64" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_arrow_green" sheet="touhou_special_bullets"
+        x="320" y="64" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_arrow_yellow" sheet="touhou_special_bullets"
+        x="384" y="64" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_arrow_white" sheet="touhou_special_bullets"
+        x="448" y="64" w="64" h="64" scaling="0.5" />
+
+    <hit-body name="touhou_bullet_arrow">
+        <hit-polygon name="touhou_bullet_arrow_polygon">
+            <vertex x="4" y="-6" />
+            <vertex x="0" y="-13" />
+            <vertex x="-4" y="-6" />
+        </hit-polygon>
+    </hit-body>
+    
+    <!-- Shiny sphere bullets -->
+    
+    <sprite
+        name="touhou_bullet_shiny_sphere_gray" sheet="touhou_special_bullets"
+        x="0" y="128" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_shiny_sphere_red" sheet="touhou_special_bullets"
+        x="64" y="128" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_shiny_sphere_pink" sheet="touhou_special_bullets"
+        x="128" y="128" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_shiny_sphere_blue" sheet="touhou_special_bullets"
+        x="192" y="128" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_shiny_sphere_cyan" sheet="touhou_special_bullets"
+        x="256" y="128" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_shiny_sphere_green" sheet="touhou_special_bullets"
+        x="320" y="128" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_shiny_sphere_yellow" sheet="touhou_special_bullets"
+        x="384" y="128" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_shiny_sphere_white" sheet="touhou_special_bullets"
+        x="448" y="128" w="64" h="64" scaling="0.5" />
+    
+    <hit-body name="touhou_bullet_shiny_sphere">
+        <hit-circle name="touhou_bullet_shiny_sphere_circle" radius="5" />
+    </hit-body>
+
+    <!-- Soul bullets -->
+    
+    <sprite
+        name="touhou_bullet_soul_red_1" sheet="touhou_special_bullets"
+        x="20" y="192" w="59" h="71" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_soul_red_2" sheet="touhou_special_bullets"
+        x="79" y="192" w="59" h="71" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_soul_red_3" sheet="touhou_special_bullets"
+        x="138" y="192" w="59" h="71" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_soul_red_4" sheet="touhou_special_bullets"
+        x="197" y="192" w="59" h="71" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_soul_orange_1" sheet="touhou_special_bullets"
+        x="256" y="192" w="59" h="71" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_soul_orange_2" sheet="touhou_special_bullets"
+        x="315" y="192" w="59" h="71" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_soul_orange_3" sheet="touhou_special_bullets"
+        x="374" y="192" w="59" h="71" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_soul_orange_4" sheet="touhou_special_bullets"
+        x="433" y="192" w="59" h="71" scaling="0.5" />
+
+    <sprite
+        name="touhou_bullet_soul_green_1" sheet="touhou_special_bullets"
+        x="20" y="263" w="59" h="71" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_soul_green_2" sheet="touhou_special_bullets"
+        x="79" y="263" w="59" h="71" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_soul_green_3" sheet="touhou_special_bullets"
+        x="138" y="263" w="59" h="71" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_soul_green_4" sheet="touhou_special_bullets"
+        x="197" y="263" w="59" h="71" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_soul_pink_1" sheet="touhou_special_bullets"
+        x="256" y="263" w="59" h="71" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_soul_pink_2" sheet="touhou_special_bullets"
+        x="315" y="263" w="59" h="71" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_soul_pink_3" sheet="touhou_special_bullets"
+        x="374" y="263" w="59" h="71" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_soul_pink_4" sheet="touhou_special_bullets"
+        x="433" y="263" w="59" h="71" scaling="0.5" />
+
+    <sprite
+        name="touhou_bullet_soul_blue_1" sheet="touhou_special_bullets"
+        x="20" y="334" w="59" h="71" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_soul_blue_2" sheet="touhou_special_bullets"
+        x="79" y="334" w="59" h="71" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_soul_blue_3" sheet="touhou_special_bullets"
+        x="138" y="334" w="59" h="71" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_soul_blue_4" sheet="touhou_special_bullets"
+        x="197" y="334" w="59" h="71" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_soul_gray_1" sheet="touhou_special_bullets"
+        x="256" y="334" w="59" h="71" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_soul_gray_2" sheet="touhou_special_bullets"
+        x="315" y="334" w="59" h="71" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_soul_gray_3" sheet="touhou_special_bullets"
+        x="374" y="334" w="59" h="71" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_soul_gray_4" sheet="touhou_special_bullets"
+        x="433" y="334" w="59" h="71" scaling="0.5" />
+    
+    <hit-body name="touhou_bullet_soul">
+        <hit-circle name="touhou_bullet_soul_circle" radius="5.5">
+            <vertex x="-2.5" y="-5.5" />
+        </hit-circle>
+    </hit-body>
+
+    <!-- Spade bullets -->
+    
+    <sprite
+        name="touhou_bullet_spade_gray" sheet="touhou_special_bullets"
+        x="0" y="405" w="32" h="32" scaling="0.5" />
+
+    <sprite
+        name="touhou_bullet_spade_dark_red" sheet="touhou_special_bullets"
+        x="32" y="405" w="32" h="32" scaling="0.5" />
+
+    <sprite
+        name="touhou_bullet_spade_red" sheet="touhou_special_bullets"
+        x="64" y="405" w="32" h="32" scaling="0.5" />
+
+    <sprite
+        name="touhou_bullet_spade_dark_pink" sheet="touhou_special_bullets"
+        x="96" y="405" w="32" h="32" scaling="0.5" />
+
+    <sprite
+        name="touhou_bullet_spade_pink" sheet="touhou_special_bullets"
+        x="128" y="405" w="32" h="32" scaling="0.5" />
+
+    <sprite
+        name="touhou_bullet_spade_dark_blue" sheet="touhou_special_bullets"
+        x="160" y="405" w="32" h="32" scaling="0.5" />
+
+    <sprite
+        name="touhou_bullet_spade_blue" sheet="touhou_special_bullets"
+        x="192" y="405" w="32" h="32" scaling="0.5" />
+
+    <sprite
+        name="touhou_bullet_spade_dark_cyan" sheet="touhou_special_bullets"
+        x="224" y="405" w="32" h="32" scaling="0.5" />
+
+    <sprite
+        name="touhou_bullet_spade_cyan" sheet="touhou_special_bullets"
+        x="256" y="405" w="32" h="32" scaling="0.5" />
+
+    <sprite
+        name="touhou_bullet_spade_dark_green" sheet="touhou_special_bullets"
+        x="288" y="405" w="32" h="32" scaling="0.5" />
+
+    <sprite
+        name="touhou_bullet_spade_green" sheet="touhou_special_bullets"
+        x="320" y="405" w="32" h="32" scaling="0.5" />
+
+    <sprite
+        name="touhou_bullet_spade_lime" sheet="touhou_special_bullets"
+        x="352" y="405" w="32" h="32" scaling="0.5" />
+
+    <sprite
+        name="touhou_bullet_spade_yellow" sheet="touhou_special_bullets"
+        x="384" y="405" w="32" h="32" scaling="0.5" />
+
+    <sprite
+        name="touhou_bullet_spade_orange" sheet="touhou_special_bullets"
+        x="416" y="405" w="32" h="32" scaling="0.5" />
+
+    <sprite
+        name="touhou_bullet_spade_dark_orange" sheet="touhou_special_bullets"
+        x="448" y="405" w="32" h="32" scaling="0.5" />
+
+    <sprite
+        name="touhou_bullet_spade_white" sheet="touhou_special_bullets"
+        x="480" y="405" w="32" h="32" scaling="0.5" />
+    
+    <hit-body name="touhou_bullet_spade">
+        <hit-polygon name="touhou_bullet_spade_polygon">
+            <vertex x="4" y="-1" />
+            <vertex x="0" y="-6" />
+            <vertex x="-4" y="-1" />
+            <vertex x="0" y="4" />
+        </hit-polygon>
+    </hit-body>
+    
+</jde-content>

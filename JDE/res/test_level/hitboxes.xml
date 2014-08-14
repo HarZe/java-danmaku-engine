@@ -1,59 +1,21 @@
 <jde-content>
-
-    <hit-body name="hit_butterfly" >
-
-        <hit-circle radius="8" />
-    </hit-body>
-
-    <hit-body name="hit_stamp" >
-
-        <hit-polygon name="hit_plygon_stamp" >
-
-            <vertex
-                x="6"
-                y="-7" />
-
-            <vertex
-                x="6"
-                y="7" />
-
-            <vertex
-                x="-6"
-                y="7" />
-
-            <vertex
-                x="-6"
-                y="-7" />
-        </hit-polygon>
-    </hit-body>
     
-    <hit-body name="hit_simple" >
+    <hit-body name="hit_ghost" >
 
-        <hit-polygon name="hit_plygon_simple" >
+        <hit-polygon name="hit_polygon_ghost" >
 
             <vertex
-                x="3"
-                y="0" />
+                x="16"
+                y="-16" />
             
             <vertex
-                x="1"
-                y="7" />
+                x="-16"
+                y="-16" />
             
             <vertex
-                x="-1"
-                y="7" />
+                x="0"
+                y="16" />
             
-            <vertex
-                x="-3"
-                y="0" />
-            
-            <vertex
-                x="-1"
-                y="-7" />
-            
-            <vertex
-                x="1"
-                y="-7" />
         </hit-polygon>
     </hit-body>
 

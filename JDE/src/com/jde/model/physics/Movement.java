@@ -66,7 +66,7 @@ public class Movement {
 	public void forward(double ms) {
 		elapsed += ms;
 		
-		if (currentDir + 1 < directions.size() && direction.getDuration() > 0 && direction.getDuration() < elapsed) {
+		if (currentDir + 1 < directions.size() && direction.getDuration() >= 0 && direction.getDuration() < elapsed) {
 			elapsed -= direction.getDuration();
 			forwardAux(ms - elapsed);
 			currentDir++;
@@ -95,7 +95,7 @@ public class Movement {
 		
 		if (direction.isHoming())
 			direction.setAngle(direction.getHomingPosition().clone().sub(position).rotate(Math.toRadians(direction.getHomingOffset())).angle());
-		else if (direction.getDuration() > 0)
+		else
 			direction.setAngle(direction.getAngle() + (direction.getRotation() * ms * 0.001));
 		
 		Vertex step = Vertex.angleToVertex(Math.toRadians(direction.getAngle()));
@@ -114,6 +114,7 @@ public class Movement {
 		m.direction = m.directions.get(currentDir);
 		m.elapsed = elapsed;
 		m.spin = spin;
+		m.lookAtMovingDirection = lookAtMovingDirection;
 		return m;
 	}
 

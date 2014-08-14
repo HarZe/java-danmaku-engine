@@ -2,7 +2,7 @@
 
     <spritesheet
         name="touhou_reimu"
-        file="res/sprites/touhou_sprites_reimu.png" />
+        file="res/sprites/touhou/touhou_sprites_reimu.png" />
 
     <sprite
         name="reimu_forward_1"

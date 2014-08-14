@@ -1,0 +1,276 @@
+<jde-content>
+
+    <spritesheet
+        name="touhou_big_bullets"
+        file="res/sprites/touhou/touhou_spritesheet_big_bullets.png" />
+
+    <!-- Big sphere bullets -->
+    
+    <sprite
+        name="touhou_bullet_big_star_gray" sheet="touhou_big_bullets"
+        x="0" y="0" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_big_star_red" sheet="touhou_big_bullets"
+        x="64" y="0" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_big_star_pink" sheet="touhou_big_bullets"
+        x="128" y="0" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_big_star_blue" sheet="touhou_big_bullets"
+        x="192" y="0" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_big_star_cyan" sheet="touhou_big_bullets"
+        x="256" y="0" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_big_star_green" sheet="touhou_big_bullets"
+        x="320" y="0" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_big_star_yellow" sheet="touhou_big_bullets"
+        x="384" y="0" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_big_star_white" sheet="touhou_big_bullets"
+        x="448" y="0" w="64" h="64" scaling="0.5" />
+    
+    <hit-body name="touhou_bullet_big_star">
+        <hit-polygon name="touhou_bullet_big_star_polygon" >
+            <vertex x="13" y="-3" />
+			<vertex x="0" y="-13" />
+            <vertex x="-13" y="-3" />
+            <vertex x="-8" y="12" />
+            <vertex x="8" y="12" />
+        </hit-polygon>
+    </hit-body>
+    
+    <!-- Big sphere bullets -->
+    
+    <sprite
+        name="touhou_bullet_big_sphere_gray" sheet="touhou_big_bullets"
+        x="0" y="64" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_big_sphere_red" sheet="touhou_big_bullets"
+        x="64" y="64" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_big_sphere_pink" sheet="touhou_big_bullets"
+        x="128" y="64" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_big_sphere_blue" sheet="touhou_big_bullets"
+        x="192" y="64" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_big_sphere_cyan" sheet="touhou_big_bullets"
+        x="256" y="64" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_big_sphere_green" sheet="touhou_big_bullets"
+        x="320" y="64" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_big_sphere_yellow" sheet="touhou_big_bullets"
+        x="384" y="64" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_big_sphere_white" sheet="touhou_big_bullets"
+        x="448" y="64" w="64" h="64" scaling="0.5" />
+    
+    <hit-body name="touhou_bullet_big_sphere">
+        <hit-circle name="touhou_bullet_big_sphere_circle" radius="11" />
+    </hit-body>
+
+    <!-- Butterfly bullets -->
+    
+    <sprite
+        name="touhou_bullet_butterfly_gray" sheet="touhou_big_bullets"
+        x="0" y="128" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_butterfly_red" sheet="touhou_big_bullets"
+        x="64" y="128" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_butterfly_pink" sheet="touhou_big_bullets"
+        x="128" y="128" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_butterfly_blue" sheet="touhou_big_bullets"
+        x="192" y="128" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_butterfly_cyan" sheet="touhou_big_bullets"
+        x="256" y="128" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_butterfly_green" sheet="touhou_big_bullets"
+        x="320" y="128" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_butterfly_yellow" sheet="touhou_big_bullets"
+        x="384" y="128" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_butterfly_white" sheet="touhou_big_bullets"
+        x="448" y="128" w="64" h="64" scaling="0.5" />
+    
+    <hit-body name="touhou_bullet_butterfly">
+        <hit-circle name="touhou_bullet_butterfly_circle" radius="5" />
+    </hit-body>
+
+    <!-- Flower bullets -->
+    
+    <sprite
+        name="touhou_bullet_flower_gray" sheet="touhou_big_bullets"
+        x="0" y="192" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_flower_red" sheet="touhou_big_bullets"
+        x="64" y="192" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_flower_pink" sheet="touhou_big_bullets"
+        x="128" y="192" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_flower_blue" sheet="touhou_big_bullets"
+        x="192" y="192" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_flower_cyan" sheet="touhou_big_bullets"
+        x="256" y="192" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_flower_green" sheet="touhou_big_bullets"
+        x="320" y="192" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_flower_yellow" sheet="touhou_big_bullets"
+        x="384" y="192" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_flower_white" sheet="touhou_big_bullets"
+        x="448" y="192" w="64" h="64" scaling="0.5" />
+    
+    <hit-body name="touhou_bullet_flower">
+        <hit-circle name="touhou_bullet_flower_circle" radius="5" />
+    </hit-body>
+
+    <!-- Knife bullets -->
+    
+    <sprite
+        name="touhou_bullet_knife_gray" sheet="touhou_big_bullets"
+        x="0" y="256" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_knife_red" sheet="touhou_big_bullets"
+        x="64" y="256" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_knife_pink" sheet="touhou_big_bullets"
+        x="128" y="256" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_knife_blue" sheet="touhou_big_bullets"
+        x="192" y="256" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_knife_cyan" sheet="touhou_big_bullets"
+        x="256" y="256" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_knife_green" sheet="touhou_big_bullets"
+        x="320" y="256" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_knife_yellow" sheet="touhou_big_bullets"
+        x="384" y="256" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_knife_white" sheet="touhou_big_bullets"
+        x="448" y="256" w="64" h="64" scaling="0.5" />
+    
+    <hit-body name="touhou_bullet_knife">
+        <hit-polygon name="touhou_bullet_knife_polygon" >
+            <vertex x="3" y="-10" />
+			<vertex x="0" y="-15" />
+            <vertex x="-3" y="-3" />
+            <vertex x="-3" y="14" />
+            <vertex x="3" y="14" />
+        </hit-polygon>
+    </hit-body>
+
+    <!-- Big eliptic bullets -->
+    
+    <sprite
+        name="touhou_bullet_big_eliptic_gray" sheet="touhou_big_bullets"
+        x="0" y="320" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_big_eliptic_red" sheet="touhou_big_bullets"
+        x="64" y="320" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_big_eliptic_pink" sheet="touhou_big_bullets"
+        x="128" y="320" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_big_eliptic_blue" sheet="touhou_big_bullets"
+        x="192" y="320" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_big_eliptic_cyan" sheet="touhou_big_bullets"
+        x="256" y="320" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_big_eliptic_green" sheet="touhou_big_bullets"
+        x="320" y="320" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_big_eliptic_yellow" sheet="touhou_big_bullets"
+        x="384" y="320" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_big_eliptic_white" sheet="touhou_big_bullets"
+        x="448" y="320" w="64" h="64" scaling="0.5" />
+    
+    <hit-body name="touhou_bullet_big_eliptic">
+        <hit-polygon name="touhou_bullet_big_eliptic_polygon" >
+            <vertex x="5" y="0" />
+			<vertex x="2" y="-12" />
+            <vertex x="-2" y="-12" />
+            <vertex x="-5" y="0" />
+            <vertex x="-2" y="12" />
+            <vertex x="2" y="12" />
+        </hit-polygon>
+    </hit-body>
+
+    <!-- Giant sphere bullets -->
+    
+    <sprite
+        name="touhou_bullet_giant_sphere_red" sheet="touhou_big_bullets"
+        x="0" y="384" w="128" h="128" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_giant_sphere_blue" sheet="touhou_big_bullets"
+        x="128" y="384" w="128" h="128" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_giant_sphere_green" sheet="touhou_big_bullets"
+        x="256" y="384" w="128" h="128" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_giant_sphere_yellow" sheet="touhou_big_bullets"
+        x="384" y="384" w="128" h="128" scaling="0.5" />
+    
+    <hit-body name="touhou_bullet_giant_sphere">
+        <hit-circle name="touhou_bullet_giant_sphere_circle" radius="45" />
+    </hit-body>
+    
+</jde-content>

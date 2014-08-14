@@ -1,0 +1,73 @@
+<jde-content>
+
+    <spritesheet
+        name="touhou_laser_bullets"
+        file="res/sprites/touhou/touhou_spritesheet_special_bullets.png" />
+
+    <!-- Laser bullets -->
+    
+    <sprite
+        name="touhou_bullet_laser_gray" sheet="touhou_laser_bullets"
+        x="0" y="0" w="512" h="32" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_laser_dark_red" sheet="touhou_laser_bullets"
+        x="0" y="32" w="512" h="32" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_laser_red" sheet="touhou_laser_bullets"
+        x="0" y="64" w="512" h="32" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_laser_dark_pink" sheet="touhou_laser_bullets"
+        x="0" y="96" w="512" h="32" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_laser_pink" sheet="touhou_laser_bullets"
+        x="0" y="128" w="512" h="32" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_laser_dark_blue" sheet="touhou_laser_bullets"
+        x="0" y="160" w="512" h="32" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_laser_blue" sheet="touhou_laser_bullets"
+        x="0" y="192" w="512" h="32" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_laser_dark_cyan" sheet="touhou_laser_bullets"
+        x="0" y="224" w="512" h="32" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_laser_cyan" sheet="touhou_laser_bullets"
+        x="0" y="256" w="512" h="32" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_laser_dran_green" sheet="touhou_laser_bullets"
+        x="0" y="288" w="512" h="32" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_laser_green" sheet="touhou_laser_bullets"
+        x="0" y="320" w="512" h="32" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_laser_lime" sheet="touhou_laser_bullets"
+        x="0" y="352" w="512" h="32" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_laser_yellow" sheet="touhou_laser_bullets"
+        x="0" y="384" w="512" h="32" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_laser_orange" sheet="touhou_laser_bullets"
+        x="0" y="416" w="512" h="32" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_laser_dark_orange" sheet="touhou_laser_bullets"
+        x="0" y="448" w="512" h="32" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_laser_white" sheet="touhou_laser_bullets"
+        x="0" y="480" w="512" h="32" scaling="0.5" />
+    
+</jde-content>

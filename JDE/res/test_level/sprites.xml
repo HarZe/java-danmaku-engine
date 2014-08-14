@@ -1,5 +1,7 @@
 <jde-content>
     
+    <import file="res/sprites/sprites_touhou.xml" />
+    
     <spritesheet
         name="enemy_ghost"
         file="res/sprites/sprite_ghost.png" />

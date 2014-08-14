@@ -2,11 +2,11 @@
 
     <bullet name="arc" >
 
-        <hit-body-ref ref="hit_simple" />
+        <hit-body-ref ref="touhou_bullet_v_shape" />
 
         <animation name="arc_ref_halfsize">
 
-            <sprite-ref ref="bullet_arc_ref_halfsize" />
+            <sprite-ref ref="touhou_bullet_v_shape_red" />
 			1000
         </animation>
 
@@ -15,11 +15,11 @@
 
     <bullet name="stamp" >
 
-        <hit-body-ref ref="hit_stamp" />
+        <hit-body-ref ref="touhou_bullet_seal" />
 
         <animation name="stamp_red_halfsize">
 
-            <sprite-ref ref="bullet_stamp_red_halfsize" />
+            <sprite-ref ref="touhou_bullet_seal_red" />
 			1000
         </animation>
 
@@ -28,11 +28,11 @@
 
     <bullet name="butterfly_darkblue" >
 
-        <hit-body-ref ref="hit_butterfly" />
+        <hit-body-ref ref="touhou_bullet_butterfly" />
 
         <animation name="butterfly_darkblue">
 
-            <sprite-ref ref="bullet_butterfly_darkblue" />
+            <sprite-ref ref="touhou_bullet_butterfly_blue" />
 			1000
         </animation>
 
@@ -41,11 +41,11 @@
 
     <bullet name="butterfly_green" >
 
-        <hit-body-ref ref="hit_butterfly" />
+        <hit-body-ref ref="touhou_bullet_butterfly" />
 
         <animation name="butterfly_green">
 
-            <sprite-ref ref="bullet_butterfly_green" />
+            <sprite-ref ref="touhou_bullet_butterfly_green" />
 			1000
         </animation>
 
@@ -54,11 +54,11 @@
 
     <bullet name="butterfly_yellow" >
 
-        <hit-body-ref ref="hit_butterfly" />
+        <hit-body-ref ref="touhou_bullet_butterfly" />
 
         <animation name="butterfly_yellow">
 
-            <sprite-ref ref="bullet_butterfly_yellow" />
+            <sprite-ref ref="touhou_bullet_butterfly_yellow" />
 			1000
         </animation>
 
@@ -67,11 +67,11 @@
 
     <bullet name="simple_gray" >
 
-        <hit-body-ref ref="hit_simple" />
+        <hit-body-ref ref="touhou_bullet_eliptic" />
 
         <animation name="eliptic_gray_halfsize">
 
-            <sprite-ref ref="bullet_eliptic_gray_halfsize" />
+            <sprite-ref ref="touhou_bullet_eliptic_gray" />
 			1000
         </animation>
 

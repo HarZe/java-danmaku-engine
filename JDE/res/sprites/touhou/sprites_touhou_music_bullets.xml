@@ -1,0 +1,125 @@
+<jde-content>
+
+    <spritesheet
+        name="touhou_music_bullets"
+        file="res/sprites/touhou/touhou_spritesheet_music_bullets.png" />
+
+    <!-- Shiny big sphere bullets -->
+    
+    <sprite
+        name="touhou_bullet_shiny_big_sphere_gray" sheet="touhou_music_bullets"
+        x="0" y="0" w="128" h="128" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_shiny_big_sphere_red" sheet="touhou_music_bullets"
+        x="128" y="0" w="128" h="128" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_shiny_big_sphere_pink" sheet="touhou_music_bullets"
+        x="256" y="0" w="128" h="128" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_shiny_big_sphere_blue" sheet="touhou_music_bullets"
+        x="384" y="0" w="128" h="128" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_shiny_big_sphere_cyan" sheet="touhou_music_bullets"
+        x="0" y="128" w="128" h="128" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_shiny_big_sphere_green" sheet="touhou_music_bullets"
+        x="128" y="128" w="128" h="128" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_shiny_big_sphere_yellow" sheet="touhou_music_bullets"
+        x="256" y="128" w="128" h="128" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_shiny_big_sphere_white" sheet="touhou_music_bullets"
+        x="384" y="128" w="128" h="128" scaling="0.5" />
+    
+    <!-- Musical note bullets -->
+    
+    <sprite
+        name="touhou_bullet_musical_note_red_1" sheet="touhou_music_bullets"
+        x="0" y="256" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_musical_note_red_2" sheet="touhou_music_bullets"
+        x="64" y="256" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_musical_note_red_3" sheet="touhou_music_bullets"
+        x="128" y="256" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_musical_note_blue_1" sheet="touhou_music_bullets"
+        x="192" y="256" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_musical_note_blue_2" sheet="touhou_music_bullets"
+        x="256" y="256" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_musical_note_blue_3" sheet="touhou_music_bullets"
+        x="320" y="256" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_musical_note_yellow_1" sheet="touhou_music_bullets"
+        x="0" y="320" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_musical_note_yellow_2" sheet="touhou_music_bullets"
+        x="64" y="320" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_musical_note_yellow_3" sheet="touhou_music_bullets"
+        x="128" y="320" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_musical_note_pink_1" sheet="touhou_music_bullets"
+        x="192" y="320" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_musical_note_pink_2" sheet="touhou_music_bullets"
+        x="256" y="320" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_musical_note_pink_3" sheet="touhou_music_bullets"
+        x="320" y="320" w="64" h="64" scaling="0.5" />
+    
+    <!-- Vibrato bullets -->
+    
+    <sprite
+        name="touhou_bullet_vibrato_gray" sheet="touhou_music_bullets"
+        x="0" y="384" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_vibrato_red" sheet="touhou_music_bullets"
+        x="64" y="384" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_vibrato_pink" sheet="touhou_music_bullets"
+        x="128" y="384" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_vibrato_blue" sheet="touhou_music_bullets"
+        x="192" y="384" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_vibrato_cyan" sheet="touhou_music_bullets"
+        x="256" y="384" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_vibrato_green" sheet="touhou_music_bullets"
+        x="320" y="384" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_vibrato_yellow" sheet="touhou_music_bullets"
+        x="384" y="384" w="64" h="64" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bullet_vibrato_white" sheet="touhou_music_bullets"
+        x="448" y="384" w="64" h="64" scaling="0.5" />
+    
+</jde-content>

@@ -1,1 +1,1 @@
-java -jar jde-0.1.5.jar res/test_level/test.xml
+java -jar jde-0.1.6.jar res/test_level/test.xml

@@ -3,10 +3,6 @@
 
     <import file="res/test_level/hitboxes.xml" />
 
-    <import file="res/sprites/sprites.xml" />
-
-    <import file="res/sprites/sprites_reimu.xml" />
-
     <import file="res/test_level/sprites.xml" />
     
     <import file="res/test_level/player.xml" />
@@ -209,7 +205,7 @@
         name="enemy_butterfly"
         health="100" >
 
-        <hit-body-ref ref="hit_stamp" />
+        <hit-body-ref ref="hit_ghost" />
 
         <animation name="enemy_butterfly" >
 
@@ -261,7 +257,7 @@
         name="enemy_arc"
         health="100" >
 
-        <hit-body-ref ref="hit_stamp" />
+        <hit-body-ref ref="hit_ghost" />
 
         <animation name="enemy_arc" >
 
@@ -290,7 +286,7 @@
         name="enemy_stamps"
         health="100" >
 
-        <hit-body-ref ref="hit_stamp" />
+        <hit-body-ref ref="hit_ghost" />
 
         <animation name="enemy_stamps" >
 
@@ -334,7 +330,7 @@
         name="enemy_spirals"
         health="100" >
 
-        <hit-body-ref ref="hit_stamp" />
+        <hit-body-ref ref="hit_ghost" />
 
         <animation name="enemy_spirals" >
 

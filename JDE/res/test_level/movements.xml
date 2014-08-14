@@ -51,11 +51,12 @@
     <movement
         name="move_ghost_up"
         look-at-direction="no"
-        spin="90" >
+        spin="0" >
 
         <direction
             angle="-90"
             speed="5" />
+        
     </movement>
 
 </jde-content>
