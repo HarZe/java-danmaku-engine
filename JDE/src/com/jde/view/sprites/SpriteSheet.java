@@ -12,32 +12,61 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
+/**
+ * This SpriteSheet contains a texture used to extract and draw sprites
+ * 
+ * @author HarZe (David Serrano)
+ */
 public class SpriteSheet {
 
+	/** OpenGL texture of the sheet */
 	protected Texture texture;
+	/** Becomes true when sheet is succesfully loaded */
 	protected boolean loaded = false;
+	/** File name of the PNG source */
 	protected String file;
 
+	/**
+	 * Basic constructor
+	 * 
+	 * @param file
+	 *            Name/path of the PNG file
+	 */
 	public SpriteSheet(String file) {
 		this.file = file;
 	}
 
-	public void preload() {
-		try {
-			texture = TextureLoader.getTexture("PNG",
-					ResourceLoader.getResourceAsStream(file));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	/**
+	 * This method draws a sprite from this sheet, and loads the sheet the first
+	 * time is called
+	 * 
+	 * @param displayListId
+	 *            Display list ID number of the sprite
+	 */
+	public void draw(int displayListId) {
+		if (!loaded)
+			preload();
 
-		loaded = true;
+		texture.bind();
+		GL11.glCallList(displayListId);
 	}
 
+	/**
+	 * This method compiles and return the display list ID for a certain sprite
+	 * inside the sheet, given its coordinates
+	 * 
+	 * @param x Top left X-axis coordinate of the sprite in the sheet
+	 * @param y Top left Y-axis coordinate of the sprite in the sheet
+	 * @param w Sprite width in the sheet
+	 * @param h Sprite height in the sheet
+	 * @param scaling Scale factor
+	 * @return The new display list ID of a sprite
+	 */
 	public int getDisplayListId(double x, double y, double w, double h,
 			double scaling) {
 		if (!loaded)
 			preload();
-		
+
 		int displayListId = glGenLists(1);
 
 		glNewList(displayListId, GL_COMPILE);
@@ -50,13 +79,13 @@ public class SpriteSheet {
 					/ texture.getTextureWidth();
 			double ratioH = ((double) texture.getImageHeight())
 					/ texture.getTextureHeight();
-			
+
 			// Texture relative coordinates
-			double tx = ratioW*(x / imgW);
-			double txw = ratioW*((x+w) / imgW);
-			double ty = ratioH*(y / imgH);
-			double tyh = ratioH*((y+h) / imgH);
-			
+			double tx = ratioW * (x / imgW);
+			double txw = ratioW * ((x + w) / imgW);
+			double ty = ratioH * (y / imgH);
+			double tyh = ratioH * ((y + h) / imgH);
+
 			// Vertex real coordinates
 			double vx = w / 2.0;
 			double vy = h / 2.0;
@@ -85,15 +114,18 @@ public class SpriteSheet {
 		return displayListId;
 	}
 
-	public void draw(int displayListId) {
-		if (!loaded)
-			preload();
+	/**
+	 * This method loads the spritesheet into OpenGL as a texture from the PNG
+	 * file
+	 */
+	public void preload() {
+		try {
+			texture = TextureLoader.getTexture("PNG",
+					ResourceLoader.getResourceAsStream(file));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-		texture.bind(); // or GL11.glBind(texture.getTextureID());
-		GL11.glCallList(displayListId);
-	}
-
-	public String toString() {
-		return "Sprite. File:" + file + ", loaded:" + loaded;
+		loaded = true;
 	}
 }

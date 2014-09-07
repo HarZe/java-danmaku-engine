@@ -14,6 +14,8 @@ import com.jde.view.sprites.Animation;
 
 public class Player {
 	
+	// TODO: add Javadoc
+	
 	protected HitZone gameZone = new HitBox(new Vertex(223,240), new Vertex(384 - 20, 448 - 20));
 	
 	protected Animation animation;
@@ -124,13 +126,13 @@ public class Player {
 		
 		double speed = baseSpeed;
 		if (dir.getX() != 0 || dir.getY() != 0)
-			movement.getDirection().setAngle(dir.angle());
+			movement.getCurrentDirection().setAngle(dir.angle());
 		else
 			speed = 0;
 		
 		if (lshift)
 			speed *= focusFactor;
-		movement.getDirection().setSpeed(speed);
+		movement.getCurrentDirection().setSpeed(speed);
 			
 		animation.forward(ms);
 		focusAnimation.forward(ms);

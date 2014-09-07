@@ -1,3 +1,8 @@
+Version 0.1.7 (September 7, 2014):
+Holydays finished (uh, forget that one)
+Added Javadoc for almost all classes
+Some minor code optimizations
+
 Version 0.1.6 (August 14, 2014):
 Added all Touhou bullet's sprites and almost all hitboxes
 Fixed "rotation" not being applied in last <direction> of a <movement>

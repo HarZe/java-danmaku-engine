@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="private" author="true" classpath="lib/slick-util.jar:lib/lwjgl_util.jar:lib/ibxm.jar:lib/jorbis-0.0.15.jar:lib/lwjgl_util_applet.jar:lib/lwjgl.jar:lib/jogg-0.0.7.jar" destdir="doc" doctitle="JDE Engine Documentation" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" source="1.7" sourcefiles="src/com/jde/model/physics/Vertex.java" sourcepath="src" splitindex="true" use="true" version="true"/>
+    </target>
+</project>

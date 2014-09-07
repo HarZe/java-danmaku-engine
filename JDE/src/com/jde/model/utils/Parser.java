@@ -26,7 +26,6 @@ import com.jde.model.physics.collision.HitBody;
 import com.jde.model.physics.collision.HitCircle;
 import com.jde.model.physics.collision.HitPolygon;
 import com.jde.model.physics.collision.HitZone;
-import com.jde.model.stage.ArmyStage;
 import com.jde.model.stage.Stage;
 import com.jde.view.Game;
 import com.jde.view.sprites.Animation;
@@ -34,6 +33,8 @@ import com.jde.view.sprites.Sprite;
 import com.jde.view.sprites.SpriteSheet;
 
 public class Parser {
+	
+	// TODO: add Javadoc
 	
 	protected HashSet<String> importedFiles;
 
@@ -109,7 +110,7 @@ public class Parser {
 		
 		// Creating the game
 		ArrayList<Stage> stages = new ArrayList<Stage>();
-		stages.add(new ArmyStage(spawns, player));
+		stages.add(new Stage(spawns, player));
 		return new Game(stages);
 	}
 

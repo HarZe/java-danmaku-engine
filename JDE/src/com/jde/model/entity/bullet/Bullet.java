@@ -6,15 +6,40 @@ import com.jde.model.physics.Movement;
 import com.jde.model.physics.collision.HitBody;
 import com.jde.view.sprites.Animation;
 
+/**
+ * This Bullet class represents a entity that can spawn and hit the player
+ * 
+ * @author HarZe (David Serrano)
+ */
 public class Bullet extends Entity implements Spawnable {
 
-	protected double spawnTime;
-	protected boolean spawned;
+	/** Time stamp of the instant this bullet will spawn */
+	protected double spawnTime = 0;
+	/** Spawned state of this bullet */
+	protected boolean spawned = false;
 
+	/**
+	 * Full constructor
+	 * @param animation Animation of the bullet
+	 * @param body HitBody of the bullet
+	 * @param movement Movement of the bullet
+	 */
 	public Bullet(Animation animation, HitBody body, Movement movement) {
 		super(animation, body, movement);
-		this.spawnTime = 0;
-		this.spawned = false;
+	}
+
+	/**
+	 * Returns a copy of the bullet
+	 */
+	public Bullet clone() {
+		Bullet b = new Bullet(animation.clone(), body, movement.clone());
+		b.setSpawnTime(spawnTime);
+		return b;
+	}
+
+	@Override
+	public void setSpawnTime(double spawnTime) {
+		this.spawnTime = spawnTime;
 	}
 
 	@Override
@@ -22,9 +47,10 @@ public class Bullet extends Entity implements Spawnable {
 		if (spawnTime >= timeStamp)
 			return;
 
-		spawned = true;
+		// Making bullet position independent (no shared reference from now)
 		movement.setPosition(movement.getPosition().clone());
-		//movement.applyRandomization();
+		
+		spawned = true;
 		forward(timeStamp - spawnTime);
 	}
 
@@ -38,26 +64,12 @@ public class Bullet extends Entity implements Spawnable {
 		return spawnTime;
 	}
 
-	@Override
-	public void setSpawnTime(double spawnTime) {
-		this.spawnTime = spawnTime;
+	public String toString() {
+		return "Bullet " + super.toString();
 	}
 
 	@Override
 	public void vanish() {
 		spawned = false;
-	}
-
-	/**
-	 * Warning: this is not a pure cloning, it provides a Bullet template
-	 */
-	public Bullet clone() {
-		Bullet b = new Bullet(animation.clone(), body, movement.clone());
-		b.setSpawnTime(spawnTime);
-		return b;
-	}
-
-	public String toString() {
-		return "Bullet " + super.toString();
 	}
 }
