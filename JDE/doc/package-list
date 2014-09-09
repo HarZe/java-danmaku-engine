@@ -1,1 +1,12 @@
+com.jde.main
+com.jde.model.entity
+com.jde.model.entity.bullet
+com.jde.model.entity.enemy
+com.jde.model.entity.player
 com.jde.model.entity.spawning
+com.jde.model.physics
+com.jde.model.physics.collision
+com.jde.model.stage
+com.jde.model.utils
+com.jde.view
+com.jde.view.sprites
