@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
+import com.jde.model.physics.Vertex;
 import com.jde.model.stage.Stage;
 import com.jde.view.sprites.Sprite;
 import com.jde.view.sprites.SpriteSheet;
@@ -16,27 +17,17 @@ import com.jde.view.sprites.SpriteSheet;
  */
 public class Game {
 
-	protected class Collider extends Thread {
-
-		protected double ms;
-		protected boolean collision;
-
-		public Collider(double ms) {
-			this.ms = ms;
-		}
-
-		public boolean collision() {
-			return collision;
-		}
-
-		public void run() {
-			collision = colliding(ms);
-		}
-
-	}
+	/** VGA base resolution */
+	public static Vertex BASE_RES = new Vertex(640, 480);
+	/** VGA based top-left game board position */
+	public static Vertex GAME_BOARD_POS = new Vertex(32, 16);
+	/** VGA based size of the game board */
+	public static Vertex GAME_BOARD_SIZE = new Vertex(384, 448);
+	/** VGA based center of the game board */
+	public static Vertex GAME_BOARD_CENTER = new Vertex(223, 240);
 
 	/** Version number */
-	protected String VERSION = "pre-alpha 0.1.7";
+	protected String VERSION = "pre-alpha 0.1.8";
 
 	/** Game state */
 	protected boolean loaded = false;
@@ -57,7 +48,8 @@ public class Game {
 	 */
 	public Game(ArrayList<Stage> stages) {
 		SpriteSheet hudsheet = new SpriteSheet("res/sprites/hud.png");
-		hud = new HUD(new Sprite(hudsheet, 0, 0, 640, 480, 1));
+		hud = new HUD(new Sprite(hudsheet, 0, 0, BASE_RES.getX(),
+				BASE_RES.getY(), 1));
 		this.stages = stages;
 		currentStage = 0;
 	}
@@ -92,14 +84,19 @@ public class Game {
 
 		GL11.glPushMatrix();
 
+		// game scaling if needed
+		GL11.glScaled(w / BASE_RES.getX(), h / BASE_RES.getY(), 1);
+
 		// draw game scene
 		GL11.glColor4d(0, 0, 0.1, 1);
-		GL11.glRectf(32, 16, 32 + 384, 16 + 448);
+		GL11.glRectd(GAME_BOARD_POS.getX(), GAME_BOARD_POS.getY(),
+				GAME_BOARD_POS.getX() + GAME_BOARD_SIZE.getX(),
+				GAME_BOARD_POS.getY() + GAME_BOARD_SIZE.getY());
 
 		// draw stage & hud overlay
 		GL11.glColor4f(1, 1, 1, 1);
 		stages.get(currentStage).draw();
-		hud.draw(w, h);
+		hud.draw((int) BASE_RES.getX(), (int) BASE_RES.getY());
 
 		GL11.glPopMatrix();
 	}
@@ -150,9 +147,12 @@ public class Game {
 	 * This method updates to the next frame, drawing and multi-thread collision
 	 * detection are simultaneous; when finished, all entities go forward
 	 * 
-	 * @param w Width of the viewport
-	 * @param h Height of the viewport
-	 * @param ms Milliseconds to forward
+	 * @param w
+	 *            Width of the viewport
+	 * @param h
+	 *            Height of the viewport
+	 * @param ms
+	 *            Milliseconds to forward
 	 */
 	public void update(int w, int h, double ms) {
 
@@ -170,5 +170,29 @@ public class Game {
 		forward(ms);
 
 		// System.out.println(((int) (1000 / ms)) + " fps");
+	}
+
+	/**
+	 * This Collider class is a thread for the colliding() method
+	 * 
+	 * @author HarZe (David Serrano)
+	 */
+	protected class Collider extends Thread {
+
+		protected double ms;
+		protected boolean collision;
+
+		public Collider(double ms) {
+			this.ms = ms;
+		}
+
+		public boolean collision() {
+			return collision;
+		}
+
+		public void run() {
+			collision = colliding(ms);
+		}
+
 	}
 }

@@ -55,7 +55,7 @@ public class Spawner<S extends Spawnable> {
 	/**
 	 * Adds a list of Spawnable objects to the spawner
 	 * 
-	 * @param spawnable
+	 * @param spawnables
 	 *            List of Spawnable objects to add
 	 */
 	public void addSpawnables(List<S> spawnables) {

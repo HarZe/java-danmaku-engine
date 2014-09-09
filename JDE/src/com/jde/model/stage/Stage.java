@@ -13,6 +13,7 @@ import com.jde.model.physics.Vertex;
 import com.jde.model.physics.collision.HitBox;
 import com.jde.model.physics.collision.HitZone;
 import com.jde.model.utils.Parser;
+import com.jde.view.Game;
 
 /**
  * This Stage class is the main engine of the game, it contains the player,
@@ -56,8 +57,8 @@ public class Stage {
 		spawner = new Spawner<Enemy>(0);
 		spawner.addSpawnables(enemiesSpawn);
 
-		gameZone = new HitBox(new Vertex(223, 240), new Vertex(384 + 50,
-				448 + 50));
+		gameZone = new HitBox(Game.GAME_BOARD_CENTER, Game.GAME_BOARD_SIZE
+				.clone().add(new Vertex(50, 50)));
 
 		this.player = player;
 
