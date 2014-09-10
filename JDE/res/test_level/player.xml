@@ -1,6 +1,8 @@
 <jde-content>
 
-    <animation name="player_back" loop-from="0" >
+    <animation
+        name="player_back"
+        loop-from="0" >
 
         <sprite-ref ref="reimu_forward_1" />
         	66
@@ -32,8 +34,10 @@
         <sprite-ref ref="sprite_player_focus" />
         	1000
     </animation>
-    
-    <animation name="player_left" loop-from="5" >
+
+    <animation
+        name="player_left"
+        loop-from="5" >
 
         <sprite-ref ref="reimu_left_1" />
         	33
@@ -59,8 +63,10 @@
         <sprite-ref ref="reimu_left_8" />
         	333
     </animation>
-    
-    <animation name="player_right" loop-from="5" >
+
+    <animation
+        name="player_right"
+        loop-from="5" >
 
         <sprite-ref ref="reimu_right_1" />
         	33
@@ -86,5 +92,33 @@
         <sprite-ref ref="reimu_right_8" />
         	333
     </animation>
+    
+    <wave
+        name="reimu_wave"
+        bullets="3" >
+
+        <bullet name="reimu_bullet" >
+
+            <hitbody-ref ref="touhou_bullet_eliptic" />
+
+            <animation name="reimu_bullet" >
+
+                <sprite-ref ref="touhou_bullet_eliptic_pink" />
+    		    1000
+            </animation>
+
+            <movement name="reimu_bullet" >
+
+                <direction
+                    angle="-90"
+                    speed="500" />
+            </movement>
+        </bullet>
+
+        <direction-modifier
+            name="reimu_wave"
+            angle-end="10"
+            angle-start="-10" />
+    </wave>
 
 </jde-content>

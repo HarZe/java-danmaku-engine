@@ -1,3 +1,9 @@
+Version 0.1.9 (September 10, 2014):
+Fixed player not sliding on game board border
+Added <wave> to <player> in order to attack with bullets (colliding with enemies not implemented yet)
+Added attribute "cooldown" to <player> in order to regulate the "time rest" between attacking waves
+Added Javadoc to Player
+
 Version 0.1.8 (September 9, 2014):
 Added custom resolution
 Added JDE icon/logo

@@ -347,7 +347,7 @@
 
     <game name="game_name" >
 
-        <player hit-size="4" >
+        <player hit-size="4" cooldown="100" >
 
             <animation-ref ref="player_back" />
 
@@ -360,6 +360,9 @@
             <vertex
                 x="0"
                 y="100" />
+            
+            <wave-ref ref="reimu_wave" />
+            
         </player>
 
         <spawn time="2000" >

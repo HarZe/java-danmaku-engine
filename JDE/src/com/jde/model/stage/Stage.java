@@ -28,16 +28,18 @@ public class Stage {
 
 	/** List of current enemies */
 	protected ArrayList<Enemy> enemies;
-	/** List of current bullets */
-	protected ArrayList<Bullet> bullets;
+	/** List of current enemy bullets */
+	protected ArrayList<Bullet> enemyBullets;
 	/** Enemy spawners */
-	protected Spawner<Enemy> spawner;
+	protected Spawner<Enemy> enemySpawner;
 
 	/** Game board's hit zone */
 	protected HitZone gameZone;
 
 	/** Player */
 	protected Player player;
+	/** List of current player bullets */
+	protected ArrayList<Bullet> playerBullets;
 
 	/** Elapsed time since the stage started */
 	protected double elapsed = 0;
@@ -52,10 +54,11 @@ public class Stage {
 	 */
 	public Stage(ArrayList<Enemy> enemiesSpawn, Player player) {
 		enemies = new ArrayList<Enemy>();
-		bullets = new ArrayList<Bullet>();
+		enemyBullets = new ArrayList<Bullet>();
+		playerBullets = new ArrayList<Bullet>();
 
-		spawner = new Spawner<Enemy>(0);
-		spawner.addSpawnables(enemiesSpawn);
+		enemySpawner = new Spawner<Enemy>(0);
+		enemySpawner.addSpawnables(enemiesSpawn);
 
 		gameZone = new HitBox(Game.GAME_BOARD_CENTER, Game.GAME_BOARD_SIZE
 				.clone().add(new Vertex(50, 50)));
@@ -81,15 +84,15 @@ public class Stage {
 
 		// Multi-thread collision detection
 		ArrayList<Collider> colliders = new ArrayList<Collider>();
-		int step = bullets.size() / (cores - 1);
+		int step = enemyBullets.size() / (cores - 1);
 
 		for (int i = 0; i < cores - 1; i++) {
-			colliders.add(new Collider(bullets, player.getMovement(), i * step,
-					(i + 1) * step, ms));
+			colliders.add(new Collider(enemyBullets, player.getMovement(), i
+					* step, (i + 1) * step, ms));
 			colliders.get(i).start();
 		}
-		colliders.add(new Collider(bullets, player.getMovement(), (cores - 1)
-				* step, bullets.size(), ms));
+		colliders.add(new Collider(enemyBullets, player.getMovement(),
+				(cores - 1) * step, enemyBullets.size(), ms));
 		colliders.get(cores - 1).start();
 
 		for (Enemy e : enemies)
@@ -123,10 +126,13 @@ public class Stage {
 
 		player.draw();
 
+		for (Bullet b : playerBullets)
+			b.draw();
+		
 		for (Enemy e : enemies)
 			e.draw();
 
-		for (Bullet b : bullets)
+		for (Bullet b : enemyBullets)
 			b.draw();
 
 		player.drawFocus();
@@ -144,14 +150,15 @@ public class Stage {
 
 		elapsed += ms;
 
-		ArrayList<Bullet> toDeleteBullets = new ArrayList<Bullet>();
+		ArrayList<Bullet> toDeleteEnemyBullets = new ArrayList<Bullet>();
+		ArrayList<Bullet> toDeletePlayerBullets = new ArrayList<Bullet>();
 		ArrayList<Enemy> toDeleteEnemies = new ArrayList<Enemy>();
 
 		// Forward current bullets
-		for (Bullet b : bullets) {
+		for (Bullet b : enemyBullets) {
 			b.forward(ms);
 			if (!gameZone.isInside(null, b.getMovement().getPosition()))
-				toDeleteBullets.add(b);
+				toDeleteEnemyBullets.add(b);
 		}
 
 		// Forward current enemies
@@ -160,7 +167,7 @@ public class Stage {
 			// Spawn new bullets if shot
 			for (Bullet b : e.forwardAndBullets(ms)) {
 				b.spawn(elapsed);
-				bullets.add(b);
+				enemyBullets.add(b);
 			}
 
 			if (!gameZone.isInside(null, e.getMovement().getPosition()))
@@ -168,23 +175,35 @@ public class Stage {
 		}
 
 		// Spawn new enemies
-		for (Enemy e : spawner.forward(ms)) {
+		for (Enemy e : enemySpawner.forward(ms)) {
 			enemies.add(e);
 
 			// Spawn bullets from them
 			for (Bullet b : e.spawnAndBullets(elapsed)) {
 				b.spawn(elapsed);
-				bullets.add(b);
+				enemyBullets.add(b);
 			}
 		}
 
-		for (Bullet b : toDeleteBullets)
-			bullets.remove(b);
+		// Spawn new player bullets, and move the player
+		for (Bullet b : player.update(ms, elapsed))
+			playerBullets.add(b);
+
+		for (Bullet b : playerBullets) {
+			b.forward(ms);
+			if (!gameZone.isInside(null, b.getMovement().getPosition()))
+				toDeletePlayerBullets.add(b);
+		}
+
+		for (Bullet b : toDeleteEnemyBullets)
+			enemyBullets.remove(b);
+		
+		for (Bullet b : toDeletePlayerBullets)
+			playerBullets.remove(b);
 
 		for (Enemy e : toDeleteEnemies)
 			enemies.remove(e);
 
-		player.update(ms);
 	}
 
 	public boolean isFinished() {

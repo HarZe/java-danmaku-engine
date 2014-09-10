@@ -924,6 +924,7 @@ public class Parser {
 	protected Player processPlayer(Node node) throws Exception {
 		ArrayList<Animation> anims = new ArrayList<Animation>();
 		Vertex v = new Vertex(0, 100);
+		Wave w = null;
 
 		if (node.hasAttributes()) {
 			NamedNodeMap nodeMap = node.getAttributes();
@@ -937,19 +938,26 @@ public class Parser {
 					else if (currentNode.getNodeName().equals("animation")
 							|| currentNode.getNodeName().equals("animation-ref"))
 						anims.add(processAnimation(currentNode));
+					else if (currentNode.getNodeName().equals("wave")
+							|| currentNode.getNodeName().equals("wave-ref"))
+						w = processWave(currentNode);
 				}
 			else
 				throw new Exception(
-						"<player> requieres: <vertex> and two <animation>");
+						"<player> requieres: <vertex>, <wave> and two <animation>");
 	
 			if (anims.size() < 2)
 				throw new Exception(
-						"<player> requieres: <vertex> and two <animation>");
+						"<player> requieres: <vertex>, <wave> and two <animation>");
+			
+			if (w == null)
+				throw new Exception(
+						"<player> requieres: <vertex>, <wave> and two <animation>");
 	
 			v = unvirtualizeCoordinates(v);
 			playerPos.setX(v.getX());
 			playerPos.setY(v.getY());
-			player = new Player(anims.get(0), anims.get(1), playerPos);
+			player = new Player(anims.get(0), anims.get(1), playerPos, w);
 			if (anims.size() >= 3)
 				player.setMovingLeftAnimation(anims.get(2));
 			if (anims.size() >= 4)
@@ -961,6 +969,12 @@ public class Parser {
 				player.setHitboxRadius(hitSize);
 			} else
 				throw new Exception("<player> with no hit-size declared");
+			
+			if (nodeMap.getNamedItem("cooldown") != null) {
+				double cooldown = Double.parseDouble(nodeMap.getNamedItem("cooldown")
+						.getNodeValue());
+				player.setBaseCooldown(cooldown);
+			}
 			
 			return player;
 		} else

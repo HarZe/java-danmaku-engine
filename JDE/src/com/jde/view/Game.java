@@ -27,7 +27,7 @@ public class Game {
 	public static Vertex GAME_BOARD_CENTER = new Vertex(223, 240);
 
 	/** Version number */
-	protected String VERSION = "pre-alpha 0.1.8";
+	protected String VERSION = "pre-alpha 0.1.9";
 
 	/** Game state */
 	protected boolean loaded = false;
