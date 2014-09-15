@@ -208,9 +208,10 @@
         <hit-body-ref ref="hit_ghost" />
 
         <animation name="enemy_butterfly" >
-
-            <sprite-ref ref="sprite_ghost" />
-        	1000
+        	<frame>
+        	     <sprite-ref ref="sprite_ghost" />
+        	     <duration>1000</duration>
+        	</frame>
         </animation>
 
         <movement-ref ref="move_ghost_up" />
@@ -260,9 +261,10 @@
         <hit-body-ref ref="hit_ghost" />
 
         <animation name="enemy_arc" >
-
-            <sprite-ref ref="sprite_ghost" />
-        	1000
+			<frame>
+        	     <sprite-ref ref="sprite_ghost" />
+        	     <duration>1000</duration>
+        	</frame>
         </animation>
 
         <movement-ref ref="move_ghost_up" />
@@ -289,9 +291,10 @@
         <hit-body-ref ref="hit_ghost" />
 
         <animation name="enemy_stamps" >
-
-            <sprite-ref ref="sprite_ghost" />
-        	1000
+			<frame>
+        	     <sprite-ref ref="sprite_ghost" />
+        	     <duration>1000</duration>
+        	</frame>
         </animation>
 
         <movement-ref ref="move_ghost_up" />
@@ -333,9 +336,10 @@
         <hit-body-ref ref="hit_ghost" />
 
         <animation name="enemy_spirals" >
-
-            <sprite-ref ref="sprite_ghost" />
-        	1000
+			<frame>
+        	     <sprite-ref ref="sprite_ghost" />
+        	     <duration>1000</duration>
+        	</frame>
         </animation>
 
         <movement-ref ref="move_ghost_up" />

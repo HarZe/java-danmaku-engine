@@ -1,3 +1,9 @@
+Version 0.1.10 (September 15, 2014):
+Updated LICENSE to GPLv3
+Lots of XML format bugs fixed
+XML format changes in <animation>
+Parser documented (with Javadoc)
+
 Version 0.1.9 (September 10, 2014):
 Fixed player not sliding on game board border
 Added <wave> to <player> in order to attack with bullets (colliding with enemies not implemented yet)

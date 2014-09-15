@@ -173,6 +173,17 @@ public class Game {
 	}
 
 	/**
+	 * This method converts a Vertex which points are represented with (0,0) as
+	 * the center of the game board into "real" coordinates to draw
+	 * 
+	 * @param v Vertex to convert
+	 * @return A reference to the same Vertex already modified
+	 */
+	public static Vertex unvirtualizeCoordinates(Vertex v) {
+		return v.add(GAME_BOARD_CENTER);
+	}
+
+	/**
 	 * This Collider class is a thread for the colliding() method
 	 * 
 	 * @author HarZe (David Serrano)

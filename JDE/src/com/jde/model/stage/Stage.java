@@ -12,7 +12,6 @@ import com.jde.model.physics.Movement;
 import com.jde.model.physics.Vertex;
 import com.jde.model.physics.collision.HitBox;
 import com.jde.model.physics.collision.HitZone;
-import com.jde.model.utils.Parser;
 import com.jde.view.Game;
 
 /**
@@ -113,7 +112,7 @@ public class Stage {
 			System.out.println("Collision, player: "
 					+ player.getMovement().getPosition());
 			player.getMovement().setPosition(
-					Parser.unvirtualizeCoordinates(new Vertex(0, 100)));
+					Game.unvirtualizeCoordinates(new Vertex(0, 100)));
 		}
 
 		return collision;

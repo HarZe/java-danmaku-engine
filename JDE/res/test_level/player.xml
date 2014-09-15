@@ -4,93 +4,145 @@
         name="player_back"
         loop-from="0" >
 
-        <sprite-ref ref="reimu_forward_1" />
-        	66
+        <frame>
+            <sprite-ref ref="reimu_forward_1" />
+            <duration>66</duration>
+        </frame>
+        
+        <frame>
+            <sprite-ref ref="reimu_forward_2" />
+            <duration>133</duration>
+        </frame>
+        
+        <frame>
+            <sprite-ref ref="reimu_forward_3" />
+            <duration>200</duration>
+        </frame>
 
-        <sprite-ref ref="reimu_forward_2" />
-        	133
+        <frame>
+            <sprite-ref ref="reimu_forward_4" />
+            <duration>266</duration>
+        </frame>
+        
+        <frame>
+            <sprite-ref ref="reimu_forward_5" />
+            <duration>333</duration>
+        </frame>
 
-        <sprite-ref ref="reimu_forward_3" />
-        	200
+        <frame>
+            <sprite-ref ref="reimu_forward_6" />
+            <duration>400</duration>
+        </frame>
+        
+        <frame>
+            <sprite-ref ref="reimu_forward_7" />
+            <duration>466</duration>
+        </frame>
+        
+        <frame>
+            <sprite-ref ref="reimu_forward_8" />
+            <duration>533</duration>
+        </frame>
 
-        <sprite-ref ref="reimu_forward_4" />
-        	266
-
-        <sprite-ref ref="reimu_forward_5" />
-        	333
-
-        <sprite-ref ref="reimu_forward_6" />
-        	400
-
-        <sprite-ref ref="reimu_forward_7" />
-        	466
-
-        <sprite-ref ref="reimu_forward_8" />
-        	533
     </animation>
 
     <animation name="player_focus" >
-
-        <sprite-ref ref="sprite_player_focus" />
-        	1000
+        <frame>
+            <sprite-ref ref="sprite_player_focus" />
+            <duration>1000</duration>
+        </frame>
     </animation>
 
     <animation
         name="player_left"
         loop-from="5" >
 
-        <sprite-ref ref="reimu_left_1" />
-        	33
+        <frame>
+            <sprite-ref ref="reimu_left_1" />
+            <duration>33</duration>
+        </frame>
+        
+        <frame>
+            <sprite-ref ref="reimu_left_2" />
+            <duration>66</duration>
+        </frame>
+        
+        <frame>
+            <sprite-ref ref="reimu_left_3" />
+            <duration>100</duration>
+        </frame>
+        
+        <frame>
+            <sprite-ref ref="reimu_left_4" />
+            <duration>133</duration>
+        </frame>
+        
+        <frame>
+            <sprite-ref ref="reimu_left_5" />
+            <duration>166</duration>
+        </frame>
 
-        <sprite-ref ref="reimu_left_2" />
-        	66
+        <frame>
+            <sprite-ref ref="reimu_left_6" />
+            <duration>200</duration>
+        </frame>
+        
+        <frame>
+            <sprite-ref ref="reimu_left_7" />
+            <duration>266</duration>
+        </frame>
+        
+        <frame>
+            <sprite-ref ref="reimu_left_8" />
+            <duration>333</duration>
+        </frame>
 
-        <sprite-ref ref="reimu_left_3" />
-        	100
-
-        <sprite-ref ref="reimu_left_4" />
-        	133
-
-        <sprite-ref ref="reimu_left_5" />
-        	166
-
-        <sprite-ref ref="reimu_left_6" />
-        	200
-
-        <sprite-ref ref="reimu_left_7" />
-        	266
-
-        <sprite-ref ref="reimu_left_8" />
-        	333
     </animation>
 
     <animation
         name="player_right"
         loop-from="5" >
 
-        <sprite-ref ref="reimu_right_1" />
-        	33
+        <frame>
+            <sprite-ref ref="reimu_right_1" />
+            <duration>33</duration>
+        </frame>
+        
+        <frame>
+            <sprite-ref ref="reimu_right_2" />
+            <duration>66</duration>
+        </frame>
+        
+        <frame>
+            <sprite-ref ref="reimu_right_3" />
+            <duration>100</duration>
+        </frame>
+        
+        <frame>
+            <sprite-ref ref="reimu_right_4" />
+            <duration>133</duration>
+        </frame>
+        
+        <frame>
+            <sprite-ref ref="reimu_right_5" />
+            <duration>166</duration>
+        </frame>
 
-        <sprite-ref ref="reimu_right_2" />
-        	66
-
-        <sprite-ref ref="reimu_right_3" />
-        	100
-
-        <sprite-ref ref="reimu_right_4" />
-        	133
-
-        <sprite-ref ref="reimu_right_5" />
-        	166
-
-        <sprite-ref ref="reimu_right_6" />
-        	200
-
-        <sprite-ref ref="reimu_right_7" />
-        	266
-
-        <sprite-ref ref="reimu_right_8" />
-        	333
+        <frame>
+            <sprite-ref ref="reimu_right_6" />
+            <duration>200</duration>
+        </frame>
+        
+        <frame>
+            <sprite-ref ref="reimu_right_7" />
+            <duration>266</duration>
+        </frame>
+        
+        <frame>
+            <sprite-ref ref="reimu_right_8" />
+            <duration>333</duration>
+        </frame>
+        
     </animation>
     
     <wave
@@ -102,9 +154,10 @@
             <hitbody-ref ref="touhou_bullet_eliptic" />
 
             <animation name="reimu_bullet" >
-
-                <sprite-ref ref="touhou_bullet_eliptic_pink" />
-    		    1000
+    		    <frame>
+            		<sprite-ref ref="touhou_bullet_eliptic_pink" />
+            		<duration>1000</duration>
+        		</frame>
             </animation>
 
             <movement name="reimu_bullet" >
