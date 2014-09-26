@@ -64,4 +64,26 @@ public class Sprite {
 
 		sheet.draw(displayListId);
 	}
+
+	public double getH() {
+		return h;
+	}
+
+	public double getScaling() {
+		return scaling;
+	}
+
+	public double getW() {
+		return w;
+	}
+
+	public double getX() {
+		return x;
+	}
+
+	public double getY() {
+		return y;
+	}
+	
+	
 }

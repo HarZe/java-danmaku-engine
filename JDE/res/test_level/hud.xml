@@ -1,0 +1,42 @@
+<jde-content>
+
+    <hud name="touhou_hud">
+
+        <sprite-label name="leftBar" >
+
+            <vertex
+                x="16"
+                y="240" />
+
+            <sprite-ref ref="touhou_left_bar" />
+        </sprite-label>
+        
+        <sprite-label name="rightBar" >
+
+            <vertex
+                x="528"
+                y="240" />
+
+            <sprite-ref ref="touhou_right_bar" />
+        </sprite-label>
+        
+        <sprite-label name="topBar" >
+
+            <vertex
+                x="224"
+                y="8" />
+
+            <sprite-ref ref="touhou_top_bar" />
+        </sprite-label>
+        
+        <sprite-label name="bottomBar" >
+
+            <vertex
+                x="224"
+                y="472" />
+
+            <sprite-ref ref="touhou_bottom_bar" />
+        </sprite-label>
+    </hud>
+
+</jde-content>

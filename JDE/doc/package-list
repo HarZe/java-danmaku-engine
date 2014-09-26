@@ -9,4 +9,5 @@ com.jde.model.physics.collision
 com.jde.model.stage
 com.jde.model.utils
 com.jde.view
+com.jde.view.hud
 com.jde.view.sprites

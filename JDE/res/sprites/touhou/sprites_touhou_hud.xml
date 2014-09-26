@@ -1,0 +1,29 @@
+<jde-content>
+    
+    <spritesheet
+        name="touhou_hud"
+        file="res/sprites/touhou/touhou_spritesheet_hud.png" />
+    
+    <spritesheet
+        name="touhou_fonts"
+        file="res/sprites/touhou/touhou_spritesheet_fonts.png" />
+    
+    <!-- Borders -->
+    
+    <sprite
+        name="touhou_left_bar" sheet="touhou_hud"
+        x="0" y="0" w="64" h="960" scaling="0.5" />
+    
+    <sprite
+        name="touhou_right_bar" sheet="touhou_hud"
+        x="64" y="0" w="448" h="960" scaling="0.5" />
+    
+    <sprite
+        name="touhou_top_bar" sheet="touhou_hud"
+        x="0" y="960" w="768" h="32" scaling="0.5" />
+    
+    <sprite
+        name="touhou_bottom_bar" sheet="touhou_hud"
+        x="0" y="992" w="768" h="32" scaling="0.5" />
+    
+</jde-content>

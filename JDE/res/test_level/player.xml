@@ -151,7 +151,7 @@
 
         <bullet name="reimu_bullet" >
 
-            <hitbody-ref ref="touhou_bullet_eliptic" />
+            <hit-body-ref ref="touhou_bullet_eliptic" />
 
             <animation name="reimu_bullet" >
     		    <frame>

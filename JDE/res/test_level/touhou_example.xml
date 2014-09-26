@@ -10,6 +10,8 @@
     <import file="res/test_level/movements.xml" />
 
     <import file="res/test_level/bullets.xml" />
+    
+    <import file="res/test_level/hud.xml" />
 
     <!-- Butterfly horde -->
 
@@ -350,6 +352,8 @@
     <!-- Game -->
 
     <game name="game_name" >
+        
+        <hud-ref ref="touhou_hud" />
 
         <player hit-size="4" cooldown="100" >
 

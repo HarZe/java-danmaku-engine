@@ -1,3 +1,10 @@
+Version 0.1.11 (September 26, 2014):
+Added <hud>, <sprite-label>, <text-label> and <pseudo-font> to create a custom HUD via XML
+More XML bug fixes (mostly error checking missing)
+Added a basic XML example of <hud>
+Rename "test.xml" to "touhou_example.xml"
+Added Javadoc for all new content
+
 Version 0.1.10 (September 15, 2014):
 Updated LICENSE to GPLv3
 Lots of XML format bugs fixed

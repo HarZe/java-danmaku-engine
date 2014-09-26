@@ -11,5 +11,7 @@
     <import file="res/sprites/touhou/sprites_touhou_laser_bullets.xml" />
     
     <import file="res/sprites/touhou/sprites_touhou_reimu.xml" />
+    
+    <import file="res/sprites/touhou/sprites_touhou_hud.xml" />
 	
 </jde-content>

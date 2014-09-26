@@ -55,8 +55,15 @@ public class Enemy extends Entity implements Spawnable {
 	 * Returns a copy of the enemy
 	 */
 	public Enemy clone() {
-		Enemy e = new Enemy(animation.clone(), body, movement.clone(),
-				wave.clone(), health);
+		Enemy e;
+
+		if (wave != null)
+			e = new Enemy(animation.clone(), body, movement.clone(),
+					wave.clone(), health);
+		else
+			e = new Enemy(animation.clone(), body, movement.clone(), null,
+					health);
+
 		e.setSpawnTime(spawnTime);
 		return e;
 	}

@@ -6,8 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.jde.model.physics.Vertex;
 import com.jde.model.stage.Stage;
-import com.jde.view.sprites.Sprite;
-import com.jde.view.sprites.SpriteSheet;
+import com.jde.view.hud.HUD;
 
 /**
  * This Game class is the main OpenGL manager of the engine while playing the
@@ -27,7 +26,7 @@ public class Game {
 	public static Vertex GAME_BOARD_CENTER = new Vertex(223, 240);
 
 	/** Version number */
-	protected String VERSION = "pre-alpha 0.1.9";
+	protected String VERSION = "pre-alpha 0.1.11";
 
 	/** Game state */
 	protected boolean loaded = false;
@@ -46,10 +45,8 @@ public class Game {
 	 * @param stages
 	 *            List of stages in the game
 	 */
-	public Game(ArrayList<Stage> stages) {
-		SpriteSheet hudsheet = new SpriteSheet("res/sprites/hud.png");
-		hud = new HUD(new Sprite(hudsheet, 0, 0, BASE_RES.getX(),
-				BASE_RES.getY(), 1));
+	public Game(ArrayList<Stage> stages, HUD hud) {
+		this.hud = hud;
 		this.stages = stages;
 		currentStage = 0;
 	}
@@ -96,7 +93,7 @@ public class Game {
 		// draw stage & hud overlay
 		GL11.glColor4f(1, 1, 1, 1);
 		stages.get(currentStage).draw();
-		hud.draw((int) BASE_RES.getX(), (int) BASE_RES.getY());
+		hud.draw();
 
 		GL11.glPopMatrix();
 	}
@@ -176,7 +173,8 @@ public class Game {
 	 * This method converts a Vertex which points are represented with (0,0) as
 	 * the center of the game board into "real" coordinates to draw
 	 * 
-	 * @param v Vertex to convert
+	 * @param v
+	 *            Vertex to convert
 	 * @return A reference to the same Vertex already modified
 	 */
 	public static Vertex unvirtualizeCoordinates(Vertex v) {

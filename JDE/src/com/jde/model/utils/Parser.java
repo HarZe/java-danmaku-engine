@@ -28,6 +28,11 @@ import com.jde.model.physics.collision.HitPolygon;
 import com.jde.model.physics.collision.HitZone;
 import com.jde.model.stage.Stage;
 import com.jde.view.Game;
+import com.jde.view.hud.HUD;
+import com.jde.view.hud.Label;
+import com.jde.view.hud.PseudoFont;
+import com.jde.view.hud.SpriteLabel;
+import com.jde.view.hud.TextLabel;
 import com.jde.view.sprites.Animation;
 import com.jde.view.sprites.Sprite;
 import com.jde.view.sprites.SpriteSheet;
@@ -57,21 +62,29 @@ public class Parser {
 	protected HashMap<String, HitCircle> circles;
 	/** List of referenceable bodies */
 	protected HashMap<String, HitBody> bodies;
+	/** List of referenceable HUDs */
+	protected HashMap<String, HUD> huds;
+	/** List of referenceable labels */
+	protected HashMap<String, Label> labels;
 	/** List of referenceable sprites */
 	protected HashMap<String, Sprite> sprites;
 	/** List of referenceable spritesheets */
 	protected HashMap<String, SpriteSheet> sheets;
 	/** List of referenceable movements */
 	protected HashMap<String, Movement> movements;
+	/** List of referenceable pseudo-fonts */
+	protected HashMap<String, PseudoFont> pseudofonts;
 	/** List of referenceable vertices */
 	protected HashMap<String, Vertex> vertices;
-
 	/** List of referenceable waves */
 	protected HashMap<String, Wave> waves;
+
 	protected ArrayList<Enemy> spawns;
 	protected Player player;
 
 	protected Vertex playerPos = new Vertex(0, 100);
+
+	protected HUD gameHud = new HUD();
 
 	/**
 	 * Default constructor
@@ -87,9 +100,12 @@ public class Parser {
 		polygons = new HashMap<String, HitPolygon>();
 		circles = new HashMap<String, HitCircle>();
 		bodies = new HashMap<String, HitBody>();
+		huds = new HashMap<String, HUD>();
+		labels = new HashMap<String, Label>();
 		sprites = new HashMap<String, Sprite>();
 		sheets = new HashMap<String, SpriteSheet>();
 		movements = new HashMap<String, Movement>();
+		pseudofonts = new HashMap<String, PseudoFont>();
 		vertices = new HashMap<String, Vertex>();
 		waves = new HashMap<String, Wave>();
 
@@ -152,6 +168,10 @@ public class Parser {
 			processHitPolygon(node);
 			break;
 
+		case "hud":
+			processHud(node);
+			break;
+
 		case "import":
 			processImport(node);
 			break;
@@ -165,6 +185,11 @@ public class Parser {
 			processPlayer(node);
 			break;
 
+		case "pseudo-font":
+		case "pseudo-font-ref":
+			processPseudoFont(node);
+			break;
+
 		case "spawn":
 			processSpawn(node);
 			break;
@@ -174,12 +199,22 @@ public class Parser {
 			processSprite(node);
 			break;
 
+		case "sprite-label":
+		case "sprite-label-ref":
+			processSpriteLabel(node);
+			break;
+
 		case "spritesheet":
 			processSpriteSheet(node);
 			break;
 
 		case "stage":
 		case "stage-ref":
+			break;
+
+		case "text-label":
+		case "text-label-ref":
+			processTextLabel(node);
 			break;
 
 		case "vertex":
@@ -262,7 +297,7 @@ public class Parser {
 		// Creating the game
 		ArrayList<Stage> stages = new ArrayList<Stage>();
 		stages.add(new Stage(spawns, player));
-		return new Game(stages);
+		return new Game(stages, gameHud);
 	}
 
 	/**
@@ -391,28 +426,40 @@ public class Parser {
 		}
 
 		// Reading the mandatory content
-		if (node.hasChildNodes()
-				&& node.getChildNodes().getLength() == 3 * 2 + 1)
+		boolean hasBody = false;
+		boolean hasMov = false;
+		boolean hasAnim = false;
 
-			for (int i = 1; i < 3 * 2 + 1; i += 2) {
+		if (node.hasChildNodes()) {
+
+			for (int i = 1; i < node.getChildNodes().getLength(); i += 2) {
 				Node currentNode = node.getChildNodes().item(i);
 
 				// Reading hitBody
 				if (currentNode.getNodeName().equals("hit-body")
-						|| currentNode.getNodeName().equals("hit-body-ref"))
+						|| currentNode.getNodeName().equals("hit-body-ref")) {
 					h = processHitBody(currentNode);
+					hasBody = true;
+				}
 
 				// Reading movement
 				else if (currentNode.getNodeName().equals("movement")
-						|| currentNode.getNodeName().equals("movement-ref"))
+						|| currentNode.getNodeName().equals("movement-ref")) {
 					m = processMovement(currentNode);
+					hasMov = true;
+				}
 
 				// Reading animation
 				else if (currentNode.getNodeName().equals("animation")
-						|| currentNode.getNodeName().equals("animation-ref"))
+						|| currentNode.getNodeName().equals("animation-ref")) {
 					a = processAnimation(currentNode);
+					hasAnim = true;
+				}
 			}
-		else
+		}
+
+		// Checking
+		if (!hasBody || !hasAnim || !hasMov)
 			throw new Exception(
 					"<bullet> requieres: <hit-body>, <movement> and <animation>");
 
@@ -829,30 +876,43 @@ public class Parser {
 		}
 
 		// Reading mandatory content
-		if (node.hasChildNodes()
-				&& node.getChildNodes().getLength() == 4 * 2 + 1)
-			for (int i = 1; i < 4 * 2 + 1; i += 2) {
+		boolean hasBody = false;
+		boolean hasMov = false;
+		boolean hasAnim = false;
+
+		if (node.hasChildNodes()) {
+
+			for (int i = 1; i < node.getChildNodes().getLength(); i += 2) {
 				Node currentNode = node.getChildNodes().item(i);
 
 				if (currentNode.getNodeName().equals("hit-body")
-						|| currentNode.getNodeName().equals("hit-body-ref"))
+						|| currentNode.getNodeName().equals("hit-body-ref")) {
 					h = processHitBody(currentNode);
+					hasBody = true;
+				}
 
 				else if (currentNode.getNodeName().equals("movement")
-						|| currentNode.getNodeName().equals("movement-ref"))
+						|| currentNode.getNodeName().equals("movement-ref")) {
 					m = processMovement(currentNode);
+					hasMov = true;
+				}
 
 				else if (currentNode.getNodeName().equals("animation")
-						|| currentNode.getNodeName().equals("animation-ref"))
+						|| currentNode.getNodeName().equals("animation-ref")) {
 					a = processAnimation(currentNode);
+					hasAnim = true;
+				}
 
 				else if (currentNode.getNodeName().equals("wave")
 						|| currentNode.getNodeName().equals("wave-ref"))
 					w = processWave(currentNode);
 			}
-		else
+		}
+
+		// Checking
+		if (!hasBody || !hasAnim || !hasMov)
 			throw new Exception(
-					"<enemy> requieres: <hit-body>, <movement>, <wave> and <animation>");
+					"<enemy> requieres: <hit-body>, <movement>, <wave> and may contain an <animation>");
 
 		// Checking attributes
 		if (node.hasAttributes()) {
@@ -886,20 +946,34 @@ public class Parser {
 	 */
 	protected void processGame(Node node) throws Exception {
 
+		boolean hasPlayer = false;
+		boolean hasHud = false;
+
 		if (node.hasChildNodes())
 			for (int i = 1; i < node.getChildNodes().getLength(); i += 2) {
 				Node currentNode = node.getChildNodes().item(i);
+
 				if (currentNode.getNodeName().equals("spawn"))
 					processSpawn(currentNode);
-				else if (currentNode.getNodeName().equals("player"))
+
+				else if (currentNode.getNodeName().equals("player")) {
 					processPlayer(currentNode);
+					hasPlayer = true;
+				}
+
+				else if (currentNode.getNodeName().equals("hud")
+						|| currentNode.getNodeName().equals("hud-ref")) {
+					gameHud = processHud(currentNode);
+					hasHud = true;
+				}
+
 				else
 					throw new Exception(
-							"<game> must contains only <spawn> and a <player>");
+							"<game> must contains only a list of <spawn>, a <hud> and a <player>");
 			}
 
-		if (player == null)
-			throw new Exception("<game> must contains a <player>");
+		if (!hasPlayer || !hasHud)
+			throw new Exception("<game> must contains a <player> and a <hud>");
 	}
 
 	/**
@@ -1056,9 +1130,8 @@ public class Parser {
 		if (node.hasChildNodes())
 			for (int i = 1; i < node.getChildNodes().getLength(); i += 2) {
 				Node currentNode = node.getChildNodes().item(i);
-				if (i % 2 == 1
-						&& (currentNode.getNodeName().equals("vertex") || currentNode
-								.getNodeName().equals("vertex-ref")))
+				if (currentNode.getNodeName().equals("vertex")
+						|| currentNode.getNodeName().equals("vertex-ref"))
 					polygonVrtcs.add(processVertex(currentNode));
 			}
 
@@ -1127,6 +1200,67 @@ public class Parser {
 
 		} else
 			throw new Exception("<import> with no attributes declared");
+	}
+
+	/**
+	 * This method process and <hud> tag, check the wiki to know the format
+	 * 
+	 * @param node
+	 *            HUD node
+	 * @return Generated HUD
+	 * @throws Exception
+	 */
+	protected HUD processHud(Node node) throws Exception {
+
+		HUD h = null;
+
+		NamedNodeMap nodeMap = node.getAttributes();
+
+		// Check if it is a reference
+		if (node.getNodeName().equals("hud-ref")) {
+			if (nodeMap.getNamedItem("ref") != null) {
+				String ref = nodeMap.getNamedItem("ref").getNodeValue();
+
+				if (!huds.containsKey(ref))
+					throw new Exception("<hud> with name:" + ref
+							+ " is not declared");
+
+				return huds.get(ref);
+			}
+		}
+
+		h = new HUD();
+
+		// Reading mandatory content
+		if (node.hasChildNodes())
+			for (int i = 1; i < node.getChildNodes().getLength(); i += 2) {
+				Node currentNode = node.getChildNodes().item(i);
+				Label currentLabel = null;
+
+				if (currentNode.getNodeName().equals("sprite-label")
+						|| currentNode.getNodeName().equals("sprite-label-ref"))
+					currentLabel = processSpriteLabel(currentNode);
+				else if (currentNode.getNodeName().equals("text-label")
+						|| currentNode.getNodeName().equals("text-label-ref"))
+					currentLabel = processTextLabel(currentNode);
+
+				if (currentLabel == null)
+					throw new Exception(
+							"<hud> must cointain only a list of <sprite-label> or <text-label>");
+
+				h.addLabel(currentLabel.getName(), currentLabel);
+			}
+
+		// Checking attributes
+		if (node.hasAttributes()) {
+			if (nodeMap.getNamedItem("name") != null) {
+				String name = nodeMap.getNamedItem("name").getNodeValue();
+				huds.put(name, h);
+			}
+		}
+
+		return h;
+
 	}
 
 	/**
@@ -1218,6 +1352,8 @@ public class Parser {
 		NamedNodeMap nodeMap = node.getAttributes();
 
 		// Reading mandatory content
+		boolean hasWave = false;
+
 		if (node.hasChildNodes())
 			for (int i = 1; i < node.getChildNodes().getLength(); i += 2) {
 				Node currentNode = node.getChildNodes().item(i);
@@ -1231,20 +1367,14 @@ public class Parser {
 					anims.add(processAnimation(currentNode));
 
 				else if (currentNode.getNodeName().equals("wave")
-						|| currentNode.getNodeName().equals("wave-ref"))
+						|| currentNode.getNodeName().equals("wave-ref")) {
 					w = processWave(currentNode);
+					hasWave = true;
+				}
 			}
-		else
-			throw new Exception(
-					"<player> requieres: <vertex>, <wave> and two <animation>");
 
-		// Checking there are at least 2 main animations
-		if (anims.size() < 2)
-			throw new Exception(
-					"<player> requieres: <vertex>, <wave> and two <animation>");
-
-		// Checking there is a wave
-		if (w == null)
+		// Checking there are at least 2 main animations and there is a wave
+		if (anims.size() < 2 || !hasWave)
 			throw new Exception(
 					"<player> requieres: <vertex>, <wave> and two <animation>");
 
@@ -1280,6 +1410,90 @@ public class Parser {
 		return player;
 	}
 
+	/**
+	 * This method process and <pseudo-font> tag, check the wiki to know the
+	 * format
+	 * 
+	 * @param node
+	 *            Pseudo-font node
+	 * @return Generated PseudoFont
+	 * @throws Exception
+	 */
+	protected PseudoFont processPseudoFont(Node node) throws Exception {
+
+		PseudoFont f = null;
+		String c = null;
+		Sprite s = null;
+
+		NamedNodeMap nodeMap = node.getAttributes();
+
+		// Check if it is a reference
+		if (node.getNodeName().equals("pseudo-font-ref")) {
+			if (nodeMap.getNamedItem("ref") != null) {
+				String ref = nodeMap.getNamedItem("ref").getNodeValue();
+
+				if (!pseudofonts.containsKey(ref))
+					throw new Exception("<pseudo-font> with name:" + ref
+							+ " is not declared");
+
+				return pseudofonts.get(ref);
+			}
+		}
+
+		f = new PseudoFont();
+
+		// Reading mandatory content
+		if (node.hasChildNodes())
+			for (int i = 1; i < node.getChildNodes().getLength(); i += 2) {
+				Node currentNode = node.getChildNodes().item(i);
+
+				if (currentNode.getNodeName().equals("char")) {
+					boolean hasSprite = false;
+
+					// Checking "value" attribute
+					if (currentNode.hasAttributes())
+						c = currentNode.getAttributes().getNamedItem("value")
+								.getNodeValue();
+					else
+						throw new Exception(
+								"<char> declared without 'value' attribute");
+
+					// Reading Sprite
+					if (currentNode.hasChildNodes()) {
+						for (int j = 1; j < currentNode.getChildNodes()
+								.getLength(); j += 2) {
+							Node charNode = currentNode.getChildNodes().item(j);
+
+							if (charNode.getNodeName().equals("sprite")
+									|| charNode.getNodeName().equals(
+											"sprite-ref")) {
+								s = processSprite(charNode);
+								hasSprite = true;
+							}
+						}
+					} else
+						throw new Exception("<char> must contain a <sprite>");
+
+					if (!hasSprite)
+						throw new Exception("<char> must contain a <sprite>");
+
+					// Adding the character
+					f.addChar(c, s);
+				}
+
+			}
+
+		// Checking attributes
+		if (node.hasAttributes()) {
+			if (nodeMap.getNamedItem("name") != null) {
+				String name = nodeMap.getNamedItem("name").getNodeValue();
+				pseudofonts.put(name, f);
+			}
+		}
+
+		return f;
+	}
+
 	// TODO: provisional spawner for enemies
 	/**
 	 * This method process and <spawn> tag, check the wiki to know the format
@@ -1296,20 +1510,28 @@ public class Parser {
 		NamedNodeMap nodeMap = node.getAttributes();
 
 		// Reading mandatory content
+		boolean hasVertex = false;
+		boolean hasEnemy = false;
+
 		if (node.hasChildNodes()
 				&& node.getChildNodes().getLength() == 2 * 2 + 1)
 			for (int i = 1; i < 2 * 2 + 1; i += 2) {
 				Node currentNode = node.getChildNodes().item(i);
 
 				if (currentNode.getNodeName().equals("vertex")
-						|| currentNode.getNodeName().equals("vertex-ref"))
+						|| currentNode.getNodeName().equals("vertex-ref")) {
 					pos = processVertex(currentNode);
+					hasVertex = true;
+				}
 
 				else if (currentNode.getNodeName().equals("enemy")
-						|| currentNode.getNodeName().equals("enemy-ref"))
+						|| currentNode.getNodeName().equals("enemy-ref")) {
 					e = processEnemy(currentNode).clone();
+					hasEnemy = true;
+				}
 			}
-		else
+
+		if (!hasVertex || !hasEnemy)
 			throw new Exception("<spawn> requieres: <vertex> and <enemy>");
 
 		// Checking attributes
@@ -1418,6 +1640,80 @@ public class Parser {
 	}
 
 	/**
+	 * This method process and <sprite-label> tag, check the wiki to know the
+	 * format
+	 * 
+	 * @param node
+	 *            Sprite-label node
+	 * @return Generated SpriteLabel
+	 * @throws Exception
+	 */
+	protected Label processSpriteLabel(Node node) throws Exception {
+
+		Label l = null;
+		Sprite s = null;
+		Vertex v = null;
+
+		NamedNodeMap nodeMap = node.getAttributes();
+
+		// Check if it is a reference
+		if (node.getNodeName().equals("sprite-label-ref")) {
+			if (nodeMap.getNamedItem("ref") != null) {
+				String ref = nodeMap.getNamedItem("ref").getNodeValue();
+
+				if (!labels.containsKey(ref))
+					throw new Exception(
+							"<sprite-label> or <text-label> with name:" + ref
+									+ " is not declared");
+
+				return labels.get(ref);
+			}
+		}
+
+		// Reading mandatory content
+		boolean hasVertex = false;
+		boolean hasSprite = false;
+
+		if (node.hasChildNodes()
+				&& node.getChildNodes().getLength() == 2 * 2 + 1)
+			for (int i = 1; i < 2 * 2 + 1; i += 2) {
+				Node currentNode = node.getChildNodes().item(i);
+
+				if (currentNode.getNodeName().equals("vertex")
+						|| currentNode.getNodeName().equals("vertex-ref")) {
+					v = processVertex(currentNode);
+					hasVertex = true;
+				}
+
+				else if (currentNode.getNodeName().equals("sprite")
+						|| currentNode.getNodeName().equals("sprite-ref")) {
+					s = processSprite(currentNode);
+					hasSprite = true;
+				}
+			}
+
+		if (!hasVertex || !hasSprite)
+			throw new Exception(
+					"<sprite-label> requieres: <vertex> and <sprite>");
+
+		// Checking attributes
+		if (node.hasAttributes()) {
+			if (nodeMap.getNamedItem("name") != null) {
+				String name = nodeMap.getNamedItem("name").getNodeValue();
+
+				// New label is created
+				l = new SpriteLabel(name, v, s);
+
+				labels.put(name, l);
+			}
+		} else
+			throw new Exception("<sprite-label> must have a 'name' attribute");
+
+		return l;
+
+	}
+
+	/**
 	 * This method process and <spritesheet> tag, check the wiki to know the
 	 * format
 	 * 
@@ -1454,6 +1750,87 @@ public class Parser {
 			throw new Exception("<spritesheet> with no attributes declared");
 
 		return s;
+	}
+
+	/**
+	 * This method process and <text-label> tag, check the wiki to know the
+	 * format
+	 * 
+	 * @param node
+	 *            Text-label node
+	 * @return Generated TextLabel
+	 * @throws Exception
+	 */
+	protected Label processTextLabel(Node node) throws Exception {
+
+		Label l = null;
+		String t = "";
+		Vertex v = null;
+		PseudoFont f = null;
+
+		NamedNodeMap nodeMap = node.getAttributes();
+
+		// Check if it is a reference
+		if (node.getNodeName().equals("text-label-ref")) {
+			if (nodeMap.getNamedItem("ref") != null) {
+				String ref = nodeMap.getNamedItem("ref").getNodeValue();
+
+				if (!labels.containsKey(ref))
+					throw new Exception(
+							"<sprite-label> or <text-label> with name:" + ref
+									+ " is not declared");
+
+				return labels.get(ref);
+			}
+		}
+
+		// Reading mandatory content
+		boolean hasVertex = false;
+		boolean hasFont = false;
+
+		if (node.hasChildNodes()
+				&& node.getChildNodes().getLength() == 2 * 2 + 1)
+			for (int i = 1; i < 2 * 2 + 1; i += 2) {
+				Node currentNode = node.getChildNodes().item(i);
+
+				if (currentNode.getNodeName().equals("vertex")
+						|| currentNode.getNodeName().equals("vertex-ref")) {
+					v = processVertex(currentNode);
+					hasVertex = true;
+				}
+
+				else if (currentNode.getNodeName().equals("pseudo-font")
+						|| currentNode.getNodeName().equals("pseudo-font-ref")) {
+					f = processPseudoFont(currentNode);
+					hasFont = true;
+				}
+			}
+
+		if (!hasVertex || !hasFont)
+			throw new Exception(
+					"<sprite-label> requieres: <vertex> and <pseudo-font>");
+
+		// Checking attributes
+		if (node.hasAttributes()) {
+
+			if (nodeMap.getNamedItem("text") != null) {
+				t = nodeMap.getNamedItem("text").getNodeValue();
+			}
+
+			if (nodeMap.getNamedItem("name") != null) {
+				String name = nodeMap.getNamedItem("name").getNodeValue();
+
+				// New label is created
+				l = new TextLabel(name, v, t, f);
+
+				labels.put(name, l);
+			}
+
+		} else
+			throw new Exception("<sprite-label> must have a 'name' attribute");
+
+		return l;
+
 	}
 
 	/**
