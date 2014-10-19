@@ -67,6 +67,10 @@ public class Main {
 
 		} catch (LWJGLException e) {
 			e.printStackTrace();
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

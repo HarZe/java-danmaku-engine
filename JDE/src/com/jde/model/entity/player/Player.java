@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import com.jde.model.entity.Entity;
 import com.jde.model.entity.bullet.Bullet;
 import com.jde.model.entity.bullet.Wave;
 import com.jde.model.physics.Direction;
@@ -19,21 +20,17 @@ import com.jde.view.sprites.Animation;
  * 
  * @author HarZe (David Serrano)
  */
-public class Player {
+public class Player extends Entity {
 
 	/** Game board limit border for the player */
 	protected static double BORDER = 20;
 
-	/** Player main animation */
-	protected Animation animation;
 	/** Player focus (real body) animation */
 	protected Animation focusAnimation;
 	/** Player animation when moving to left */
 	protected Animation movingLeftAnimation;
 	/** Player animation when moving to right */
 	protected Animation movingRightAnimation;
-	/** Player movement */
-	protected Movement movement;
 
 	/** Player base speed (vgapx/sec) */
 	protected double baseSpeed = 300;
@@ -48,9 +45,18 @@ public class Player {
 	/** Cooldown time between attacks */
 	protected double baseCooldown = 200;
 
+	/** Player respawn protection time (ms) */
+	protected double respawnProtect = 3000;
+	/** Player lifes at respawn */
+	protected double baseLifes = 2;
+
 	// Misc
 	/** Current cooldown time remaining */
 	protected double cooldown = 0;
+	/** Current respawn protection remaining */
+	protected double respawnProtectRemaining = 0;
+	/** Player current lifes */
+	protected double currentLifes = 2;
 
 	/** Shooting key state */
 	protected boolean shoot;
@@ -81,7 +87,7 @@ public class Player {
 	 */
 	public Player(Animation animation, Animation focusAnimation,
 			Vertex spawnPoint, Wave baseAttack) {
-		this.animation = animation;
+		super(animation, null, null);
 		this.focusAnimation = focusAnimation;
 		this.baseAttack = baseAttack;
 
@@ -95,12 +101,20 @@ public class Player {
 	/**
 	 * Draws the player (main animation)
 	 */
+	@Override
 	public void draw() {
 		GL11.glPushMatrix();
 
 		GL11.glTranslated(movement.getPosition().getX(), movement.getPosition()
 				.getY(), 0);
 		GL11.glRotated(movement.getDrawingAngle(), 0, 0, 1);
+
+		if (respawnProtectRemaining > 0) {
+			if (((int) respawnProtectRemaining) % 100 > 20)
+				GL11.glColor4d(1, 1, 1, 0.75);
+			else
+				GL11.glColor4d(1, 1, 1, 0);
+		}
 
 		if (movingLeftAnimation != null && left && !right)
 			movingLeftAnimation.draw();
@@ -109,6 +123,7 @@ public class Player {
 		else
 			animation.draw();
 
+		GL11.glColor4d(1, 1, 1, 1);
 		GL11.glPopMatrix();
 	}
 
@@ -137,8 +152,16 @@ public class Player {
 		return baseCooldown;
 	}
 
+	public double getBaseLifes() {
+		return baseLifes;
+	}
+
 	public double getBaseSpeed() {
 		return baseSpeed;
+	}
+
+	public double getCurrentLifes() {
+		return currentLifes;
 	}
 
 	public double getFocusFactor() {
@@ -153,6 +176,14 @@ public class Player {
 		return movement;
 	}
 
+	public double getRespawnProtect() {
+		return respawnProtect;
+	}
+
+	public double getRespawnProtectRemaining() {
+		return respawnProtectRemaining;
+	}
+
 	public void setBaseAttack(Wave baseAttack) {
 		this.baseAttack = baseAttack;
 	}
@@ -161,8 +192,16 @@ public class Player {
 		this.baseCooldown = baseCooldown;
 	}
 
+	public void setBaseLifes(double baseLifes) {
+		this.baseLifes = baseLifes;
+	}
+
 	public void setBaseSpeed(double baseSpeed) {
 		this.baseSpeed = baseSpeed;
+	}
+
+	public void setCurrentLifes(double currentLifes) {
+		this.currentLifes = currentLifes;
 	}
 
 	public void setFocusFactor(double focusFactor) {
@@ -181,6 +220,14 @@ public class Player {
 		this.movingRightAnimation = movingRightAnimation;
 	}
 
+	public void setRespawnProtect(double respawnProtect) {
+		this.respawnProtect = respawnProtect;
+	}
+
+	public void setRespawnProtectRemaining(double respawnProtectRemaining) {
+		this.respawnProtectRemaining = respawnProtectRemaining;
+	}
+
 	/**
 	 * This method updates the player state, spawn new bullets (if any) and
 	 * moves the player if needed
@@ -193,6 +240,9 @@ public class Player {
 	 */
 	public ArrayList<Bullet> update(double ms, double timeStamp) {
 
+		// Decreasing respawn time protection
+		respawnProtectRemaining -= ms;
+		
 		ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 
 		// Getting keyboard state
@@ -263,11 +313,12 @@ public class Player {
 
 		// Bullet generation
 		cooldown -= ms;
+		double gap = ms + cooldown;
 		if (shoot) {
 			if (cooldown <= 0) {
 				cooldown = baseCooldown;
 				baseAttack = baseAttack.clone();
-				return baseAttack.start(timeStamp, movement.getPosition());
+				return baseAttack.start(timeStamp + gap, movement.getPosition());
 			} else if (baseAttack.spawned())
 				return baseAttack.forward(ms);
 		} else

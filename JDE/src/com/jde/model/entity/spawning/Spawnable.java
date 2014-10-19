@@ -16,13 +16,9 @@ public interface Spawnable {
 	public void setSpawnTime(double spawnTime);
 
 	/**
-	 * Spawns the entity (make it visible) and forwards it from spawnTime to
-	 * timeStamp
-	 * 
-	 * @param timeStamp
-	 *            Time stamp of the spawn instant, in milliseconds
+	 * Spawns the entity
 	 */
-	public void spawn(double timeStamp);
+	public void spawn();
 
 	/**
 	 * @return True if the entity has spawned

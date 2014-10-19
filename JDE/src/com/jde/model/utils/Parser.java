@@ -1,6 +1,7 @@
 package com.jde.model.utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,11 +10,14 @@ import java.util.LinkedList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.lwjgl.LWJGLException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.jde.audio.Music;
+import com.jde.audio.SoundEffect;
 import com.jde.model.entity.bullet.Bullet;
 import com.jde.model.entity.bullet.Wave;
 import com.jde.model.entity.enemy.Enemy;
@@ -72,8 +76,12 @@ public class Parser {
 	protected HashMap<String, SpriteSheet> sheets;
 	/** List of referenceable movements */
 	protected HashMap<String, Movement> movements;
+	/** List of referenceable musics */
+	protected HashMap<String, Music> musics;
 	/** List of referenceable pseudo-fonts */
 	protected HashMap<String, PseudoFont> pseudofonts;
+	/** List of referenceable sounds */
+	protected HashMap<String, SoundEffect> sounds;
 	/** List of referenceable vertices */
 	protected HashMap<String, Vertex> vertices;
 	/** List of referenceable waves */
@@ -81,6 +89,7 @@ public class Parser {
 
 	protected ArrayList<Enemy> spawns;
 	protected Player player;
+	protected Music backgroundMusic;
 
 	protected Vertex playerPos = new Vertex(0, 100);
 
@@ -105,12 +114,15 @@ public class Parser {
 		sprites = new HashMap<String, Sprite>();
 		sheets = new HashMap<String, SpriteSheet>();
 		movements = new HashMap<String, Movement>();
+		musics = new HashMap<String, Music>();
 		pseudofonts = new HashMap<String, PseudoFont>();
+		sounds = new HashMap<String, SoundEffect>();
 		vertices = new HashMap<String, Vertex>();
 		waves = new HashMap<String, Wave>();
 
 		spawns = new ArrayList<Enemy>();
 		player = null;
+		backgroundMusic = null;
 	}
 
 	/**
@@ -181,6 +193,11 @@ public class Parser {
 			processMovement(node);
 			break;
 
+		case "music":
+		case "music-ref":
+			processMusic(node);
+			break;
+
 		case "player":
 			processPlayer(node);
 			break;
@@ -192,6 +209,11 @@ public class Parser {
 
 		case "spawn":
 			processSpawn(node);
+			break;
+
+		case "sound":
+		case "sound-ref":
+			processSound(node);
 			break;
 
 		case "sprite":
@@ -262,10 +284,12 @@ public class Parser {
 	 * @param filename
 	 *            Main XML file with the <game> tag
 	 * @return A ready-to-play instance of Game
+	 * @throws LWJGLException
+	 * @throws IOException
 	 */
-	public Game parseXML(String filename) {
+	public Game parseXML(String filename) throws IOException, LWJGLException {
 
-		// xml parsing
+		// XML parsing
 		try {
 			File file = new File(filename);
 
@@ -294,9 +318,17 @@ public class Parser {
 		for (HitBody h : bodies.values())
 			h.expand(player.getHitboxRadius());
 
+		// Loading sounds
+		for (SoundEffect s : sounds.values())
+			s.load();
+		for (Music m : musics.values())
+			m.load();
+
 		// Creating the game
 		ArrayList<Stage> stages = new ArrayList<Stage>();
-		stages.add(new Stage(spawns, player));
+		Stage testStage = new Stage(spawns, player);
+		testStage.setMusic(backgroundMusic);
+		stages.add(testStage);
 		return new Game(stages, gameHud);
 	}
 
@@ -409,6 +441,7 @@ public class Parser {
 		HitBody h = null;
 		Animation a = null;
 		Movement m = null;
+		SoundEffect s = null;
 
 		NamedNodeMap nodeMap = node.getAttributes();
 
@@ -455,6 +488,11 @@ public class Parser {
 					a = processAnimation(currentNode);
 					hasAnim = true;
 				}
+
+				// Reading sound effect
+				else if (currentNode.getNodeName().equals("sound")
+						|| currentNode.getNodeName().equals("sound-ref"))
+					s = processSound(currentNode);
 			}
 		}
 
@@ -465,9 +503,17 @@ public class Parser {
 
 		// New bullet is generated
 		b = new Bullet(a, h, m);
+		b.setSpawnSound(s);
 
 		// Checking attributes
 		if (node.hasAttributes()) {
+
+			// Optional attribute "power"
+			if (nodeMap.getNamedItem("power") != null) {
+				Double power = Double.parseDouble(nodeMap.getNamedItem("power")
+						.getNodeValue());
+				b.setPower(power);
+			}
 
 			// Check if it has a reference name to store it
 			if (nodeMap.getNamedItem("name") != null) {
@@ -859,6 +905,7 @@ public class Parser {
 		Animation a = null;
 		Movement m = null;
 		Wave w = null;
+		SoundEffect s = null;
 
 		NamedNodeMap nodeMap = node.getAttributes();
 
@@ -906,13 +953,17 @@ public class Parser {
 				else if (currentNode.getNodeName().equals("wave")
 						|| currentNode.getNodeName().equals("wave-ref"))
 					w = processWave(currentNode);
+
+				else if (currentNode.getNodeName().equals("sound")
+						|| currentNode.getNodeName().equals("sound-ref"))
+					s = processSound(currentNode);
 			}
 		}
 
 		// Checking
 		if (!hasBody || !hasAnim || !hasMov)
 			throw new Exception(
-					"<enemy> requieres: <hit-body>, <movement>, <wave> and may contain an <animation>");
+					"<enemy> requieres: <hit-body>, <movement>, <animation> and may contain an <wave> and/or <sound>");
 
 		// Checking attributes
 		if (node.hasAttributes()) {
@@ -920,9 +971,18 @@ public class Parser {
 			if (nodeMap.getNamedItem("health") != null) {
 				double health = Double.parseDouble(nodeMap.getNamedItem(
 						"health").getNodeValue());
+
+				// New Enemy is created
 				e = new Enemy(a, h, m, w, health);
+				e.setSpawnSound(s);
 			} else
 				throw new Exception("<enemy> with no health declared");
+
+			if (nodeMap.getNamedItem("points") != null) {
+				double points = Double.parseDouble(nodeMap.getNamedItem(
+						"points").getNodeValue());
+				e.setPoints(points);
+			}
 
 			if (nodeMap.getNamedItem("name") != null) {
 				String name = nodeMap.getNamedItem("name").getNodeValue();
@@ -967,13 +1027,14 @@ public class Parser {
 					hasHud = true;
 				}
 
-				else
-					throw new Exception(
-							"<game> must contains only a list of <spawn>, a <hud> and a <player>");
+				else if (currentNode.getNodeName().equals("music")
+						|| currentNode.getNodeName().equals("music-ref")) {
+					backgroundMusic = processMusic(currentNode);
+				}
 			}
 
 		if (!hasPlayer || !hasHud)
-			throw new Exception("<game> must contains a <player> and a <hud>");
+			throw new Exception("<game> must contain a <player> and a <hud>");
 	}
 
 	/**
@@ -1336,6 +1397,69 @@ public class Parser {
 	}
 
 	/**
+	 * This method process and <music> tag, check the wiki to know the format
+	 * 
+	 * @param node
+	 *            Music node
+	 * @return Generated Music
+	 * @throws Exception
+	 */
+	protected Music processMusic(Node node) throws Exception {
+
+		Music m = null;
+		String filename = "";
+
+		NamedNodeMap nodeMap = node.getAttributes();
+
+		// Check if it is a reference
+		if (node.getNodeName().equals("music-ref")) {
+			if (nodeMap.getNamedItem("ref") != null) {
+				String ref = nodeMap.getNamedItem("ref").getNodeValue();
+
+				if (!musics.containsKey(ref))
+					throw new Exception("<music> with name:" + ref
+							+ " is not declared");
+
+				return musics.get(ref);
+			}
+		}
+
+		// Checking attributes
+		if (node.hasAttributes()) {
+
+			if (nodeMap.getNamedItem("file") != null)
+				filename = nodeMap.getNamedItem("file").getNodeValue();
+			else
+				throw new Exception("<music> with no file declared");
+
+			// New Music is created
+			m = new Music(filename);
+
+			if (nodeMap.getNamedItem("pitch") != null) {
+				Float pitch = Float.parseFloat(nodeMap.getNamedItem("pitch")
+						.getNodeValue());
+				m.setPitch(pitch);
+			}
+
+			if (nodeMap.getNamedItem("gain") != null) {
+				Float gain = Float.parseFloat(nodeMap.getNamedItem("gain")
+						.getNodeValue());
+				m.setGain(gain);
+			}
+
+			if (nodeMap.getNamedItem("name") != null) {
+				String name = nodeMap.getNamedItem("name").getNodeValue();
+				musics.put(name, m);
+			} else
+				throw new Exception("<music> with no name declared");
+
+		} else
+			throw new Exception("<music> with no attributes declared");
+
+		return m;
+	}
+
+	/**
 	 * This method process and <player> tag, check the wiki to know the format
 	 * 
 	 * @param node
@@ -1391,6 +1515,12 @@ public class Parser {
 		// Checking attributes
 		if (node.hasAttributes()) {
 
+			if (nodeMap.getNamedItem("cooldown") != null) {
+				double cooldown = Double.parseDouble(nodeMap.getNamedItem(
+						"cooldown").getNodeValue());
+				player.setBaseCooldown(cooldown);
+			}
+
 			if (nodeMap.getNamedItem("hit-size") != null) {
 				double hitSize = Double.parseDouble(nodeMap.getNamedItem(
 						"hit-size").getNodeValue());
@@ -1398,10 +1528,16 @@ public class Parser {
 			} else
 				throw new Exception("<player> with no hit-size declared");
 
-			if (nodeMap.getNamedItem("cooldown") != null) {
-				double cooldown = Double.parseDouble(nodeMap.getNamedItem(
-						"cooldown").getNodeValue());
-				player.setBaseCooldown(cooldown);
+			if (nodeMap.getNamedItem("lifes") != null) {
+				double lifes = Double.parseDouble(nodeMap.getNamedItem("lifes")
+						.getNodeValue());
+				player.setBaseLifes(lifes);
+			}
+
+			if (nodeMap.getNamedItem("respawn-time") != null) {
+				double respawnTime = Double.parseDouble(nodeMap.getNamedItem(
+						"respawn-time").getNodeValue());
+				player.setRespawnProtect(respawnTime);
 			}
 
 		} else
@@ -1698,6 +1834,7 @@ public class Parser {
 
 		// Checking attributes
 		if (node.hasAttributes()) {
+
 			if (nodeMap.getNamedItem("name") != null) {
 				String name = nodeMap.getNamedItem("name").getNodeValue();
 
@@ -1705,9 +1842,18 @@ public class Parser {
 				l = new SpriteLabel(name, v, s);
 
 				labels.put(name, l);
+			} else
+				throw new Exception(
+						"<sprite-label> must have a 'name' attribute");
+
+			if (nodeMap.getNamedItem("layer") != null) {
+				int layer = Integer.parseInt(nodeMap.getNamedItem("layer")
+						.getNodeValue());
+				l.setLayer(layer);
 			}
+
 		} else
-			throw new Exception("<sprite-label> must have a 'name' attribute");
+			throw new Exception("<sprite-label> with no attributes declared");
 
 		return l;
 
@@ -1748,6 +1894,69 @@ public class Parser {
 
 		} else
 			throw new Exception("<spritesheet> with no attributes declared");
+
+		return s;
+	}
+
+	/**
+	 * This method process and <sound> tag, check the wiki to know the format
+	 * 
+	 * @param node
+	 *            Sound node
+	 * @return Generated SoundEffect
+	 * @throws Exception
+	 */
+	protected SoundEffect processSound(Node node) throws Exception {
+
+		SoundEffect s = null;
+		String filename = "";
+
+		NamedNodeMap nodeMap = node.getAttributes();
+
+		// Check if it is a reference
+		if (node.getNodeName().equals("sound-ref")) {
+			if (nodeMap.getNamedItem("ref") != null) {
+				String ref = nodeMap.getNamedItem("ref").getNodeValue();
+
+				if (!sounds.containsKey(ref))
+					throw new Exception("<sound> with name:" + ref
+							+ " is not declared");
+
+				return sounds.get(ref);
+			}
+		}
+
+		// Checking attributes
+		if (node.hasAttributes()) {
+
+			if (nodeMap.getNamedItem("file") != null)
+				filename = nodeMap.getNamedItem("file").getNodeValue();
+			else
+				throw new Exception("<sound> with no file declared");
+
+			// New SoundEffect is created
+			s = new SoundEffect(filename);
+
+			if (nodeMap.getNamedItem("pitch") != null) {
+				Float pitch = Float.parseFloat(nodeMap.getNamedItem("pitch")
+						.getNodeValue());
+				s.setPitch(pitch);
+			}
+
+			if (nodeMap.getNamedItem("gain") != null) {
+				Float gain = Float.parseFloat(nodeMap.getNamedItem("gain")
+						.getNodeValue());
+				s.setGain(gain);
+			}
+
+			if (nodeMap.getNamedItem("name") != null) {
+				String name = nodeMap.getNamedItem("name").getNodeValue();
+				sounds.put(name, s);
+			} else
+				throw new Exception("<sound> with no name declared");
+
+		} else
+			throw new Exception("<sound> with no attributes declared");
 
 		return s;
 	}
@@ -1826,6 +2035,12 @@ public class Parser {
 				labels.put(name, l);
 			}
 
+			if (nodeMap.getNamedItem("layer") != null) {
+				int layer = Integer.parseInt(nodeMap.getNamedItem("layer")
+						.getNodeValue());
+				l.setLayer(layer);
+			}
+
 		} else
 			throw new Exception("<sprite-label> must have a 'name' attribute");
 
@@ -1897,6 +2112,8 @@ public class Parser {
 		Wave w = null;
 		Bullet b = null;
 		Vertex v = null;
+		Music m = null;
+		SoundEffect s = null;
 		ArrayList<DirectionModifier> mods = new ArrayList<DirectionModifier>();
 		ArrayList<Wave> subWaves = new ArrayList<Wave>();
 
@@ -1919,19 +2136,31 @@ public class Parser {
 		if (node.hasChildNodes())
 			for (int i = 1; i < node.getChildNodes().getLength(); i += 2) {
 				Node currentNode = node.getChildNodes().item(i);
+
 				if (currentNode.getNodeName().equals("vertex")
 						|| currentNode.getNodeName().equals("vertex-ref"))
 					v = processVertex(currentNode);
+
 				else if (currentNode.getNodeName().equals("bullet")
 						|| currentNode.getNodeName().equals("bullet-ref"))
 					b = processBullet(currentNode);
+
 				else if (currentNode.getNodeName().equals("direction-modifier")
 						|| currentNode.getNodeName().equals(
 								"direction-modifier-ref"))
 					mods.add(processDirectionModifier(currentNode));
+
 				else if (currentNode.getNodeName().equals("wave")
 						|| currentNode.getNodeName().equals("wave-ref"))
 					subWaves.add(processWave(currentNode));
+
+				else if (currentNode.getNodeName().equals("music")
+						|| currentNode.getNodeName().equals("music-ref"))
+					m = processMusic(currentNode);
+
+				else if (currentNode.getNodeName().equals("sound")
+						|| currentNode.getNodeName().equals("sound-ref"))
+					m = processMusic(currentNode);
 			}
 
 		// Checking composed wave has ONLY ONE wave
@@ -1947,6 +2176,9 @@ public class Parser {
 			w = new Wave(b);
 			w.setModifiers(mods);
 		}
+
+		w.setMusic(m);
+		w.setSpawnSound(s);
 
 		// Settting spawn spoint (if any)
 		if (v != null)

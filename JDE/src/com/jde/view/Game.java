@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 import com.jde.model.physics.Vertex;
 import com.jde.model.stage.Stage;
 import com.jde.view.hud.HUD;
+import com.jde.view.hud.TextLabel;
 
 /**
  * This Game class is the main OpenGL manager of the engine while playing the
@@ -26,7 +27,7 @@ public class Game {
 	public static Vertex GAME_BOARD_CENTER = new Vertex(223, 240);
 
 	/** Version number */
-	protected String VERSION = "pre-alpha 0.1.11";
+	protected String VERSION = " - alpha 0.2";
 
 	/** Game state */
 	protected boolean loaded = false;
@@ -38,6 +39,8 @@ public class Game {
 
 	/** Index of the current stage */
 	protected int currentStage;
+	/** Score */
+	protected double score;
 
 	/**
 	 * Basic constructor
@@ -49,6 +52,7 @@ public class Game {
 		this.hud = hud;
 		this.stages = stages;
 		currentStage = 0;
+		score = 0;
 	}
 
 	/**
@@ -56,9 +60,9 @@ public class Game {
 	 * 
 	 * @param ms
 	 *            Milliseconds to forward
-	 * @return True if the player collided
+	 * @return Points earned
 	 */
-	protected boolean colliding(double ms) {
+	protected double colliding(double ms) {
 		return stages.get(currentStage).colliding(ms);
 	}
 
@@ -105,12 +109,14 @@ public class Game {
 	 * @param ms
 	 *            Milliseconds to forward
 	 */
-	protected void forward(double ms) {
-		stages.get(currentStage).forward(ms);
+	protected double forward(double ms) {
+		double points = stages.get(currentStage).forward(ms);
 
 		if (stages.get(currentStage).isFinished()
 				&& currentStage + 1 < stages.size())
 			currentStage++;
+		
+		return points;
 	}
 
 	/**
@@ -127,7 +133,6 @@ public class Game {
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
 		GL11.glOrtho(0, w, h, 0, 1, -1);
-
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glLoadIdentity();
 
@@ -137,7 +142,7 @@ public class Game {
 
 	@Override
 	public String toString() {
-		return "JDE " + VERSION;
+		return "Java Danmaku Engine" + VERSION;
 	}
 
 	/**
@@ -152,19 +157,13 @@ public class Game {
 	 *            Milliseconds to forward
 	 */
 	public void update(int w, int h, double ms) {
-
-		Collider collider = new Collider(ms);
-		collider.start();
-
+		score += colliding(ms);
+		score += forward(ms);
+		
+		// Udpate HUD values
+		((TextLabel) hud.getLabel("score")).setText(HUD.formatNumber(score, 9));
+		
 		draw(w, h);
-
-		try {
-			collider.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
-		forward(ms);
 
 		// System.out.println(((int) (1000 / ms)) + " fps");
 	}
@@ -179,29 +178,5 @@ public class Game {
 	 */
 	public static Vertex unvirtualizeCoordinates(Vertex v) {
 		return v.add(GAME_BOARD_CENTER);
-	}
-
-	/**
-	 * This Collider class is a thread for the colliding() method
-	 * 
-	 * @author HarZe (David Serrano)
-	 */
-	protected class Collider extends Thread {
-
-		protected double ms;
-		protected boolean collision;
-
-		public Collider(double ms) {
-			this.ms = ms;
-		}
-
-		public boolean collision() {
-			return collision;
-		}
-
-		public void run() {
-			collision = colliding(ms);
-		}
-
 	}
 }

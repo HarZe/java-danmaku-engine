@@ -1,5 +1,7 @@
 package com.jde.view.sprites;
 
+import org.lwjgl.opengl.GL11;
+
 /**
  * This Sprite class contains there location of a sprite in a certain
  * spritesheet
@@ -62,7 +64,9 @@ public class Sprite {
 			loaded = true;
 		}
 
+		GL11.glPushMatrix();
 		sheet.draw(displayListId);
+		GL11.glPopMatrix();
 	}
 
 	public double getH() {

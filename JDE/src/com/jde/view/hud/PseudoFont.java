@@ -48,7 +48,7 @@ public class PseudoFont {
 		GL11.glPushMatrix();
 
 		for (int i = 0; i < text.length(); i++) {
-			current = chars.get(text.charAt(i));
+			current = chars.get("" + text.charAt(i));
 			if (current != null) {
 				current.draw();
 				GL11.glTranslated(current.getW() * current.getScaling(), 0, 0);

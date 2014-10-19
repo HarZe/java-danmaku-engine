@@ -28,7 +28,9 @@
 
         <direction-modifier
             acceleration-end="100"
-            acceleration-start="0" />
+            acceleration-start="0"
+            rotation-start="-80"
+            rotation-end="-80" />
     </wave>
 
     <wave
@@ -43,7 +45,9 @@
 
         <direction-modifier
             acceleration-end="100"
-            acceleration-start="0" />
+            acceleration-start="0"
+            rotation-start="80"
+            rotation-end="80" />
     </wave>
 
     <wave
@@ -56,7 +60,9 @@
 
         <direction-modifier
             acceleration-end="100"
-            acceleration-start="0" />
+            acceleration-start="0"
+            rotation-start="-80"
+            rotation-end="-80" />
     </wave>
 
     <wave
@@ -71,7 +77,9 @@
 
         <direction-modifier
             acceleration-end="100"
-            acceleration-start="0" />
+            acceleration-start="0"
+            rotation-start="80"
+            rotation-end="80" />
     </wave>
 
     <wave
@@ -84,7 +92,9 @@
 
         <direction-modifier
             acceleration-end="100"
-            acceleration-start="0" />
+            acceleration-start="0"
+            rotation-start="-80"
+            rotation-end="-80" />
     </wave>
 
     <wave
@@ -99,7 +109,9 @@
 
         <direction-modifier
             acceleration-end="100"
-            acceleration-start="0" />
+            acceleration-start="0"
+            rotation-start="80"
+            rotation-end="80" />
     </wave>
 
     <!-- Complex waves -->
@@ -352,6 +364,8 @@
     <!-- Game -->
 
     <game name="game_name" >
+    
+    	<music name="background" file="res/audio/touhou/music/Mystical Power Plant - Extra Boss Theme - Life - Guiding Song﻿ ~ Prospect Mirai.ogg" />
         
         <hud-ref ref="touhou_hud" />
 
@@ -395,18 +409,18 @@
 
             <vertex
                 x="0"
-                y="100" />
+                y="-100" />
 
-            <enemy-ref ref="enemy_arc" />
+            <enemy-ref ref="enemy_stamps" />
         </spawn>
 
         <spawn time="20000" >
 
             <vertex
                 x="0"
-                y="-100" />
+                y="100" />
 
-            <enemy-ref ref="enemy_stamps" />
+            <enemy-ref ref="enemy_arc" />
         </spawn>
     </game>
 

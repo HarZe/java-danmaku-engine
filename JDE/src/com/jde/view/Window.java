@@ -2,6 +2,7 @@ package com.jde.view;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
@@ -54,6 +55,8 @@ public class Window {
 		}
 
 		Keyboard.destroy();
+		AL.destroy();
 		Display.destroy();
+		System.exit(0);
 	}
 }

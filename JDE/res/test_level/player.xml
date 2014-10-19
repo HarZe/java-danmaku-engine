@@ -149,7 +149,9 @@
         name="reimu_wave"
         bullets="3" >
 
-        <bullet name="reimu_bullet" >
+        <bullet name="reimu_bullet" power="5.0">
+        
+        	<sound name="reimu_bullet_sound" file="res/audio/touhou/sfx/se_msl.wav" gain="0.5" />
 
             <hit-body-ref ref="touhou_bullet_eliptic" />
 

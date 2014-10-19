@@ -60,7 +60,6 @@ public class Entity {
 		GL11.glRotated(movement.getDrawingAngle(), 0, 0, 1);
 		
 		animation.draw();
-		
 		GL11.glPopMatrix();
 	}
 	

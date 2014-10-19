@@ -1,3 +1,20 @@
+Version 0.2 (October 19, 2014):
+Pre-alpha officially finished, beginning alpha development
+Added <sound> and <music> to play sounds in-game
+Added some Touhou SFX and music to use in the example, including XML
+Added <sound> to <bullet> for spawning sound effect
+Added <sound> and <music> to <wave>, in order to change music and/or set spawning wave sound effect
+Added <sound> to <enemy> for spawning sound effect
+Added <music> to <game> to include background music
+Added attribute "power" to <bullet>, to measure the damage dealt
+Added attribute "respawn-time" to <player>, to specify the invulnerability time after respawn
+Added attribute "lifes" to <player>, which counts the remaining lifes when starting
+Added attribute "points" to <enemy>, the score points got when destroying it
+Added attribute "layer" to <sprite-label> and <text-label> to manage overlap
+Player's bullets now deal damage to enemies (and vanish) and destroy them eventually
+Added simple score system
+Lots and lots of bug fixes and minor changes
+
 Version 0.1.11 (September 26, 2014):
 Added <hud>, <sprite-label>, <text-label> and <pseudo-font> to create a custom HUD via XML
 More XML bug fixes (mostly error checking missing)

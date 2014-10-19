@@ -2,6 +2,8 @@ package com.jde.model.entity.bullet;
 
 import java.util.ArrayList;
 
+import com.jde.audio.Music;
+import com.jde.audio.SoundEffect;
 import com.jde.model.entity.spawning.Spawnable;
 import com.jde.model.entity.spawning.Spawner;
 import com.jde.model.physics.Direction;
@@ -20,48 +22,78 @@ public class Wave implements Spawnable {
 
 	// Misc
 
+	/**
+	 * This method modifies the direction of all the sub-waves and bullets of a
+	 * given wave, a given modifier, and a iteration state
+	 * 
+	 * @param w
+	 *            The wave to modify
+	 * @param mod
+	 *            The direction modifier to apply to the wave
+	 * @param step
+	 *            Step number of the iteration
+	 * @param total
+	 *            Total number of iterations
+	 */
+	public static void modifyWave(Wave w, DirectionModifier mod, int step,
+			int total) {
+		if (w.isSuperWave()) {
+			for (Wave sw : w.getSubWaves()) {
+				modifyWave(sw, mod, step, total);
+			}
+		} else {
+			mod.modify(step, total, w.getBullet().getMovement().getDirections()
+					.get(0));
+		}
+	}
 	/** Spawner of bullets */
 	protected Spawner<Bullet> spawnerBullets;
+
 	/** Spawner of sub-waves */
 	protected Spawner<Wave> spawnerWaves;
-
 	/** List of currently working sub-waves */
 	protected ArrayList<Wave> spawnedWaves;
 	/** Origin vertex point to spawn the bullets */
 	protected Vertex spawnOrigin;
 	/** Elapsed time since the wave started */
 	protected double elapsed = 0;
-	/** Spawned state of the wave */
-	protected boolean spawned = false;
 
 	// Configuration
 
+	/** Spawned state of the wave */
+	protected boolean spawned = false;
 	/** Tiem stamp of the moment the wave started */
 	protected double timeStarted;
 	/** Template bullet of the wave */
 	protected Bullet bullet;
+
 	/** Spawn position relative to the origin */
 	protected Vertex spawnPoint = new Vertex();
-
+	
 	/** List of sub-waves */
 	protected ArrayList<Wave> subWaves = new ArrayList<Wave>();
+	/** Initial sound effect */
+	protected SoundEffect spawnSound = null;
 
+	/** Wave music effect */
+	protected Music music = null;
 	/** Wave direction modifiers */
 	protected ArrayList<DirectionModifier> modifiers = new ArrayList<DirectionModifier>();
 	/** Time stamp of the instant the wave spawns */
 	protected double spawnTime = 0;
 	/** Elapsed time between the spawn and the first bullet spawn */
 	protected double timeStart = 0;
+
 	/** Elapsed time between the spawn and the last bullet spawn */
 	protected double timeEnd = 0;
-
 	/** Exponent modifier of the time */
 	protected double timeExponent = 1;
+
 	/** Number of bullets in the wave */
 	protected int bullets = 1;
-
 	/** Number of sub-waves in the wave */
 	protected int waves = 1;
+
 	/** Number of times the wave will repeat */
 	protected int repeat = 0;
 
@@ -145,6 +177,8 @@ public class Wave implements Spawnable {
 		w.setSpawnPoint(spawnPoint.clone());
 
 		w.setSpawnTime(spawnTime);
+		w.setMusic(music);
+		w.setSpawnSound(spawnSound);
 
 		return w;
 	}
@@ -190,6 +224,9 @@ public class Wave implements Spawnable {
 
 				if (repeat > 0)
 					repeat--;
+				
+				if (spawnSound != null)
+					spawnSound.play();
 			}
 
 			return applySpawnPosition(spawnerBullets.forward(ms));
@@ -207,6 +244,9 @@ public class Wave implements Spawnable {
 
 				if (repeat > 0)
 					repeat--;
+				
+				if (spawnSound != null)
+					spawnSound.play();
 			}
 
 			// Taking the bullets spawned from the currently active sub-waves
@@ -278,12 +318,20 @@ public class Wave implements Spawnable {
 		return modifiers;
 	}
 
+	public Music getMusic() {
+		return music;
+	}
+
 	public int getRepeat() {
 		return repeat;
 	}
 
 	public Vertex getSpawnPoint() {
 		return spawnPoint;
+	}
+
+	public SoundEffect getSpawnSound() {
+		return spawnSound;
 	}
 
 	public double getSpawnTime() {
@@ -349,31 +397,6 @@ public class Wave implements Spawnable {
 		return bullet == null;
 	}
 
-	/**
-	 * This method modifies the direction of all the sub-waves and bullets of a
-	 * given wave, a given modifier, and a iteration state
-	 * 
-	 * @param w
-	 *            The wave to modify
-	 * @param mod
-	 *            The direction modifier to apply to the wave
-	 * @param step
-	 *            Step number of the iteration
-	 * @param total
-	 *            Total number of iterations
-	 */
-	public static void modifyWave(Wave w, DirectionModifier mod, int step,
-			int total) {
-		if (w.isSuperWave()) {
-			for (Wave sw : w.getSubWaves()) {
-				modifyWave(sw, mod, step, total);
-			}
-		} else {
-			mod.modify(step, total, w.getBullet().getMovement().getDirections()
-					.get(0));
-		}
-	}
-
 	public void setAbsolute(boolean absolute) {
 		this.absolute = absolute;
 	}
@@ -390,12 +413,20 @@ public class Wave implements Spawnable {
 		this.modifiers = modifiers;
 	}
 
+	public void setMusic(Music music) {
+		this.music = music;
+	}
+
 	public void setRepeat(int repeat) {
 		this.repeat = repeat;
 	}
 
 	public void setSpawnPoint(Vertex spawnPoint) {
 		this.spawnPoint = spawnPoint;
+	}
+
+	public void setSpawnSound(SoundEffect spawnSound) {
+		this.spawnSound = spawnSound;
 	}
 
 	public void setSpawnTime(double spawnTime) {
@@ -419,7 +450,7 @@ public class Wave implements Spawnable {
 	}
 
 	@Override
-	public void spawn(double timeStamp) {
+	public void spawn() {
 		spawned = true;
 	}
 
@@ -445,10 +476,15 @@ public class Wave implements Spawnable {
 		if (spawned)
 			return null;
 
-		spawn(timeStamp);
+		spawn();
 		timeStarted = spawnTime;
 		spawnOrigin = position;
 
+		if (music != null)
+			music.play();
+		if (spawnSound != null)
+			spawnSound.play();
+		
 		// If it is a simple wave, the bullet spawner starts
 		if (!isSuperWave()) {
 			spawnerBullets = new Spawner<Bullet>(timeStarted);
@@ -473,7 +509,6 @@ public class Wave implements Spawnable {
 
 			return applySpawnPosition(spawnedBullets);
 		}
-
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.jde.model.entity.bullet;
 
+import com.jde.audio.SoundEffect;
 import com.jde.model.entity.Entity;
 import com.jde.model.entity.spawning.Spawnable;
 import com.jde.model.physics.Movement;
@@ -13,6 +14,12 @@ import com.jde.view.sprites.Animation;
  */
 public class Bullet extends Entity implements Spawnable {
 
+	/** Spawning sound effect */
+	protected SoundEffect spawnSound = null;
+	
+	/** Damage power of the bullet */
+	protected double power = 1;
+
 	/** Time stamp of the instant this bullet will spawn */
 	protected double spawnTime = 0;
 	/** Spawned state of this bullet */
@@ -20,9 +27,13 @@ public class Bullet extends Entity implements Spawnable {
 
 	/**
 	 * Full constructor
-	 * @param animation Animation of the bullet
-	 * @param body HitBody of the bullet
-	 * @param movement Movement of the bullet
+	 * 
+	 * @param animation
+	 *            Animation of the bullet
+	 * @param body
+	 *            HitBody of the bullet
+	 * @param movement
+	 *            Movement of the bullet
 	 */
 	public Bullet(Animation animation, HitBody body, Movement movement) {
 		super(animation, body, movement);
@@ -33,8 +44,26 @@ public class Bullet extends Entity implements Spawnable {
 	 */
 	public Bullet clone() {
 		Bullet b = new Bullet(animation.clone(), body, movement.clone());
+		b.setPower(power);
 		b.setSpawnTime(spawnTime);
+		b.setSpawnSound(spawnSound);
 		return b;
+	}
+
+	public double getPower() {
+		return power;
+	}
+
+	public SoundEffect getSpawnSound() {
+		return spawnSound;
+	}
+
+	public void setPower(double power) {
+		this.power = power;
+	}
+
+	public void setSpawnSound(SoundEffect spawnSound) {
+		this.spawnSound = spawnSound;
 	}
 
 	@Override
@@ -43,15 +72,13 @@ public class Bullet extends Entity implements Spawnable {
 	}
 
 	@Override
-	public void spawn(double timeStamp) {
-		if (spawnTime >= timeStamp)
-			return;
-
+	public void spawn() {
 		// Making bullet position independent (no shared reference from now)
 		movement.setPosition(movement.getPosition().clone());
-		
+
 		spawned = true;
-		forward(timeStamp - spawnTime);
+		if (spawnSound != null)
+			spawnSound.play();
 	}
 
 	@Override

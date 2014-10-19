@@ -1,5 +1,7 @@
 package com.jde.view.hud;
 
+import java.util.Comparator;
+
 import com.jde.model.physics.Vertex;
 
 /**
@@ -9,10 +11,25 @@ import com.jde.model.physics.Vertex;
  */
 public abstract class Label {
 
+	/**
+	 * This LabelComparator class is a comparator in which higher values of
+	 * layer goes first
+	 * 
+	 * @author HarZe (David Serrano)
+	 */
+	public static class LabelComparator implements Comparator<Label> {
+		@Override
+		public int compare(Label l1, Label l2) {
+			return l1.getLayer() - l2.getLayer();
+		}
+	}
+
 	/** Position of the label, in VGApx */
 	protected Vertex position;
 	/** Name of the label */
 	protected String name;
+	/** Layer (higher values will overlap) number */
+	protected int layer = 0;
 
 	/**
 	 * Basic constructor
@@ -32,12 +49,20 @@ public abstract class Label {
 	 */
 	public abstract void draw();
 
+	public int getLayer() {
+		return layer;
+	}
+
 	public String getName() {
 		return name;
 	}
 
 	public Vertex getPosition() {
 		return position;
+	}
+
+	public void setLayer(int layer) {
+		this.layer = layer;
 	}
 
 }

@@ -2,6 +2,7 @@ package com.jde.model.entity.enemy;
 
 import java.util.ArrayList;
 
+import com.jde.audio.SoundEffect;
 import com.jde.model.entity.Entity;
 import com.jde.model.entity.bullet.Bullet;
 import com.jde.model.entity.bullet.Wave;
@@ -18,15 +19,19 @@ import com.jde.view.sprites.Animation;
  */
 public class Enemy extends Entity implements Spawnable {
 
+	/** Wave of bullets used to attack the player */
+	protected Wave wave = null;
+	/** Spawning sound effect */
+	protected SoundEffect spawnSound = null;
+	
 	/** Time stamp of the instant this enemy will spawn */
 	protected double spawnTime = 0;
 	/** Spawned state of this enemy */
 	protected boolean spawned = false;
 	/** Enemy health points */
 	protected double health;
-
-	/** Wave of bullets used to attack the player */
-	protected Wave wave = null;
+	/** Score points given when destroyed */
+	protected double points = 100000;
 
 	/**
 	 * Full constructor of the enemy
@@ -65,6 +70,7 @@ public class Enemy extends Entity implements Spawnable {
 					health);
 
 		e.setSpawnTime(spawnTime);
+		e.setSpawnSound(spawnSound);
 		return e;
 	}
 
@@ -98,6 +104,30 @@ public class Enemy extends Entity implements Spawnable {
 			return new ArrayList<Bullet>();
 	}
 
+	public double getHealth() {
+		return health;
+	}
+
+	public double getPoints() {
+		return points;
+	}
+
+	public SoundEffect getSpawnSound() {
+		return spawnSound;
+	}
+
+	public void setHealth(double health) {
+		this.health = health;
+	}
+
+	public void setPoints(double points) {
+		this.points = points;
+	}
+
+	public void setSpawnSound(SoundEffect spawnSound) {
+		this.spawnSound = spawnSound;
+	}
+
 	@Override
 	public void setSpawnTime(double spawnTime) {
 		this.spawnTime = spawnTime;
@@ -106,11 +136,10 @@ public class Enemy extends Entity implements Spawnable {
 	}
 
 	@Override
-	public void spawn(double timeStamp) {
-		if (spawnTime >= timeStamp)
-			return;
-
+	public void spawn() {
 		spawned = true;
+		if (spawnSound != null)
+			spawnSound.play();
 	}
 
 	/**
@@ -122,11 +151,9 @@ public class Enemy extends Entity implements Spawnable {
 	 * @return A list of bullets spawned by the enemy
 	 */
 	public ArrayList<Bullet> spawnAndBullets(double timeStamp) {
-		spawn(timeStamp);
-		if (!spawned)
-			return null;
-
+		spawn();
 		forward(timeStamp - spawnTime);
+		
 		if (wave != null)
 			return wave.start(timeStamp, movement.getPosition());
 		else

@@ -28,13 +28,9 @@ public class HitBody implements HitZone {
 	@Override
 	public boolean collides(Movement self, Movement other, double ms) {
 		for (HitZone h : hitZones)
-			if (h.collides(self, other, ms)) {
-				System.out.println("Collision, with : " + self.getPosition()); // TODO:
-																				// delete
-																				// this,
-																				// debug
+			if (h.collides(self, other, ms))
 				return true;
-			}
+		
 		return false;
 	}
 
