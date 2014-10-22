@@ -56,9 +56,9 @@ public class HitCircle implements HitZone {
 			return false;
 
 		// Necessary steps for accurate collision
-		int steps = (int) (maxDistanceToCollide / 6.0);
-		if (steps < 6)
-			steps = 6;
+		int steps = (int) (maxDistanceToCollide / 2.0);
+		if (steps < 2)
+			steps = 2;
 
 		// Step collision (the forward segment is divided and processed to get
 		// accurate results)

@@ -93,8 +93,6 @@ public class Parser {
 
 	protected Vertex playerPos = new Vertex(0, 100);
 
-	protected HUD gameHud = new HUD();
-
 	/**
 	 * Default constructor
 	 */
@@ -123,6 +121,8 @@ public class Parser {
 		spawns = new ArrayList<Enemy>();
 		player = null;
 		backgroundMusic = null;
+		
+		HUD.setDefaultHUD();
 	}
 
 	/**
@@ -329,7 +329,7 @@ public class Parser {
 		Stage testStage = new Stage(spawns, player);
 		testStage.setMusic(backgroundMusic);
 		stages.add(testStage);
-		return new Game(stages, gameHud);
+		return new Game(stages);
 	}
 
 	/**
@@ -996,7 +996,7 @@ public class Parser {
 
 	}
 
-	// TODO: incomplete game, just creates one stage with spawns for ArmyStage
+	// TODO: incomplete game, just creates one stage with spawns for Stage
 	/**
 	 * This method process and <game> tag, check the wiki to know the format
 	 * 
@@ -1007,7 +1007,6 @@ public class Parser {
 	protected void processGame(Node node) throws Exception {
 
 		boolean hasPlayer = false;
-		boolean hasHud = false;
 
 		if (node.hasChildNodes())
 			for (int i = 1; i < node.getChildNodes().getLength(); i += 2) {
@@ -1023,8 +1022,8 @@ public class Parser {
 
 				else if (currentNode.getNodeName().equals("hud")
 						|| currentNode.getNodeName().equals("hud-ref")) {
-					gameHud = processHud(currentNode);
-					hasHud = true;
+					HUD.resetHUD();
+					processHud(currentNode);
 				}
 
 				else if (currentNode.getNodeName().equals("music")
@@ -1033,8 +1032,8 @@ public class Parser {
 				}
 			}
 
-		if (!hasPlayer || !hasHud)
-			throw new Exception("<game> must contain a <player> and a <hud>");
+		if (!hasPlayer)
+			throw new Exception("<game> must contain a <player>");
 	}
 
 	/**
@@ -1268,29 +1267,9 @@ public class Parser {
 	 * 
 	 * @param node
 	 *            HUD node
-	 * @return Generated HUD
 	 * @throws Exception
 	 */
-	protected HUD processHud(Node node) throws Exception {
-
-		HUD h = null;
-
-		NamedNodeMap nodeMap = node.getAttributes();
-
-		// Check if it is a reference
-		if (node.getNodeName().equals("hud-ref")) {
-			if (nodeMap.getNamedItem("ref") != null) {
-				String ref = nodeMap.getNamedItem("ref").getNodeValue();
-
-				if (!huds.containsKey(ref))
-					throw new Exception("<hud> with name:" + ref
-							+ " is not declared");
-
-				return huds.get(ref);
-			}
-		}
-
-		h = new HUD();
+	protected void processHud(Node node) throws Exception {
 
 		// Reading mandatory content
 		if (node.hasChildNodes())
@@ -1309,18 +1288,8 @@ public class Parser {
 					throw new Exception(
 							"<hud> must cointain only a list of <sprite-label> or <text-label>");
 
-				h.addLabel(currentLabel.getName(), currentLabel);
+				HUD.addLabel(currentLabel.getName(), currentLabel);
 			}
-
-		// Checking attributes
-		if (node.hasAttributes()) {
-			if (nodeMap.getNamedItem("name") != null) {
-				String name = nodeMap.getNamedItem("name").getNodeValue();
-				huds.put(name, h);
-			}
-		}
-
-		return h;
 
 	}
 
@@ -1703,7 +1672,6 @@ public class Parser {
 		Sprite s = null;
 		SpriteSheet sheet = null;
 		double x, y, w, h;
-		double scaling = 1;
 
 		NamedNodeMap nodeMap = node.getAttributes();
 
@@ -1757,12 +1725,20 @@ public class Parser {
 			else
 				throw new Exception("<sprite> with no h declared");
 
-			if (nodeMap.getNamedItem("scaling") != null)
-				scaling = Double.parseDouble(nodeMap.getNamedItem("scaling")
-						.getNodeValue());
-
 			// New Sprite is created
-			s = new Sprite(sheet, x, y, w, h, scaling);
+			s = new Sprite(sheet, x, y, w, h);
+			
+			if (nodeMap.getNamedItem("scaling") != null) {
+				double scaling = Double.parseDouble(nodeMap.getNamedItem("scaling")
+						.getNodeValue());
+				s.setScaling(scaling);
+			}
+			
+			if (nodeMap.getNamedItem("rotation") != null) {
+				double rotation = Double.parseDouble(nodeMap.getNamedItem("rotation")
+						.getNodeValue());
+				s.setRotation(rotation);
+			}
 
 			if (nodeMap.getNamedItem("name") != null) {
 				String name = nodeMap.getNamedItem("name").getNodeValue();

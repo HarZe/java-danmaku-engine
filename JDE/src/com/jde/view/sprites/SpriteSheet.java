@@ -21,7 +21,7 @@ public class SpriteSheet {
 
 	/** OpenGL texture of the sheet */
 	protected Texture texture;
-	/** Becomes true when sheet is succesfully loaded */
+	/** Becomes true when sheet is successfully loaded */
 	protected boolean loaded = false;
 	/** File name of the PNG source */
 	protected String file;
@@ -55,15 +55,22 @@ public class SpriteSheet {
 	 * This method compiles and return the display list ID for a certain sprite
 	 * inside the sheet, given its coordinates
 	 * 
-	 * @param x Top left X-axis coordinate of the sprite in the sheet
-	 * @param y Top left Y-axis coordinate of the sprite in the sheet
-	 * @param w Sprite width in the sheet
-	 * @param h Sprite height in the sheet
-	 * @param scaling Scale factor
+	 * @param x
+	 *            Top left X-axis coordinate of the sprite in the sheet
+	 * @param y
+	 *            Top left Y-axis coordinate of the sprite in the sheet
+	 * @param w
+	 *            Sprite width in the sheet
+	 * @param h
+	 *            Sprite height in the sheet
+	 * @param scaling
+	 *            Scale factor
+	 * @param rotation
+	 *            Rotation angle (degrees)
 	 * @return The new display list ID of a sprite
 	 */
 	public int getDisplayListId(double x, double y, double w, double h,
-			double scaling) {
+			double scaling, double rotation) {
 		if (!loaded)
 			preload();
 
@@ -91,6 +98,7 @@ public class SpriteSheet {
 			double vy = h / 2.0;
 
 			GL11.glScaled(scaling, scaling, scaling);
+			GL11.glRotated(rotation, 0, 0, 1);
 			GL11.glBegin(GL11.GL_QUADS);
 			{
 				GL11.glTexCoord2d(tx, ty);

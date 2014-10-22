@@ -2,6 +2,8 @@ package com.jde.view.sprites;
 
 import org.lwjgl.opengl.GL11;
 
+import com.jde.model.physics.Vertex;
+
 /**
  * This Sprite class contains there location of a sprite in a certain
  * spritesheet
@@ -24,7 +26,9 @@ public class Sprite {
 	/** Sprite height in the sheet */
 	protected double h;
 	/** Scale factor, applied when drawing */
-	protected double scaling;
+	protected double scaling = 1;
+	/** Rotation angle (degrees) applied when drawing */
+	protected double rotation = 0;
 
 	/** It is true when a displayListId has been generated */
 	protected boolean loaded;
@@ -42,17 +46,32 @@ public class Sprite {
 	 *            Sprite width in the sheet
 	 * @param h
 	 *            Sprite height in the sheet
-	 * @param scaling
-	 *            Scale factor
 	 */
-	public Sprite(SpriteSheet sheet, double x, double y, double w, double h,
-			double scaling) {
+	public Sprite(SpriteSheet sheet, double x, double y, double w, double h) {
 		this.sheet = sheet;
 		this.x = x;
 		this.y = y;
 		this.w = w;
 		this.h = h;
-		this.scaling = scaling;
+	}
+
+	/**
+	 * @return Vertex which contains the center (in the spritesheet) of this
+	 *         Sprite
+	 */
+	public Vertex center() {
+		return new Vertex(x + (w / 2.0), y + (h / 2.0)).scale(scaling);
+	}
+
+	/**
+	 * This method return the center of this Sprite given an the NW corner
+	 * 
+	 * @param v
+	 *            Upper corner of the Sprite
+	 * @return The center relative to NW corner
+	 */
+	public Vertex centerFrom(Vertex v) {
+		return new Vertex(v.getX() + (w / 2.0), v.getY() + (h / 2.0)).scale(scaling);
 	}
 
 	/**
@@ -60,7 +79,8 @@ public class Sprite {
 	 */
 	public void draw() {
 		if (!loaded) {
-			displayListId = sheet.getDisplayListId(x, y, w, h, scaling);
+			displayListId = sheet.getDisplayListId(x, y, w, h, scaling,
+					rotation);
 			loaded = true;
 		}
 
@@ -71,6 +91,10 @@ public class Sprite {
 
 	public double getH() {
 		return h;
+	}
+
+	public double getRotation() {
+		return rotation;
 	}
 
 	public double getScaling() {
@@ -88,6 +112,15 @@ public class Sprite {
 	public double getY() {
 		return y;
 	}
-	
-	
+
+	public Sprite setRotation(double rotation) {
+		this.rotation = rotation;
+		return this;
+	}
+
+	public Sprite setScaling(double scaling) {
+		this.scaling = scaling;
+		return this;
+	}
+
 }

@@ -16,6 +16,12 @@ import com.jde.view.hud.TextLabel;
  * @author HarZe (David Serrano)
  */
 public class Game {
+	
+	/** Version number */
+	protected static String VERSION = " - alpha 0.2.1";
+	
+	/** Engine frames per render frame */
+	public static double FRAMES_PER_RENDER = 3.0;
 
 	/** VGA base resolution */
 	public static Vertex BASE_RES = new Vertex(640, 480);
@@ -26,14 +32,10 @@ public class Game {
 	/** VGA based center of the game board */
 	public static Vertex GAME_BOARD_CENTER = new Vertex(223, 240);
 
-	/** Version number */
-	protected String VERSION = " - alpha 0.2";
-
+	
 	/** Game state */
 	protected boolean loaded = false;
 
-	/** Player's HUD */
-	protected HUD hud;
 	/** List of stages of the game */
 	protected ArrayList<Stage> stages;
 
@@ -48,8 +50,7 @@ public class Game {
 	 * @param stages
 	 *            List of stages in the game
 	 */
-	public Game(ArrayList<Stage> stages, HUD hud) {
-		this.hud = hud;
+	public Game(ArrayList<Stage> stages) {
 		this.stages = stages;
 		currentStage = 0;
 		score = 0;
@@ -97,7 +98,7 @@ public class Game {
 		// draw stage & hud overlay
 		GL11.glColor4f(1, 1, 1, 1);
 		stages.get(currentStage).draw();
-		hud.draw();
+		HUD.draw();
 
 		GL11.glPopMatrix();
 	}
@@ -155,17 +156,24 @@ public class Game {
 	 *            Height of the viewport
 	 * @param ms
 	 *            Milliseconds to forward
+	 * @param realMs
+	 *            Milliseconds since last real frame         
 	 */
-	public void update(int w, int h, double ms) {
-		score += colliding(ms);
-		score += forward(ms);
+	public void update(int w, int h, double ms, double realMs) {
 		
-		// Udpate HUD values
-		((TextLabel) hud.getLabel("score")).setText(HUD.formatNumber(score, 9));
+		// Engine frames
+		double engineMs = ms / FRAMES_PER_RENDER;
+		for (int i = 0; i < FRAMES_PER_RENDER; i += 1) {
+			score += colliding(engineMs);
+			score += forward(engineMs);
+		}
 		
+		// Update HUD values
+		((TextLabel) HUD.getLabel("score")).setText(HUD.formatIntegerNumber(score, 11));
+		((TextLabel) HUD.getLabel("fps")).setText(HUD.formatDecimalNumber(1000.0 / realMs, 3, 2));
+		
+		// Render frame
 		draw(w, h);
-
-		// System.out.println(((int) (1000 / ms)) + " fps");
 	}
 
 	/**

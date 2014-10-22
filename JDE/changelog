@@ -1,3 +1,11 @@
+Version 0.2.1 (October 22, 2014):
+Added Launcher menu
+Added fixed FPS (forces and limits FPS to a given target)
+Added real FPS counter
+Added "rotation" to <sprite>
+Now <hud> is optional in <game>, default HUD is the new JDE-HUD
+Update license to add CC BY-NC v4.0 to all the multimedia and XML files
+
 Version 0.2 (October 19, 2014):
 Pre-alpha officially finished, beginning alpha development
 Added <sound> and <music> to play sounds in-game

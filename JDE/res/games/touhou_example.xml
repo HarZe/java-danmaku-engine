@@ -1,17 +1,15 @@
 <!-- JDE format XML example -->
 <jde-content>
 
-    <import file="res/test_level/hitboxes.xml" />
+    <import file="res/games/test_level/hitboxes.xml" />
 
-    <import file="res/test_level/sprites.xml" />
+    <import file="res/games/test_level/sprites.xml" />
     
-    <import file="res/test_level/player.xml" />
+    <import file="res/games/test_level/player.xml" />
 
-    <import file="res/test_level/movements.xml" />
+    <import file="res/games/test_level/movements.xml" />
 
-    <import file="res/test_level/bullets.xml" />
-    
-    <import file="res/test_level/hud.xml" />
+    <import file="res/games/test_level/bullets.xml" />
 
     <!-- Butterfly horde -->
 
@@ -366,8 +364,6 @@
     <game name="game_name" >
     
     	<music name="background" file="res/audio/touhou/music/Mystical Power Plant - Extra Boss Theme - Life - Guiding Song﻿ ~ Prospect Mirai.ogg" />
-        
-        <hud-ref ref="touhou_hud" />
 
         <player hit-size="4" cooldown="100" >
 

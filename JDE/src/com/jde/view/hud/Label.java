@@ -61,8 +61,9 @@ public abstract class Label {
 		return position;
 	}
 
-	public void setLayer(int layer) {
+	public Label setLayer(int layer) {
 		this.layer = layer;
+		return this;
 	}
 
 }

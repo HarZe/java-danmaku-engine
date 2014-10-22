@@ -23,20 +23,24 @@ public class Window {
 	protected int width;
 	/** Height of the window */
 	protected int height;
+	/** Fixed FPS */
+	protected int fixedFps;
 
 	/**
 	 * Basic constructor, starts up a new game
 	 * @param game A currently loaded Game
 	 * @param width Width of the window
 	 * @param height Height of the window
+	 * @param fps Fixed target FPS
 	 * @throws LWJGLException
 	 */
-	public Window(Game game, int width, int height) throws LWJGLException {
+	public Window(Game game, int width, int height, int fps) throws LWJGLException {
 
 		this.game = game;
 		timer = new Timer();
 		this.width = width;
 		this.height = height;
+		this.fixedFps = fps;
 
 		Display.setDisplayMode(new DisplayMode(width, height));
 		Display.setTitle(game.toString());
@@ -47,11 +51,17 @@ public class Window {
 
 		while (!Display.isCloseRequested()) {
 
-			double time = timer.update();
-			game.update(width, height, time);
+			double realTime = timer.update();
+			double time = realTime;
+			if (fixedFps != 0)
+				time = 1000.0 / ((double) fixedFps);
+			
+			game.update(width, height, time, realTime);
 
+			// VSync / Fixed FPS
+			if (fixedFps != 0)
+				Display.sync(fixedFps);
 			Display.update();
-			Display.sync(144);
 		}
 
 		Keyboard.destroy();

@@ -6,12 +6,10 @@ import java.nio.ByteBuffer;
 
 import javax.imageio.ImageIO;
 
-import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.ImageIOImageData;
 
-import com.jde.model.utils.Parser;
-import com.jde.view.Window;
+import com.jde.view.Launcher;
 
 /**
  * This Main class is the launcher of the XML parser and later the game itself
@@ -60,18 +58,7 @@ public class Main {
 		}
 
 		// Launching JDE
-		try {
-			Parser parser = new Parser();
-			new Window(parser.parseXML(args[0]), Integer.parseInt(args[1]),
-					Integer.parseInt(args[2]));
-
-		} catch (LWJGLException e) {
-			e.printStackTrace();
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Launcher.launch();
 	}
 
 }
